@@ -1,0 +1,24 @@
+image: python
+
+stages:
+  - lint
+  - test
+
+flake8:
+  stage: lint
+  before_script:
+    - pip install tox
+  script: tox -e flake8
+
+
+black:
+  stage: lint
+  before_script:
+    - pip install tox
+  script: tox -e black
+
+tests:
+  stage: test
+  before_script:
+    - pip install tox
+  script: tox -e py3
