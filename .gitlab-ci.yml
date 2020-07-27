@@ -4,6 +4,12 @@ stages:
   - lint
   - test
 
+check-manfest:
+  stage: lint
+  before_script:
+    - pip install tox
+  script: tox -e check-manifest
+
 flake8:
   stage: lint
   before_script:

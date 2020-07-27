@@ -1,0 +1,4 @@
+include tox.ini
+exclude .gitlab-ci.yml
+recursive-include resourcecode *.py
+recursive-include tests *.py
