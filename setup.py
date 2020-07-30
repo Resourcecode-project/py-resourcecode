@@ -3,11 +3,10 @@
 
 from setuptools import find_packages, setup
 
+from resourcecode import __version__
+
 author = "Logilab S.A. (Paris, France)"
 author_email = "contact@logilab.fr"
-
-numversion = (0, 1, 0)
-version = ".".join(str(num) for num in numversion)
 
 description = ""
 url = "https://forge.extranet.logilab.fr/ifremer/resourcecode"
@@ -23,7 +22,7 @@ classifiers = [
 
 setup(
     name="resourcecode",
-    version=version,
+    version=__version__,
     license=license,
     description=description,
     author=author,

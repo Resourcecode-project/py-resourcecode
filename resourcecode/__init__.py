@@ -3,6 +3,9 @@
 
 from resourcecode.client import Client
 
+numversion = (0, 1, 0)
+__version__ = ".".join(str(num) for num in numversion)
+
 __all__ = [
     "Client",
 ]
