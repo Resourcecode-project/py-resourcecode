@@ -3,6 +3,7 @@ image: python
 stages:
   - lint
   - test
+  - build-push
 
 check-manfest:
   stage: lint
@@ -28,3 +29,14 @@ tests:
   before_script:
     - pip install tox
   script: tox -e py3
+
+build-push-devpi:
+  stage: build-push
+  only:
+    - branch/default
+  script:
+    - pip install devpi-client
+    - devpi use $DEVPI_URL
+    - devpi login $DEVPI_LOGIN --password $DEVPI_PWD
+    - devpi use dev
+    - devpi upload
