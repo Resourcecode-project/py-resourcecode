@@ -4,6 +4,7 @@
 import os
 import sys
 import configparser
+import logging
 from pathlib import Path
 
 CONFIG_FILEPATHS = [
@@ -13,10 +14,15 @@ CONFIG_FILEPATHS = [
     f"{sys.prefix}/etc/resourcecode/config.ini",
 ]
 
+LOGGER = logging.getLogger("resourcecode.default")
+LOGGER.addHandler(logging.StreamHandler())
+LOGGER.setLevel(os.environ.get("RESOURCECODE_LOG_THRESHOLD", "WARNING"))
+
 
 def get_config():
     config = configparser.ConfigParser()
     for config_filepath in CONFIG_FILEPATHS:
+        LOGGER.debug("try reading config from %s", config_filepath)
         if not config_filepath:
             continue
 
@@ -25,6 +31,7 @@ def get_config():
             continue
 
         config.read(config_filepath)
+        LOGGER.info("config loaded from %s", config_filepath)
         break
     else:
         raise FileNotFoundError("no config file was found")
