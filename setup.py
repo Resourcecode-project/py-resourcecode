@@ -1,9 +1,14 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+from pathlib import Path
 from setuptools import find_packages, setup
 
-from resourcecode import __version__
+HERE = Path(__file__).parent
+
+version_context = {}
+with open(HERE / "resourcecode" / "__version__.py") as f:
+    exec(f.read(), version_context)
 
 author = "Logilab S.A. (Paris, France)"
 author_email = "contact@logilab.fr"
@@ -22,7 +27,7 @@ classifiers = [
 
 setup(
     name="resourcecode",
-    version=__version__,
+    version=version_context["__version__"],
     license=license,
     description=description,
     author=author,
