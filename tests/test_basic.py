@@ -8,4 +8,5 @@ def test_import_client():
     """ a dummy test that instantiate a client.
     """
     # remove this tests when a real test can be achieved.
-    resourcecode.Client()
+    client = resourcecode.Client()
+    assert client.config.get("default", "cassandra-base-url")
