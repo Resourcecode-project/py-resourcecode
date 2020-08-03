@@ -1,5 +1,7 @@
 include tox.ini
 include config/config.ini
+include dev_requirements.txt
 exclude .gitlab-ci.yml
 recursive-include resourcecode *.py
 recursive-include tests *.py
+recursive-include tests *.json

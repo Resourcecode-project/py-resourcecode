@@ -17,7 +17,9 @@ description = ""
 url = "https://forge.extranet.logilab.fr/ifremer/resourcecode"
 license = "closed source"
 
-install_requires = []
+install_requires = [
+    "requests >= 2.23.0",
+]
 
 classifiers = [
     "Programming Language :: Python",
