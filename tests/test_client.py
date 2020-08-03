@@ -5,6 +5,8 @@ import json
 from pathlib import Path
 from unittest import mock
 
+import pytest
+import pandas as pd
 
 import resourcecode
 
@@ -38,6 +40,19 @@ def mock_requests_get_raw_data(query_url, parameters):
     return mocked_response
 
 
+@pytest.fixture
+def client():
+    """This fixture returns a « fake client » in the sense that the requests.get
+    function is mocked to return a file from the DATA_DIR directory.
+
+    Except for that, this client is exactly as the "real" client.
+
+    """
+    client = resourcecode.Client()
+    with mock.patch("requests.get", side_effect=mock_requests_get_raw_data):
+        yield client
+
+
 def test_import_client():
     """ a dummy test that instantiate a client.
     """
@@ -53,7 +68,7 @@ def test_get_raw_data():
     with mock.patch(
         "requests.get", side_effect=mock_requests_get_raw_data
     ) as mock_requests_get:
-        json_data = client._get_rawdata({"parameter": [parameter,]})
+        json_data = client._get_rawdata_from_criteria({"parameter": [parameter,]})
 
     mock_requests_get.assert_called_once_with(
         client.cassandra_base_url + "quantum/timeseries", {"parameter": [parameter]}
@@ -62,3 +77,27 @@ def test_get_raw_data():
 
     dataset_size = json_data["result"]["dataSetSize"]
     assert len(json_data["result"]["data"]) == dataset_size
+
+
+def test_get_criteria_single_parameter(client):
+    data = client.get_dataframe_from_criteria('{"parameter": ["fp"]}')
+
+    assert len(data) == 744
+    assert (data.columns == ["fp"]).all()
+    assert data.index[0] == pd.to_datetime("2017-01-01 00:00:00")
+    assert data.index[-1] == pd.to_datetime("2017-01-31 23:00:00")
+    assert data.fp[0] == pytest.approx(0.074)
+    assert data.fp[-1] == pytest.approx(0.097)
+
+
+def test_get_criteria_multiple_parameters(client):
+    data = client.get_dataframe_from_criteria('{"parameter": ["fp", "hs"]}')
+
+    assert len(data) == 744
+    assert (data.columns == ["fp", "hs"]).all()
+    assert data.index[0] == pd.to_datetime("2017-01-01 00:00:00")
+    assert data.index[-1] == pd.to_datetime("2017-01-31 23:00:00")
+    assert data.fp[0] == pytest.approx(0.074)
+    assert data.fp[-1] == pytest.approx(0.097)
+    assert data.hs[0] == pytest.approx(0.296)
+    assert data.hs[-1] == pytest.approx(0.756)

@@ -18,6 +18,7 @@ url = "https://forge.extranet.logilab.fr/ifremer/resourcecode"
 license = "closed source"
 
 install_requires = [
+    "pandas >= 1.0.0",
     "requests >= 2.23.0",
 ]
 
