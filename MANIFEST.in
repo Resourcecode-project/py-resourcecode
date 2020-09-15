@@ -1,6 +1,7 @@
 include tox.ini
 include config/config.ini
 include dev_requirements.txt
+include fp_hs.png
 exclude .gitlab-ci.yml
 recursive-include resourcecode *.py
 recursive-include tests *.py
