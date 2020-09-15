@@ -20,7 +20,7 @@ class Client:
         return self.config.get("default", "cassandra-base-url")
 
     def get_dataframe_from_criteria(self, criteria):
-        """ return the pandas dataframe of the data described by the criteria
+        """return the pandas dataframe of the data described by the criteria
 
         Parameters
         ----------
@@ -40,7 +40,12 @@ class Client:
             # for each parameter, we make a query and we concatenate all the
             # responses.
 
-            single_parameter_criteria = {**parsed_criteria, "parameter": [parameter,]}
+            single_parameter_criteria = {
+                **parsed_criteria,
+                "parameter": [
+                    parameter,
+                ],
+            }
             raw_data = self._get_rawdata_from_criteria(single_parameter_criteria)
 
             # parameter_array is the time history of the current parameter.
@@ -65,17 +70,17 @@ class Client:
         )
 
     def _get_rawdata_from_criteria(self, single_parameter_criteria):
-        """ return the json of the data described by the parameters
+        """return the json of the data described by the parameters
 
-            Parameters
-            ----------
-            parameters: dict
-                the dictionnary of parameters to give to cassandra
+        Parameters
+        ----------
+        parameters: dict
+            the dictionnary of parameters to give to cassandra
 
-            Result
-            ------
-            result: json
-                the json result returned by the cassandra database.
+        Result
+        ------
+        result: json
+            the json result returned by the cassandra database.
         """
         query_url = urljoin(self.cassandra_base_url, "quantum/timeseries")
 

@@ -14,7 +14,7 @@ DATA_DIR = Path(__file__).parent / "data"
 
 
 def mock_requests_get_raw_data(query_url, parameters):
-    """ this function mocks the 'requests.get' call in the `_get_rawdata` method
+    """this function mocks the 'requests.get' call in the `_get_rawdata` method
     of the Client.
 
     it reads the parameters given `requests.get` call, opens the corresponding
@@ -54,8 +54,7 @@ def client():
 
 
 def test_import_client():
-    """ a dummy test that instantiate a client.
-    """
+    """a dummy test that instantiate a client."""
     # remove this tests when a real test can be achieved.
     client = resourcecode.Client()
     assert client.config.get("default", "cassandra-base-url")
@@ -68,7 +67,13 @@ def test_get_raw_data():
     with mock.patch(
         "requests.get", side_effect=mock_requests_get_raw_data
     ) as mock_requests_get:
-        json_data = client._get_rawdata_from_criteria({"parameter": [parameter,]})
+        json_data = client._get_rawdata_from_criteria(
+            {
+                "parameter": [
+                    parameter,
+                ]
+            }
+        )
 
     mock_requests_get.assert_called_once_with(
         client.cassandra_base_url + "quantum/timeseries", {"parameter": [parameter]}
