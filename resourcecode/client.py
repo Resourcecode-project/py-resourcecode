@@ -82,7 +82,7 @@ class Client:
         result: json
             the json result returned by the cassandra database.
         """
-        query_url = urljoin(self.cassandra_base_url, "quantum/timeseries")
+        query_url = urljoin(self.cassandra_base_url, "api/timeseries")
 
         response = requests.get(query_url, single_parameter_criteria)
         if response.ok:

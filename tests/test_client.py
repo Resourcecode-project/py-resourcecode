@@ -76,7 +76,7 @@ def test_get_raw_data():
         )
 
     mock_requests_get.assert_called_once_with(
-        client.cassandra_base_url + "quantum/timeseries", {"parameter": [parameter]}
+        client.cassandra_base_url + "api/timeseries", {"parameter": [parameter]}
     )
     assert json_data["query"]["parameterCode"] == parameter
 
