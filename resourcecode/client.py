@@ -35,6 +35,7 @@ class Client:
         parsed_criteria = json.loads(criteria)
 
         result_array = None
+        index_array = None
         for parameter in parsed_criteria.get("parameter", ()):
             # we assume that multiple parameters can be given.
             # for each parameter, we make a query and we concatenate all the
@@ -51,14 +52,24 @@ class Client:
             # parameter_array is the time history of the current parameter.
             # it's a 2D array. The first columns is the timestamp, the second
             # one the value of this parameters at the corresponding timestamps.
-            parameter_array = np.array(raw_data["result"]["data"])
-
+            parameter_array = np.array(raw_data["result"]["data"], dtype=float)
             try:
                 # concatenate and get ride of the timestamp (already known from
                 # the previous iteration)
                 result_array = np.column_stack((result_array, parameter_array[:, 1]))
             except ValueError:
                 result_array = parameter_array
+                index_array = parameter_array[:, 0]
+                mask_index_nan = np.isnan(index_array)
+
+            # the index may be incomplete in some cases (when the variable is
+            # NaN).
+            # let's try to have the more complete index as possible, as the
+            # index should be the same for all the variable
+
+            if mask_index_nan.any():
+                index_array[mask_index_nan] = parameter_array[mask_index_nan, 0]
+                mask_index_nan = np.isnan(index_array)
 
         if result_array is None:
             raise ValueError("no selection parameter found")
@@ -66,7 +77,7 @@ class Client:
         return pd.DataFrame(
             result_array[:, 1:],
             columns=parsed_criteria["parameter"],
-            index=pd.to_datetime(result_array[:, 0].astype(int), unit="ms"),
+            index=pd.to_datetime(index_array.astype(int), unit="ms"),
         )
 
     def _get_rawdata_from_criteria(self, single_parameter_criteria):

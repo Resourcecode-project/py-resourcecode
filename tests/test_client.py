@@ -25,11 +25,10 @@ def mock_requests_get_raw_data(query_url, parameters):
     """
 
     mocked_response = mock.Mock()
-    if "fp" in parameters["parameter"]:
-        data_path = DATA_DIR / "timeseries_fp.json"
-    elif "hs" in parameters["parameter"]:
-        data_path = DATA_DIR / "timeseries_hs.json"
-    else:
+    parameter = parameters.get("parameter", [None])[0]
+    data_path = DATA_DIR / f"timeseries_{parameter}.json"
+
+    if not data_path.exists():
         mocked_response.ok = False
         return mocked_response
 
@@ -106,3 +105,34 @@ def test_get_criteria_multiple_parameters(client):
     assert data.fp[-1] == pytest.approx(0.097)
     assert data.hs[0] == pytest.approx(0.296)
     assert data.hs[-1] == pytest.approx(0.756)
+
+
+def test_get_criteria_multiple_parameters_and_none_values(client):
+    data = client.get_dataframe_from_criteria('{"parameter": ["uust"]}')
+
+    assert len(data) == 744
+    assert (data.columns == ["uust"]).all()
+
+    # the first value of uust in null, and there is no other variable, therefore
+    # the first index remains unknown
+    assert pd.isnull(data.index[0])
+    assert pd.isnull(data.uust[0])
+
+    # the third value is not null.
+    assert data.index[2] == pd.to_datetime("2017-01-01 02:00:00")
+    assert data.uust[2] == pytest.approx(0.1699999962)
+
+    data = client.get_dataframe_from_criteria('{"parameter": ["uust", "fp"]}')
+
+    assert len(data) == 744
+    assert (data.columns == ["uust", "fp"]).all()
+
+    # in that case, we have two variables. The second one, fp, is not null,
+    # therefore the index can be completed despite that uust is null.
+    assert data.index[0] == pd.to_datetime("2017-01-01 00:00:00")
+    assert data.index[-1] == pd.to_datetime("2017-01-31 23:00:00")
+
+    assert data.fp[0] == pytest.approx(0.074)
+    assert data.fp[-1] == pytest.approx(0.097)
+    assert pd.isnull(data.uust[0])
+    assert data.uust[2] == pytest.approx(0.1699999962)
