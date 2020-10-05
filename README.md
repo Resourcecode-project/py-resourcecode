@@ -19,7 +19,7 @@ $ source env-resourcecode/bin/activate
 ```
 
 In this virtual environment, you can now install the library. The library is not
-available on PIPY yet, therefore you have to download the archive
+available on PyPI yet, therefore you have to download the archive
 ([here](https://forge.extranet.logilab.fr/ifremer/resourcecode/-/archive/branch/default/resourcecode-branch-default.zip)
 for instance), and then install it:
 
