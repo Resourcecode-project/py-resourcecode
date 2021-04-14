@@ -1,11 +1,20 @@
 image: python
 
+
+include:
+  - project: "open-source/gitlab-templates"
+    ref: "branch/default"
+    file:
+      - "templates/no-duplicate-pipelines.yml"
+      - "templates/release-on-heptapod.yml"
+
 stages:
   - lint
   - test
   - build-push
+  - release
 
-check-manfest:
+check-manifest:
   stage: lint
   before_script:
     - pip install tox
