@@ -21,6 +21,7 @@ install_requires = [
     "pandas >= 1.0.0",
     "requests >= 2.23.0",
     "numpy >= 1.20.1, < 2.0.0",
+    "scipy >= 1.6.1, < 2.0.0",
 ]
 
 classifiers = [
