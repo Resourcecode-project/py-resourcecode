@@ -2,7 +2,6 @@
 # coding: utf-8
 
 import json
-from pathlib import Path
 from unittest import mock
 
 import pytest
@@ -10,7 +9,7 @@ import pandas as pd
 
 import resourcecode
 
-DATA_DIR = Path(__file__).parent / "data"
+from . import DATA_DIR
 
 
 def mock_requests_get_raw_data(query_url, parameters):
