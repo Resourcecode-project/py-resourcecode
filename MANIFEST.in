@@ -6,3 +6,5 @@ exclude .gitlab-ci.yml
 recursive-include resourcecode *.py
 recursive-include tests *.py
 recursive-include tests *.json
+
+prune codes_to_migrate
