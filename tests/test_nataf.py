@@ -6,6 +6,7 @@ import numpy as np
 import pandas as pd
 
 from resourcecode.cengaussfit import cengaussfit
+from resourcecode.huseby import huseby
 
 from . import DATA_DIR
 
@@ -31,5 +32,12 @@ def test_cengaussfit_acceptance():
     )
     assert data.success is True
     assert data.x == pytest.approx(expected, rel=1e-3)
+
+
+def test_nataf_acceptance():
+    """this acceptance test assert that the output of the python function is
+    the same as the R function, for the same input"""
+
+    pytest.skip("How to test this, knowing it generates random values ?")
 
 
