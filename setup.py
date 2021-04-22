@@ -22,6 +22,7 @@ install_requires = [
     "requests >= 2.23.0",
     "numpy >= 1.20.1, < 2.0.0",
     "scipy >= 1.6.1, < 2.0.0",
+    "pyextremes >= 2.0.0, < 3.0.0",
 ]
 
 classifiers = [

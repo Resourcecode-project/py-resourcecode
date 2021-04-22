@@ -7,6 +7,7 @@ import pandas as pd
 
 from resourcecode.cengaussfit import cengaussfit
 from resourcecode.huseby import huseby
+from resourcecode.extrema import get_gpd_parameters
 
 from . import DATA_DIR
 
@@ -32,6 +33,39 @@ def test_cengaussfit_acceptance():
     )
     assert data.success is True
     assert data.x == pytest.approx(expected, rel=1e-3)
+
+
+def test_gpd_paramaters():
+    """this acceptance test assert that the output of the python function is
+    the same as the R function, for the same input"""
+
+    quant = 0.9
+    X = pd.read_csv(
+        DATA_DIR / "cengaussfit" / "input_0.csv",
+        usecols=(1, 2, 3),
+        delimiter=",",
+    )
+
+    # for the get_gpd_parameters, X must be a dataframe and the index must be a
+    # datetime index.  in practise this will not be an issue, has its measure
+    # will be attached to a datetime.
+    X.index = pd.date_range("2021-01-01", "2021-01-31", len(X))
+
+    expected_parameters = np.array(
+        [
+            [1.523228, 0.9130694, 0.00566742],
+            [2.996940, 1.3203699, 0.24820895],
+            [2.187176, 1.2945546, -0.04095130],
+        ]
+    )
+
+    gpg_parameters = get_gpd_parameters(X, quant)
+
+    # first column is the quantiles, it should be the same as R
+    assert gpg_parameters[:, 0] == pytest.approx(expected_parameters[:, 0])
+
+    # second and third column may be more different, but that should be ok
+    assert gpg_parameters[:, 1:] == pytest.approx(expected_parameters[:, 1:], abs=1e-1)
 
 
 def test_nataf_acceptance():
