@@ -42,7 +42,8 @@
 %hsref : file contains example hs vector and associated time vector 
 %        mtime: 1 hour time step - matlab format
 
-load hsref;
+% load hsref;
+load test;
 
 %monthvec : used for plots legends
 monthvec = ['January  ';...
