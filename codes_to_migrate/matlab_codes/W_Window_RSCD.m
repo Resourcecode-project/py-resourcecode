@@ -125,7 +125,7 @@ for imonth = 1:12
     bin = 0.5*(edge(1:end-1)+edge(2:end));
 
     [NHs, BinHs] = histc(hs,edge);
-    FrHs = NHs./length(hs);
+    FrHs = NHs(1:end-1)./length(hs); % must exclude the last value
     CFrHs = cumsum(FrHs);
 
     MCFrHs = 1.-CFrHs;
@@ -151,10 +151,11 @@ for imonth = 1:12
         x0(imonth) = x00-dx;
         x00 = x00+dx;
         X = log(bin-x00);
-        [f0,G] = fit(X',Y','poly1');
-        R0 = G.rsquare;
-        k0 = f0.p1;
-        b0 = exp(-f0.p2/k0);
+        #[f0,G] = fit(X',Y','poly1');
+        [f0, G] = polyfit(X', Y', 1);
+        R0 = G.normr;
+        k0 = f0(1);
+        b0 = exp(-f0(2)/k0);
     end;
 
 
