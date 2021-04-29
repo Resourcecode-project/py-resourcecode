@@ -2,11 +2,11 @@ image: python
 
 
 include:
-  - project: "open-source/gitlab-templates"
+  - project: "open-source/gitlab-ci-templates"
     ref: "branch/default"
     file:
-      - "templates/no-duplicate-pipelines.yml"
-      - "templates/release-on-heptapod.yml"
+      - "templates/no-duplicated-ci-pipelines.yml"
+      - "templates/create-release-on-heptapod.yml"
 
 stages:
   - lint
