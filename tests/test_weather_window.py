@@ -5,7 +5,10 @@ import pytest
 import numpy as np
 import pandas as pd
 
-from resourcecode.weatherwindow import compute_weather_windows, fit_weibull_distribution
+from resourcecode.weatherwindow.weatherwindow import (
+    compute_weather_windows,
+    fit_weibull_distribution,
+)
 
 from . import DATA_DIR
 
