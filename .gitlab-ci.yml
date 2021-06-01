@@ -6,38 +6,17 @@ include:
     ref: "branch/default"
     file:
       - "templates/no-duplicated-ci-pipelines.yml"
+      - "templates/lint/check-manifest.yml"
+      - "templates/lint/flake8.yml"
+      - "templates/lint/black.yml"
+      - "templates/tests/py3.yml"
       - "templates/create-release-on-heptapod.yml"
 
 stages:
   - lint
-  - test
+  - tests
   - build-push
   - release
-
-check-manifest:
-  stage: lint
-  before_script:
-    - pip install tox
-  script: tox -e check-manifest
-
-flake8:
-  stage: lint
-  before_script:
-    - pip install tox
-  script: tox -e flake8
-
-
-black:
-  stage: lint
-  before_script:
-    - pip install tox
-  script: tox -e black
-
-tests:
-  stage: test
-  before_script:
-    - pip install tox
-  script: tox -e py3
 
 build-push-devpi:
   stage: build-push
