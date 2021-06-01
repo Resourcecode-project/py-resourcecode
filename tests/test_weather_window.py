@@ -28,13 +28,13 @@ def test_weibull_distribution(hs):
     the same as the R function, for the same input"""
 
     hs_january = hs[hs.index.month == 1]
-    ha, x0, b, k = fit_weibull_distribution(hs_january)
+    result = fit_weibull_distribution(hs_january)
 
-    assert ha == pytest.approx(np.arange(0.462, 6.162 + 0.1, 0.1))
+    assert result.Ha == pytest.approx(np.arange(0.462, 6.162 + 0.1, 0.1))
 
-    assert x0 == pytest.approx(0)
-    assert b == pytest.approx(2.36343579)
-    assert k == pytest.approx(2.80020000)
+    assert result.x0 == pytest.approx(0)
+    assert result.b == pytest.approx(2.36343579)
+    assert result.k == pytest.approx(2.80020000)
 
 
 def test_weather_windows(hs):
@@ -64,15 +64,14 @@ def test_weather_windows(hs):
 
     for month, expected_month_stats in expected_results.items():
         result = compute_weather_windows(hs, month)
-        _, _, PT, number_events, number_access_hours, number_waiting_hours = result
 
-        assert PT.mean() == pytest.approx(expected_month_stats["PT_mean"])
-        assert number_events.mean() == pytest.approx(
+        assert result.PT.mean() == pytest.approx(expected_month_stats["PT_mean"])
+        assert result.number_events.mean() == pytest.approx(
             expected_month_stats["number_events_mean"]
         )
-        assert number_access_hours.mean() == pytest.approx(
+        assert result.number_access_hours.mean() == pytest.approx(
             expected_month_stats["number_access_hours_mean"]
         )
-        assert number_waiting_hours.mean() == pytest.approx(
+        assert result.number_waiting_hours.mean() == pytest.approx(
             expected_month_stats["number_waiting_hours_mean"]
         )

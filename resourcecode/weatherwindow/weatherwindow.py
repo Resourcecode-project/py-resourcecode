@@ -2,16 +2,55 @@
 # coding: utf-8
 
 from typing import Optional
+from dataclasses import dataclass, field
 
 import numpy as np
 import pandas as pd
 from scipy.special import gamma as gamma_function
 
 
+@dataclass
+class WeibullDistributionResult:
+    Ha: np.ndarray  # the values for which the distribution has been fitted
+    x0: float  # the parameter of the Weibull distribution
+    b: float  # the parameter of the Weibull distribution
+    k: float  # the parameter of the Weibull distribution
+    P: np.ndarray = field(init=False)  # P is the probability of exceedance  P(Hs > Ha)
+    _MCFrHS: np.ndarray  # a private array, used for plot debugging eventually
+    _X: np.ndarray
+    _Y: np.ndarray
+    _residual: float
+
+    def __post_init__(self):
+        self.P = np.exp(-(((self.Ha - self.x0) / self.b) ** self.k))
+
+
+@dataclass
+class WeatherWindowResult:
+    # Weibull adjustment parameters
+    weibull_distribution_result: WeibullDistributionResult
+
+    # Persistence: Mean duration of periods for which Hs<Ha (Hours)
+    tau: np.ndarray
+
+    # The probability of occurence of a weather window corresponding to
+    # sea-state having hs < hs_access_threshold
+    PT: np.ndarray
+
+    # number of events
+    number_events: np.ndarray
+
+    # number access hours
+    number_access_hours: np.ndarray
+
+    # number waiting hours
+    number_waiting_hours: np.ndarray
+
+
 def compute_weather_windows(
     hs: pd.Series,
     month,
-    hs_access_threshold: Optional[np.array] = None,
+    hs_access_threshold: Optional[np.ndarray] = None,
 ):
     """Identification of weather windows
 
@@ -38,13 +77,7 @@ def compute_weather_windows(
 
     Returns
     -------
-    Wbl: Weibull adjustment parameters [x0, b0, k0]
-    Tau: Persistence: Mean duration of periods for which Hs<Ha (Hours)
-    PT: The probability of occurence of a weather window corresponding to
-        sea-state having hs < hs_access_threshold
-    Ne: Number of events
-    At: Access time (Hours)
-    Wt: Waiting time (Hours)
+    results: a WeatherWindowResult
     """
 
     if hs_access_threshold is None:
@@ -59,10 +92,12 @@ def compute_weather_windows(
     hs_this_month = hs.loc[hs.index.month == month]
     duration = len(hs_this_month) / nb_years
 
-    ha_bins, x0, b, k = fit_weibull_distribution(hs_this_month)
-
-    # P is the probability of excedence  P(Hs > Ha)
-    P = np.exp(-(((ha_bins - x0) / b) ** k))
+    weibull_distribution_result = fit_weibull_distribution(hs_this_month)
+    ha_bins = weibull_distribution_result.Ha
+    x0 = weibull_distribution_result.x0
+    b = weibull_distribution_result.b
+    k = weibull_distribution_result.k
+    P = weibull_distribution_result.P
 
     h_mean = b * gamma_function(1 + 1 / k) + x0
     gamma = k + 1.8 * x0 / (h_mean - x0)
@@ -98,10 +133,17 @@ def compute_weather_windows(
     waiting_hours = (duration - number_access_hours) / number_events
     number_waiting_hours = np.where(waiting_hours > duration, duration, waiting_hours)
 
-    return [x0, k, b], tau, PT, number_events, number_access_hours, number_waiting_hours
+    return WeatherWindowResult(
+        weibull_distribution_result=weibull_distribution_result,
+        tau=tau,
+        PT=PT,
+        number_events=number_events,
+        number_access_hours=number_access_hours,
+        number_waiting_hours=number_waiting_hours,
+    )
 
 
-def fit_weibull_distribution(hs: pd.Series) -> [np.array, float, float, float]:
+def fit_weibull_distribution(hs: pd.Series) -> WeibullDistributionResult:
     """Fit a Weibull distribution on Hs.
 
         The probability of excedence P(Hs > Ha) follows a Weibull distribution
@@ -116,10 +158,7 @@ def fit_weibull_distribution(hs: pd.Series) -> [np.array, float, float, float]:
 
     Returns
     -------
-    Ha: np.array: the values for which the distribution has been fitted
-    x0: float the parameter of the Weibull distribution
-    b: float the parameter of the Weibull distribution
-    k: float the parameter of the Weibull distribution
+    weibull_distribution_result: WeibullDistributionResult
     """
 
     # hs cumulative distribution
@@ -153,7 +192,16 @@ def fit_weibull_distribution(hs: pd.Series) -> [np.array, float, float, float]:
 
         k, b = p0, np.exp(-p1 / p0)
 
-    return bins, x, b, k
+    return WeibullDistributionResult(
+        Ha=bins,
+        x0=x,
+        b=b,
+        k=k,
+        _MCFrHS=MCFrHs,
+        _X=X,
+        _Y=Y,
+        _residual=residual,
+    )
 
 
 if __name__ == "__main__":
@@ -167,11 +215,3 @@ if __name__ == "__main__":
 
     for month in range(1, 13):
         r = compute_weather_windows(hs, month=month)
-        (
-            [x0, k, b],
-            tau,
-            PT,
-            number_events,
-            number_access_hours,
-            number_waiting_hours,
-        ) = r
