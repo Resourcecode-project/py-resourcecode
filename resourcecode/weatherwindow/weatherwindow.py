@@ -49,7 +49,7 @@ class WeatherWindowResult:
 
 def compute_weather_windows(
     hs: pd.Series,
-    month,
+    month: int,
     hs_access_threshold: Optional[np.ndarray] = None,
 ):
     """Identification of weather windows
@@ -72,6 +72,8 @@ def compute_weather_windows(
     ----------
     hs: a pandas Series given the Significant Wave Height (m)
         with a datetime index.
+    month: int, the month number for which the weather window should be
+        computed.
     hs_access_threshold: an optional numpy array given the significant wave
                          height operational access threshold
 
@@ -173,7 +175,7 @@ def fit_weibull_distribution(hs: pd.Series) -> WeibullDistributionResult:
     Y = np.log(np.log(1 / MCFrHs))
 
     previous_residual, residual = 0, 1
-    x0 = 0
+    x0 = 0.0
     dx = 5e-3
     while True:
         previous_residual = residual

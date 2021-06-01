@@ -9,6 +9,7 @@ include:
       - "templates/lint/check-manifest.yml"
       - "templates/lint/flake8.yml"
       - "templates/lint/black.yml"
+      - "templates/lint/mypy.yml"
       - "templates/tests/py3.yml"
       - "templates/create-release-on-heptapod.yml"
 
