@@ -6,6 +6,7 @@ include fp_hs.png
 exclude .gitlab-ci.yml
 recursive-include notebooks *.ipynb
 recursive-include resourcecode *.py
+recursive-include resourcecode/data *.feather
 recursive-include tests *.py
 recursive-include tests *.json *.csv
 
