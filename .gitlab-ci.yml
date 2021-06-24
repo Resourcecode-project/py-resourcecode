@@ -12,20 +12,10 @@ include:
       - "templates/lint/mypy.yml"
       - "templates/tests/py3.yml"
       - "templates/create-release-on-heptapod.yml"
+      - "templates/upload-python-package-to-heptapod.yml"
 
 stages:
   - lint
   - tests
-  - build-push
   - release
-
-build-push-devpi:
-  stage: build-push
-  only:
-    - branch/default
-  script:
-    - pip install devpi-client
-    - devpi use $DEVPI_URL
-    - devpi login $DEVPI_LOGIN --password $DEVPI_PWD
-    - devpi use dev
-    - devpi upload
+  - publish
