@@ -5,28 +5,28 @@ import pytest
 import numpy as np
 import pandas as pd
 
-from resourcecode.nataf.cengaussfit import cengaussfit
+from resourcecode.nataf.censgaussfit import censgaussfit
 from resourcecode.nataf.huseby import huseby
 from resourcecode.nataf.extrema import get_gpd_parameters
 
 from . import DATA_DIR
 
 
-def test_cengaussfit_acceptance():
+def test_censgaussfit_acceptance():
     """this acceptance test assert that the output of the python function is
     the same as the R function, for the same input"""
 
     quant = 0.9
     X = np.loadtxt(
-        DATA_DIR / "cengaussfit" / "input_0.csv",
+        DATA_DIR / "censgaussfit" / "input_0.csv",
         usecols=(1, 2, 3),
         delimiter=",",
         skiprows=1,
     )
 
-    data = cengaussfit(X, quant)
+    data = censgaussfit(X, quant)
     expected = np.loadtxt(
-        DATA_DIR / "cengaussfit" / "output_0.csv",
+        DATA_DIR / "censgaussfit" / "output_0.csv",
         usecols=(1,),
         delimiter=",",
         skiprows=1,
@@ -41,7 +41,7 @@ def test_gpd_paramaters():
 
     quant = 0.9
     X = pd.read_csv(
-        DATA_DIR / "cengaussfit" / "input_0.csv",
+        DATA_DIR / "censgaussfit" / "input_0.csv",
         usecols=(1, 2, 3),
         delimiter=",",
     )

@@ -8,7 +8,7 @@ from scipy.optimize import minimize, Bounds
 from resourcecode.utils import set_trig
 
 
-def cengaussfit(data, q):
+def censgaussfit(data, q):
     """Fit a censored Gaussian (Nataf) Copula to the data
 
     Parameters
