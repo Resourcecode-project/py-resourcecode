@@ -8,21 +8,41 @@ from scipy.stats import norm, genpareto
 from resourcecode.utils import set_trig
 
 
-def run_simulation(data, quantile, gpd_parameters, n_simulations=1000):
-    sigma = np.eye(len(data))
-    set_trig(sigma, data, "upper")
-    set_trig(sigma, data, "lower")
+def run_simulation(rho, quantile, gpd_parameters, n_simulations=1000):
+    """Run simulations from a fitted Nataf Model.
+
+    Parameters
+    ----------
+
+    rho: estimated correlation coefficient from censored Nataf Copulas.
+         output of the CensGaussFit function.
+    quant: the quantile used for conditioning
+    gpd_parameters: estimated threshold and GPD parameters.
+        output of the get_gpd_parameters.
+    n_simulations: the requested number of simulations
+
+
+    Returns
+    -------
+
+    simulations: A [NxM] numpy matrix with the result of the N simulations
+
+    """
+
+    sigma = np.eye(len(rho))
+    set_trig(sigma, rho, "upper")
+    set_trig(sigma, rho, "lower")
 
     result = None
     while result is None or len(result) < n_simulations:
         simul = multivariate_normal(
-            mean=np.full(len(data), 0),
+            mean=np.full(len(rho), 0),
             cov=sigma,
             size=n_simulations,
         )
 
         mask = simul[:, 0] > norm.ppf(quantile)
-        for i in range(1, len(data)):
+        for i in range(1, len(rho)):
             mask = mask & (simul[:, i] > norm.ppf(quantile))
 
         simul = simul[mask]
