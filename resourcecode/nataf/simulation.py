@@ -8,7 +8,7 @@ from scipy.stats import norm, genpareto
 from resourcecode.utils import set_trig
 
 
-def nataf_simulation(data, quantile, gpd_parameters, n_simulations=1000):
+def run_simulation(data, quantile, gpd_parameters, n_simulations=1000):
     sigma = np.eye(len(data))
     set_trig(sigma, data, "upper")
     set_trig(sigma, data, "lower")
