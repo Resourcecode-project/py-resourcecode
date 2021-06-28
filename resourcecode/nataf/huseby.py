@@ -7,11 +7,35 @@ import numpy as np
 
 
 def huseby(X, prob, ntheta):
+    """Compute the contours of X in the physical space.
+
+    Parameters
+    ----------
+
+    X: a numpy array of size [NxM].
+       This should be the output of the nataf simulation.
+    prob: a numpy array of size [1xN] describing the probability level of the
+          contours
+    ntheta: the number of angles on [0, 360[, used for the calculation.
+            it must be a multiple of 4.
+
+    Returns
+    -------
+
+    (X, Y, Z, theta)
+
+    X: a numpy array of size [DxM]
+    Y: a numpy array of size [DxM]
+    Z: a numpy array of size [DxM]
+    theta: a numpy aray of size [DxM]
+    """
+
     # cas sans oversampling
     N, M = X.shape
 
     assert X.shape[1] == 3, "not handled"
     assert X.shape[1] == len(prob), "not handled"
+    assert ntheta % 4 == 0, "ntheta must be a multiple of 4"
 
     # normalisation
     X_mean = X.mean(axis=0)
@@ -22,13 +46,13 @@ def huseby(X, prob, ntheta):
     L = np.linalg.cholesky(Q).T  # use .T as R returned the transposed.
     X = np.linalg.solve(L.T, X.T).T
 
-    # calculs des quantiles
+    # quantiles calculation
     k = N * prob + 0.5
     kf = np.floor(k).astype(int) - 1
     kc = np.ceil(k).astype(int) - 1
     dk = k - kf - 1
 
-    # calculs des angles
+    # angles calculation
     theta = np.arange(0, ntheta) * 360 / ntheta * np.pi / 180
     ctheta = np.cos(theta)
     stheta = np.sin(theta)
