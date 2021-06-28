@@ -6,7 +6,7 @@ from itertools import product
 import numpy as np
 
 
-def huseby(X, prob, ntheta):
+def huseby(X: np.ndarray, prob: np.ndarray, ntheta: int):
     """Compute the contours of X in the physical space.
 
     Parameters

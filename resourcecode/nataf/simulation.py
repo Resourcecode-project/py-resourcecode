@@ -8,7 +8,12 @@ from scipy.stats import norm, genpareto
 from resourcecode.utils import set_trig
 
 
-def run_simulation(rho, quantile, gpd_parameters, n_simulations=1000):
+def run_simulation(
+    rho: np.ndarray,
+    quantile: float,
+    gpd_parameters: np.ndarray,
+    n_simulations: int = 1000,
+) -> np.ndarray:
     """Run simulations from a fitted Nataf Model.
 
     Parameters
@@ -53,6 +58,9 @@ def run_simulation(rho, quantile, gpd_parameters, n_simulations=1000):
             c=gpd_parameters[:, 2],
         )
 
-        result = np.vstack((result, simul)) if result is not None else simul
+        if result is None:
+            result = simul
+        else:
+            result = np.vstack((result, simul))
 
     return result[:n_simulations, :]

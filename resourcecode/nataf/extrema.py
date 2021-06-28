@@ -2,10 +2,11 @@
 # coding: utf-8
 
 import numpy as np
+import pandas as pd
 from pyextremes import EVA
 
 
-def get_gpd_parameters(dataframe, quantile=0.9):
+def get_gpd_parameters(dataframe: pd.DataFrame, quantile: float = 0.9) -> np.ndarray:
     gpd_param = np.zeros((dataframe.shape[1], 3))
 
     for index, (var_name, serie) in enumerate(dataframe.items()):

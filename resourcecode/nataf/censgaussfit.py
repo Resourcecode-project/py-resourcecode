@@ -3,12 +3,12 @@
 
 import numpy as np
 from scipy.stats import norm, mvn
-from scipy.optimize import minimize, Bounds
+from scipy.optimize import minimize, Bounds, OptimizeResult
 
 from resourcecode.utils import set_trig
 
 
-def censgaussfit(data, q):
+def censgaussfit(data: np.ndarray, q: float) -> OptimizeResult:
     """Fit a censored Gaussian (Nataf) Copula to the data
 
     Parameters
