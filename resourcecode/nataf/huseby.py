@@ -6,16 +6,12 @@ from itertools import product
 import numpy as np
 
 
-def huseby(X, prob, ntheta, npt, standard="biv", method=3, FORM=0):
+def huseby(X, prob, ntheta):
     # cas sans oversampling
     N, M = X.shape
 
     assert X.shape[1] == 3, "not handled"
     assert X.shape[1] == len(prob), "not handled"
-    assert ntheta == npt, "oversampling not handled"
-    assert standard == "biv", "not handled"
-    assert method == 3, "not handled"
-    assert FORM == 0, "not handled"
 
     # normalisation
     X_mean = X.mean(axis=0)
@@ -36,8 +32,6 @@ def huseby(X, prob, ntheta, npt, standard="biv", method=3, FORM=0):
     theta = np.arange(0, ntheta) * 360 / ntheta * np.pi / 180
     ctheta = np.cos(theta)
     stheta = np.sin(theta)
-    dtheta = np.diff(theta)
-    sindtheta = np.sin(dtheta)  # noqa
 
     C = np.ones((ntheta, ntheta, len(prob)), dtype=float)
     indj = np.hstack(

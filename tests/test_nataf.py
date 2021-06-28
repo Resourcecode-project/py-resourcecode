@@ -84,7 +84,6 @@ def test_huseby_acceptance():
     """
 
     ntheta = 120
-    npt = 120
 
     simulation = np.loadtxt(
         DATA_DIR / "huseby" / "input_0.csv",
@@ -105,9 +104,7 @@ def test_huseby_acceptance():
     Z_expected = expected[:, 6:9]
     theta_expected = expected[:ntheta, 9]
 
-    X, Y, Z, theta = huseby(
-        simulation, np.array([0.9, 0.95, 0.975]), ntheta=ntheta, npt=npt
-    )
+    X, Y, Z, theta = huseby(simulation, np.array([0.9, 0.95, 0.975]), ntheta=ntheta)
 
     assert X == pytest.approx(X_expected)
     assert Y == pytest.approx(Y_expected)
