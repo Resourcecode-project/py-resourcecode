@@ -11,11 +11,38 @@ from scipy.special import gamma as gamma_function
 
 @dataclass
 class WeibullDistributionResult:
-    Ha: np.ndarray  # the values for which the distribution has been fitted
-    x0: float  # the parameter of the Weibull distribution
-    b: float  # the parameter of the Weibull distribution
-    k: float  # the parameter of the Weibull distribution
-    P: np.ndarray = field(init=False)  # P is the probability of exceedance  P(Hs > Ha)
+    """The resulting fitted parameters for a Weibull distribution
+
+    Parameters
+    ----------
+    Ha: np.ndarray
+        the values for which the distribution has been fitted
+    x0: float
+        the parameter of the Weibull distribution
+    b: float
+        the parameter of the Weibull distribution
+    k: float
+        the parameter of the Weibull distribution
+
+    Attributes
+    ----------
+    P: np.ndarray
+        P is the probability of exceedance  P(Hs > Ha)
+    Ha: np.ndarray
+        the values for which the distribution has been fitted
+    x0: float
+        the parameter of the Weibull distribution
+    b: float
+        the parameter of the Weibull distribution
+    k: float
+        the parameter of the Weibull distribution
+    """
+
+    Ha: np.ndarray
+    x0: float
+    b: float
+    k: float
+    P: np.ndarray = field(init=False)
     _MCFrHS: np.ndarray  # a private array, used for plot debugging eventually
     _X: np.ndarray
     _Y: np.ndarray
@@ -27,23 +54,36 @@ class WeibullDistributionResult:
 
 @dataclass
 class WeatherWindowResult:
-    # Weibull adjustment parameters
+    """The resulting estimation
+
+    Parameters
+    ----------
     weibull_distribution_result: WeibullDistributionResult
+        Weibull adjustment parameters
 
-    # Persistence: Mean duration of periods for which Hs<Ha (Hours)
     tau: np.ndarray
+        Persistence: Mean duration of periods for which Hs<Ha (Hours)
 
-    # The probability of occurence of a weather window corresponding to
-    # sea-state having hs < hs_access_threshold
     PT: np.ndarray
+        The probability of occurence of a weather window corresponding to
+        sea-state having hs < hs_access_threshold
 
-    # number of events
     number_events: np.ndarray
+        number of events
 
-    # number access hours
     number_access_hours: np.ndarray
+        number access hours
 
-    # number waiting hours
+    number_waiting_hours: np.ndarray
+        number waiting hours
+
+    """
+
+    weibull_distribution_result: WeibullDistributionResult
+    tau: np.ndarray
+    PT: np.ndarray
+    number_events: np.ndarray
+    number_access_hours: np.ndarray
     number_waiting_hours: np.ndarray
 
 
@@ -148,15 +188,15 @@ def compute_weather_windows(
 def fit_weibull_distribution(hs: pd.Series) -> WeibullDistributionResult:
     """Fit a Weibull distribution on Hs.
 
-        The probability of excedence P(Hs > Ha) follows a Weibull distribution
-        given by three parameters:
+        The probability of excedence :math:`P(Hs > Ha)` follows a Weibull
+        distribution given by three parameters:
 
-            P(Hs > Ha) = exp(-((Ha - x0)/b)^k)
+        :math:`P(Hs > Ha) = exp(-((Ha - x0)/b)^k)`
 
     Parameters
     ----------
-    hs: a pandas Series given the Significant Wave Height (m)
-        with a datetime index.
+    hs: a pandas Series
+        giving the Significant Wave Height (m) with a datetime index.
 
     Returns
     -------

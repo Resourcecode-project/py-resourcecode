@@ -19,12 +19,16 @@ def run_simulation(
     Parameters
     ----------
 
-    rho: estimated correlation coefficient from censored Nataf Copulas.
-         output of the CensGaussFit function.
-    quant: the quantile used for conditioning
-    gpd_parameters: estimated threshold and GPD parameters.
+    rho: np.ndarray
+        estimated correlation coefficient from censored Nataf Copulas.
+        output of the CensGaussFit function.
+    quant: float
+        the quantile used for conditioning
+    gpd_parameters: np.ndarray
+        estimated threshold and GPD parameters.
         output of the get_gpd_parameters.
-    n_simulations: the requested number of simulations
+    n_simulations: int
+        the requested number of simulations
 
 
     Returns

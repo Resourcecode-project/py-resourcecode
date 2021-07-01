@@ -12,6 +12,25 @@ from resourcecode.utils import get_config
 
 
 class Client:
+    """Define a client to query data from the cassandra database
+
+    Example
+    -------
+
+    >>> from resourcecode import Client
+    >>> client = Client()
+    >>> data = client.get_dataframe_from_criteria(
+    \"""
+    {
+        "node": 0,
+        "start": 1483228400,
+        "end": 1489903600,
+        "parameter": ["fp", "hs"]
+    }
+    \""")
+    >>>
+    """
+
     def __init__(self):
         self.config = get_config()
 
@@ -27,7 +46,7 @@ class Client:
         criteria: string (json)
             a json-formatted string describing the criteria
 
-        Result
+        Return
         ------
         data: a Pandas DataFrame of the selected data
         """

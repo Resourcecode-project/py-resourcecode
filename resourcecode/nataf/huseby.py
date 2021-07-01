@@ -22,20 +22,11 @@ def huseby(X: np.ndarray, prob: np.ndarray, ntheta: int):
     Returns
     -------
 
-    if M == 2
-        (X, Y, theta)
-
-        X: a numpy array of size [DxM]
-        Y: a numpy array of size [DxM]
-        theta: a numpy array of size [DxM]
-
-    if M == 3
-        (X, Y, Z, theta)
-
-        X: a numpy array of size [DxM]
-        Y: a numpy array of size [DxM]
-        Z: a numpy array of size [DxM]
-        theta: a numpy array of size [DxM]
+    X: a numpy array of size [DxM]
+    Y: a numpy array of size [DxM]
+    Z: a numpy array of size [DxM]
+        if M == 2
+    theta: a numpy array of size [DxM]
     """
 
     N, M = X.shape
