@@ -12,3 +12,4 @@ recursive-include tests *.py
 recursive-include tests *.json *.csv
 
 prune codes_to_migrate
+prune doc
