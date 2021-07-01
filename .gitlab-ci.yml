@@ -17,5 +17,19 @@ include:
 stages:
   - lint
   - tests
+  - deployment
   - release
   - publish
+
+pages:
+  stage: deployment
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "branch/default"'
+  before_script:
+    - pip install .
+    - pip install sphinx sphinx-book-theme
+  script:
+    - sphinx-build -b html doc public
+  artifacts:
+    paths:
+      - public
