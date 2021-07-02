@@ -14,6 +14,7 @@ barriers and promote growth in renewable energy.
 .. toctree::
    :maxdepth: 1
 
+   doc_installation
    doc_client
    doc_data
    doc_nataf
