@@ -35,10 +35,11 @@ command :
 .. code-block:: shell
 
    (env-resourcecode)$ python -m pip install resourcecode \
-      --extra-index-url https://__token__:<your_personal_token>@forge.extranet.logilab.fr/api/v4/projects/440/packages/pypi/simple
+      --extra-index-url https://<username>:<your_personal_token>@forge.extranet.logilab.fr/api/v4/projects/440/packages/pypi/simple
 
-where you need to replace `<your_personal_token>` by the token provided to you.
-If the token is correct, the installation will start.
+where you need to replace `<your_personal_token>` by the token provided to you,
+and <username> by your user name.  If the token is correct, the installation
+will start.
 
 To test whether the install has been successful, you can run:
 
