@@ -3,6 +3,7 @@
 
 from urllib.parse import urljoin
 import json
+from typing import Union
 
 import requests
 import pandas as pd
@@ -38,23 +39,40 @@ class Client:
     def cassandra_base_url(self):
         return self.config.get("default", "cassandra-base-url")
 
-    def get_dataframe_from_criteria(self, criteria):
+    def get_dataframe_from_criteria(self, criteria: Union[str, dict]) -> pd.DataFrame:
         """return the pandas dataframe of the data described by the criteria
+
+        The criteria must be like this:
+
+        .. code-block::
+
+            {
+                "node": pointId,  # the point id
+                "start": start,   # the timestamp of the beginning of the selection
+                                  # in *miliseconds*
+                "end": end,       # the timestamp of the end of the selection
+                                  # in *miliseconds*
+                "parameters": ["hs", "fp"], # the list of parameters to retrieve
+            }
+
 
         Parameters
         ----------
-        criteria: string (json)
+        criteria: string (json) or dict
             a json-formatted string describing the criteria
+            or the criteria as a dictionary
 
         Return
         ------
         data: a Pandas DataFrame of the selected data
         """
 
-        parsed_criteria = json.loads(criteria)
+        if isinstance(criteria, str):
+            parsed_criteria = json.loads(criteria)
+        else:
+            parsed_criteria = criteria
 
         result_array = None
-        index_array = None
         for parameter in parsed_criteria.get("parameter", ()):
             # we assume that multiple parameters can be given.
             # for each parameter, we make a query and we concatenate all the
