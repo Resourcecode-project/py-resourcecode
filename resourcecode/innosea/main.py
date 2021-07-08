@@ -8,7 +8,6 @@
 
 
 import numpy as np
-import matplotlib.pyplot as plt
 import pandas as pd
 import math as mt
 
@@ -221,12 +220,7 @@ class PTO:
 
         return mn
 
-    def to_csv(self, csv_path):
-        """Export computed time series to a csv file
-
-        :param csv_path: output csv file path
-        :type csv_path: str"""
-
+    def to_dataframe(self):
         headers = [
             "Wave power",
             "Absorbed power (with reduction factor)",
@@ -251,8 +245,15 @@ class PTO:
                 self.pto_damp_no_red[0],
             )
         ).transpose()
-        df_all_data = pd.DataFrame(all_data, index=self.times, columns=headers)
-        df_all_data.to_csv(csv_path)
+        return pd.DataFrame(all_data, index=self.times, columns=headers)
+
+    def to_csv(self, csv_path):
+        """Export computed time series to a csv file
+
+        :param csv_path: output csv file path
+        :type csv_path: str"""
+
+        self.to_dataframe().to_csv(csv_path)
 
 
 def jonswap_f(hs, tp, gamma, freq):
@@ -289,41 +290,6 @@ def jonswap_f(hs, tp, gamma, freq):
     return sf
 
 
-def load_capture_width(capture_width_path, freq_path, pto_data_path):
-    """Loads PTO capture width data and stores them in a pandas.DataFrame format,
-    with PTO values as columns, frequencies as index.
-
-    :param capture_width_path: capture width csv file path
-    :type capture_width_path: str
-    :param freq_path: frequencies csv file path
-    :type freq_path: str
-    :param pto_data_path: PTO values csv file path
-    :type pto_data_path: str
-    :return: capture width table
-    :rtype: pandas.DataFrame"""
-
-    # load WEC capture width
-    capture_width = pd.read_csv(capture_width_path, delimiter=",", header=None)
-    freq = pd.read_csv(freq_path, delimiter=",", header=None)
-    pto_values = pd.read_csv(pto_data_path, delimiter=",", header=None)
-    capture_width.columns = pto_values.values.tolist()[0]
-    capture_width.index = [val for sublist in freq.values.tolist() for val in sublist]
-
-    return capture_width
-
-
-def load_hs_tp(wave_file_path):
-    """Loads Hs and Tp time series of a csv file, stores it as a pandas.DataFrame
-
-    :param wave_file_path: wave csv file path
-    :type wave_file_path: str
-    :return: Hs, Tp DataFrame table
-    :rtype: pandas.DataFrame"""
-
-    df = pd.read_excel(wave_file_path)
-    return df
-
-
 def create_wave_spectrum(wave_data, freq_vec):
     """Creates JONSWAP wave spectrum time series from Hs and Tp time series
 
@@ -334,163 +300,11 @@ def create_wave_spectrum(wave_data, freq_vec):
     :return: JONSWAP wave spectrum time series
     :rtype: pandas.DataFrame"""
 
-    spectrum = pd.DataFrame(0, index=wave_data["Var1"], columns=freq_vec)
-    for i in range(len(wave_data["Var1"])):
-        hs = wave_data["Var2"][i]
-        tp = wave_data["Var3"][i]
+    spectrum = pd.DataFrame(0, index=wave_data.index, columns=freq_vec)
+    for i in range(len(wave_data.index)):
+        hs = wave_data["hs"][i]
+        tp = wave_data["tp"][i]
         # create Jonswap spectrum
         spectrum.iloc[i] = jonswap_f(hs, tp, gamma=1, freq=freq_vec)
 
     return spectrum
-
-
-def resource_code_by_spectrum(
-    capture_width_path, freq_path, pto_data_path, wave_file_path
-):
-    """Main functions to load PTO capture width table, wave spectrum time series,
-    computes PTO power/damping time series and plots results
-
-    :param capture_width_path: capture width csv file path
-    :type capture_width_path: str
-    :param freq_path: frequencies csv file path
-    :type freq_path: str
-    :param pto_data_path: PTO values csv file path
-    :type pto_data_path: str
-    :param wave_file_path: wave csv file path
-    :type wave_file_path: str"""
-
-    # load capture width
-    capture_width = load_capture_width(capture_width_path, freq_path, pto_data_path)
-
-    # load Hs/Tp data
-    wave_data = load_hs_tp(wave_file_path)
-
-    # create wave spectrum
-    # TODO: in the final version, the wave spectrum should be loaded from
-    # Resource Code database (Casandra)
-    s = create_wave_spectrum(wave_data, capture_width.index)
-
-    # set PTO
-    pto = PTO(capture_width, s)
-
-    # plot time series
-    plot_time_series(pto)
-
-    # plot cumulative power
-    plot_cumulative_power(pto)
-
-    # plot PTO histogram
-    plot_pto_hist(pto)
-
-    # show plots
-    plt.show()
-
-
-def plot_time_series(pto):
-    """Plot PTO results time series in 3 subplots: wave power, absorbed/mean power
-    with/without reduction factor, PTO damping with/without reduction factor.
-    Power is converted from W to kW, damping from Ns/m to kNs/m.
-
-    :param pto: PTO object
-    :type pto: PTO"""
-
-    # wave power
-    fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(10, 10))
-    ax1.plot(pto.wave_power.div(1000 * pto.width))
-    ax1.legend(["Wave power"])
-    ax1.grid()
-    ax1.set(xlabel="Time", ylabel="Power (kW/m)")
-    # absorbed/mean power
-    all_time_series = [
-        pto.power,
-        pto.power_no_red,
-        pto.mean_power,
-        pto.mean_power_no_red,
-    ]
-    linestyles = ["solid", "dashed", "solid", "dashed"]
-    for time_series, linestyle in zip(all_time_series, linestyles):
-        ax2.plot(time_series.div(1000), linestyle=linestyle)
-    ax2.legend(
-        [
-            "Absorbed power (with reduction factor)",
-            "Absorbed power (without reduction factor)",
-            "Mean power (with reduction factor)",
-            "Mean power (without reduction factor)",
-        ]
-    )
-    ax2.grid()
-    ax2.set(xlabel="Time", ylabel="Power (kW)")
-    # PTO damping
-    all_time_series = [pto.pto_damp, pto.pto_damp_no_red]
-    for time_series, linestyle in zip(all_time_series, linestyles):
-        ax3.plot(time_series.div(1000), linestyle=linestyle)
-    ax3.legend(
-        [
-            "PTO damping (with reduction factor)",
-            "PTO damping (without reduction factor)",
-        ]
-    )
-    ax3.grid()
-    ax3.set(xlabel="Time", ylabel="Damping (kN.s/m)")
-
-
-def plot_cumulative_power(pto):
-    """Plot PTO cumulative power. Power is converted from W to kW
-
-    :param pto: PTO object
-    :type pto: PTO"""
-
-    # absorbed power
-
-    power_kw = pto.power.div(1000)
-    # cumulative power
-    cumulative_power_kw = pto.cumulative_power
-    power_ordered = pto.power.sort_values(by=0)
-    index = [x / 1000 for x in power_ordered[0]]
-    cumulative_power_kw.index = index
-    # mean power
-    mean_power_kw = pto.mean_power[0][pto.times[0]] / 1000
-    # median power
-    median_power_kw = pto.median_power[0][pto.times[0]] / 1000
-    # power occurrences, cumulative power, mean and median power
-    ax = power_kw.plot.hist(
-        bins=len(pto.capture_width.columns) * 5,
-        legend=False,
-        weights=np.ones_like(power_kw[power_kw.columns[0]]) * 100.0 / len(power_kw),
-    )
-    ax1 = ax.twinx()
-    cumulative_power_kw.plot(ax=ax1, legend=False, color="r")
-    ax.grid()
-    ax.set_xlabel("WEC Power (kW)")
-    ax.set_ylabel("Occurrence (%)")
-    ax1.set_ylabel("Normed Cumulative Production (%)")
-    line_mean = plt.axvline(x=mean_power_kw, color="y")
-    line_median = plt.axvline(x=median_power_kw, color="orange")
-    ax.legend([line_mean, line_median], ["Mean power", "Median power"])
-
-
-def plot_pto_hist(pto):
-
-    pto_damp_kn = pto.pto_damp / 1000
-    ax = pto_damp_kn.plot.hist(
-        bins=len(pto.capture_width.columns),
-        legend=False,
-        weights=np.ones_like(pto_damp_kn[pto_damp_kn.columns[0]])
-        * 100.0
-        / len(pto_damp_kn),
-    )
-    ax.grid()
-    ax.set_xlabel("PTO damping (kN.s/m)")
-    ax.set_ylabel("Occurrence (%)")
-
-
-if __name__ == "__main__":
-
-    capture_width_file = r"Inputs/capture_width.csv"
-    freq_file = r"Inputs/Frequencies.csv"
-    pto_data_file = r"Inputs/PTO_values.csv"
-    wave_file_file = r"Inputs/HsTptimeseries.xlsx"
-
-    resource_code_by_spectrum(
-        capture_width_file, freq_file, pto_data_file, wave_file_file
-    )
