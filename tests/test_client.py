@@ -93,6 +93,17 @@ def test_get_criteria_single_parameter(client):
     assert data.fp[-1] == pytest.approx(0.097)
 
 
+def test_get_criteria_single_tp_parameter(client):
+    data = client.get_dataframe_from_criteria('{"parameter": ["tp"]}')
+
+    assert len(data) == 744
+    assert (data.columns == ["tp"]).all()
+    assert data.index[0] == pd.to_datetime("2017-01-01 00:00:00")
+    assert data.index[-1] == pd.to_datetime("2017-01-31 23:00:00")
+    assert data.tp[0] == pytest.approx(13.51351)
+    assert data.tp[-1] == pytest.approx(10.30928)
+
+
 def test_get_criteria_multiple_parameters(client):
     data = client.get_dataframe_from_criteria('{"parameter": ["fp", "hs"]}')
 

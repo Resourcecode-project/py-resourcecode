@@ -60,18 +60,24 @@ class Client:
             # for each parameter, we make a query and we concatenate all the
             # responses.
 
+            # tp is not a real parameter. it is equal to 1/fp.
+            single_parameter = parameter
+            if parameter == "tp":
+                single_parameter = "fp"
             single_parameter_criteria = {
                 **parsed_criteria,
                 "parameter": [
-                    parameter,
+                    single_parameter,
                 ],
             }
             raw_data = self._get_rawdata_from_criteria(single_parameter_criteria)
-
             # parameter_array is the time history of the current parameter.
             # it's a 2D array. The first columns is the timestamp, the second
             # one the value of this parameters at the corresponding timestamps.
             parameter_array = np.array(raw_data["result"]["data"], dtype=float)
+            if parameter == "tp":
+                parameter_array[:, 1] = 1 / parameter_array[:, 1]
+
             try:
                 # concatenate and get ride of the timestamp (already known from
                 # the previous iteration)
