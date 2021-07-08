@@ -10,6 +10,7 @@ recursive-include resourcecode *.py
 recursive-include resourcecode/data *.feather
 recursive-include tests *.py
 recursive-include tests *.json *.csv
+recursive-include resourcecode *.csv
 
 prune codes_to_migrate
 prune doc
