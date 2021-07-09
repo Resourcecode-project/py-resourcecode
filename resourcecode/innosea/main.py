@@ -300,11 +300,11 @@ def create_wave_spectrum(wave_data, freq_vec):
     :return: JONSWAP wave spectrum time series
     :rtype: pandas.DataFrame"""
 
-    spectrum = pd.DataFrame(0, index=wave_data.index, columns=freq_vec)
-    for i in range(len(wave_data.index)):
-        hs = wave_data["hs"][i]
-        tp = wave_data["tp"][i]
-        # create Jonswap spectrum
-        spectrum.iloc[i] = jonswap_f(hs, tp, gamma=1, freq=freq_vec)
+    def create_jsonswap_vector(hs, tp):
+        return jonswap_f(hs, tp, gamma=1, freq=freq_vec)
 
+    spectrum = wave_data.apply(
+        lambda x: pd.Series(create_jsonswap_vector(x["hs"], x["tp"]), index=freq_vec),
+        axis=1,
+    )
     return spectrum
