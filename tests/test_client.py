@@ -25,6 +25,8 @@ def mock_requests_get_raw_data(query_url, parameters):
 
     mocked_response = mock.Mock()
     parameter = parameters.get("parameter", [None])[0]
+    start_date = parameters.get("start")
+    end_date = parameters.get("end")
     data_path = DATA_DIR / f"timeseries_{parameter}.json"
 
     if not data_path.exists():
@@ -32,7 +34,26 @@ def mock_requests_get_raw_data(query_url, parameters):
         return mocked_response
 
     with open(data_path) as fobj:
-        mocked_response.json.return_value = json.load(fobj)
+        data = json.load(fobj)
+        records = []
+        # mock cassandra:
+        # if date is None, return it.
+        # filter dates that are not between start and end dates
+        for date, value in data["result"]["data"]:
+            # start_date and end_date must be multiplied by 1e3, because
+            # cassandra returns milliseconds
+            if date is not None and (
+                start_date is not None and date < start_date * 1e3
+            ):
+                continue
+
+            if date and end_date is not None and date > end_date * 1e3:
+                break
+
+            records.append([date, value])
+
+        data["result"]["data"] = records
+        mocked_response.json.return_value = data
 
     mocked_response.ok = True
     return mocked_response
