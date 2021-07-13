@@ -4,7 +4,7 @@
 import json
 from urllib.parse import urljoin, urlparse, parse_qs
 from datetime import datetime
-from typing import Iterable, Union
+from typing import Iterable, Union, Optional
 
 import requests
 import pandas as pd
@@ -24,15 +24,12 @@ class Client:
     >>> data = client.get_dataframe_from_url(
         "https://resourcecode.ifremer.fr/explore/?pointId=42"
     )
-    >>> data = client.get_dataframe_from_criteria(
-    \"""
-    {
-        "node": 0,
-        "start": 1483228400,
-        "end": 1489903600,
-        "parameter": ["fp", "hs"]
-    }
-    \""")
+    >>> data = client.get_dataframe(
+        pointId=0,
+        startDateTime="2017-01-01T00:53:20",
+        endDateTime="2017-03-19T07:06:40",
+        parameters=["hs", "fp"],
+    )
     >>>
     """
 
@@ -42,6 +39,55 @@ class Client:
     @property
     def cassandra_base_url(self):
         return self.config.get("default", "cassandra-base-url")
+
+    def get_dataframe(
+        self,
+        pointId: int,
+        startDateTime: Optional[Union[str, datetime, int]] = None,
+        endDateTime: Optional[Union[str, datetime, int]] = None,
+        parameters: Iterable[str] = ("hs",),
+    ) -> pd.DataFrame:
+        """Get a pandas dataframe of the data described by the criteria
+
+        Parameters
+        ----------
+
+        pointId: int
+            the id of the point to get data from
+        startDateTime: optional datetime or string (date in isoformat) or int (timestamp)
+            the start of the selection.
+            if not given, the oldest possible value will be used.
+        endDateTime: optional datetime or string (date in isoformat) or int (timestamp)
+            the end of the selelection.
+            if not given, the most recent possible value will be used.
+        parameters: list of string
+            the parameters to retrieve
+
+        Return
+        ------
+
+        A pandas dataframe with a datetime index, from `startDateTime` to
+        `endDateTime`, and with one column per parameter.
+        """
+
+        if isinstance(startDateTime, str):
+            startDateTime = datetime.fromisoformat(startDateTime)
+        if isinstance(startDateTime, datetime):
+            startDateTime = int(startDateTime.timestamp())
+
+        if isinstance(endDateTime, str):
+            endDateTime = datetime.fromisoformat(endDateTime)
+        if isinstance(endDateTime, datetime):
+            endDateTime = int(endDateTime.timestamp())
+
+        criteria = {
+            "node": pointId,
+            "start": startDateTime,
+            "end": endDateTime,
+            "parameters": parameters,
+        }
+
+        return self.get_dataframe_from_criteria(criteria)
 
     def get_dataframe_from_url(
         self, selection_url: str, parameters: Iterable[str] = ("hs",)
