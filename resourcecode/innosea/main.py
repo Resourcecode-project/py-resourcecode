@@ -117,24 +117,21 @@ class PTO:
             # infinite depth assumption
             c_g = (self.g / (4 * mt.pi)) / self.freqs
             power_t = pd.DataFrame(
-                np.zeros(len(self.capture_width.columns)),
-                index=self.capture_width.columns,
-            )
-            power_t_no_red = pd.DataFrame(
-                np.zeros(len(self.capture_width.columns)),
-                index=self.capture_width.columns,
-            )
-            for pto_t in self.capture_width.columns:
-                capt_ratio = self.capture_width[pto_t]
-                capt_ratio = capt_ratio[self.freqs]
-                # power computation at instant t for each PTO damping
-                power_t.loc[pto_t] = (
+                [
                     self.rho
                     * self.g
                     * self.width
-                    * np.trapz(c_g * self.s.loc[t] * capt_ratio.values, x=self.freqs)
-                )
-                power_t_no_red.loc[pto_t] = power_t.loc[pto_t]
+                    * np.trapz(
+                        c_g
+                        * self.s.loc[t]
+                        * cw_column,
+                        x=self.freqs,
+                    )
+                    for cw_column in self.capture_width
+                ],
+                index=self.capture_width.columns,
+            )
+            power_t_no_red = power_t.copy()
             if np.logical_and(self.coef_power_decrement, s_s > 0.02):
                 # estimate new decreased capture width ratio
                 coef = np.cos(np.pi * (s_s - 0.02) / 0.36) ** 2.0
