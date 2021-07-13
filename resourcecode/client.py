@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 # coding: utf-8
 
-from urllib.parse import urljoin
 import json
-from typing import Union
+from urllib.parse import urljoin, urlparse, parse_qs
 from datetime import datetime
+from typing import Iterable, Union
 
 import requests
 import pandas as pd
@@ -21,6 +21,9 @@ class Client:
 
     >>> from resourcecode import Client
     >>> client = Client()
+    >>> data = client.get_dataframe_from_url(
+        "https://resourcecode.ifremer.fr/explore/?pointId=42"
+    )
     >>> data = client.get_dataframe_from_criteria(
     \"""
     {
@@ -39,6 +42,44 @@ class Client:
     @property
     def cassandra_base_url(self):
         return self.config.get("default", "cassandra-base-url")
+
+    def get_dataframe_from_url(
+        self, selection_url: str, parameters: Iterable[str] = ("hs",)
+    ) -> pd.DataFrame:
+        """Get the pandas dataframe of the data described by the url
+
+        Parameters
+        ----------
+        selection_url: string
+            the URL of the selection in the resource code web application
+        parameters: list of string
+            the parameters to retrieve
+
+        Return
+        ------
+
+        A pandas dataframe with a datetime index, from `startDateTime` to
+        `endDateTime`, and with one column per parameter.
+        """
+
+        search_parameters = parse_qs(urlparse(selection_url).query)
+        if not search_parameters:
+            raise ValueError("no criteria found in the url")
+
+        criteria = {
+            "node": int(search_parameters["pointId"][0]),
+            "parameter": parameters,
+        }
+
+        if "startDateTime" in search_parameters:
+            start = search_parameters["startDateTime"][0].rstrip("Z")
+            criteria["start"] = int(datetime.fromisoformat(start).timestamp())
+
+        if "endDateTime" in search_parameters:
+            end = search_parameters["endDateTime"][0].rstrip("Z")
+            criteria["end"] = int(datetime.fromisoformat(end).timestamp())
+
+        return self.get_dataframe_from_criteria(criteria)
 
     def get_dataframe_from_criteria(self, criteria: Union[str, dict]) -> pd.DataFrame:
         """return the pandas dataframe of the data described by the criteria
