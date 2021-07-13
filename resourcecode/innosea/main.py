@@ -122,9 +122,7 @@ class PTO:
                     * self.g
                     * self.width
                     * np.trapz(
-                        c_g
-                        * self.s.loc[t]
-                        * cw_column,
+                        c_g * self.s.loc[t] * cw_column,
                         x=self.freqs,
                     )
                     for cw_column in self.capture_width
