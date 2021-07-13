@@ -4,6 +4,7 @@
 from urllib.parse import urljoin
 import json
 from typing import Union
+from datetime import datetime
 
 import requests
 import pandas as pd
@@ -67,10 +68,22 @@ class Client:
         data: a Pandas DataFrame of the selected data
         """
 
+        min_date = self.config.get("default", "min-start-date")
+        max_date = datetime.today().isoformat()
+        default_criteria = {
+            "node": 0,
+            "start": int(datetime.fromisoformat(min_date).timestamp()),
+            "end": int(datetime.fromisoformat(max_date).timestamp()),
+        }
+
         if isinstance(criteria, str):
             parsed_criteria = json.loads(criteria)
         else:
             parsed_criteria = criteria
+
+        # make sure compulsory parameters are present (node, dates) and are not
+        # None.
+        parsed_criteria = {**default_criteria, **parsed_criteria}
 
         if "parameters" in parsed_criteria:
             # let's tolerate `parameter` and `parameters`
