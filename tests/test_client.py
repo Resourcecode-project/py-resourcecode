@@ -3,6 +3,7 @@
 
 import json
 from unittest import mock
+from datetime import datetime
 
 import pytest
 import pandas as pd
@@ -167,3 +168,30 @@ def test_get_criteria_multiple_parameters_and_none_values(client):
     assert data.fp[-1] == pytest.approx(0.097)
     assert pd.isnull(data.uust[0])
     assert data.uust[2] == pytest.approx(0.1699999962)
+
+
+def test_different_available_methods_to_get_data(client):
+    start_date = "2017-01-01 00:00:00"
+    end_date = "2017-01-10 13:00:00"
+
+    data_from_critera = client.get_dataframe_from_criteria(
+        {
+            "node": 42,
+            "start": datetime.fromisoformat(start_date).timestamp(),
+            "end": datetime.fromisoformat(end_date).timestamp(),
+            "parameter": ["tp"],
+        }
+    )
+    data_from_url = client.get_dataframe_from_url(
+        f"https://fake-app.fr/?pointId=42&startDateTime={start_date}&endDateTime={end_date}",
+        parameters=("tp",),
+    )
+    data_from_args = client.get_dataframe(
+        pointId=42,
+        startDateTime=start_date,
+        endDateTime=end_date.replace("23", "22"),
+        parameters=("tp",),
+    )
+
+    assert (data_from_url == data_from_critera).all().bool()
+    assert (data_from_args == data_from_critera).all().bool()
