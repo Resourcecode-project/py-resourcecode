@@ -72,6 +72,10 @@ class Client:
         else:
             parsed_criteria = criteria
 
+        if "parameters" in parsed_criteria:
+            # let's tolerate `parameter` and `parameters`
+            parsed_criteria["parameter"] = parsed_criteria["parameters"]
+
         result_array = None
         for parameter in parsed_criteria.get("parameter", ()):
             # we assume that multiple parameters can be given.
