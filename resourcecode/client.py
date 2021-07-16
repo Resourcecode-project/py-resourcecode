@@ -19,18 +19,20 @@ class Client:
     Example
     -------
 
-    >>> from resourcecode import Client
-    >>> client = Client()
-    >>> data = client.get_dataframe_from_url(
-        "https://resourcecode.ifremer.fr/explore/?pointId=42"
-    )
-    >>> data = client.get_dataframe(
-        pointId=0,
-        startDateTime="2017-01-01T00:53:20",
-        endDateTime="2017-03-19T07:06:40",
-        parameters=["hs", "fp"],
-    )
-    >>>
+    .. doctest::
+
+        >>> from resourcecode import Client
+        >>> client = Client()
+        >>> data = client.get_dataframe_from_url(
+        ...     "https://resourcecode.ifremer.fr/explore/?pointId=42"
+        ... )
+        >>> data = client.get_dataframe(
+        ...     pointId=0,
+        ...     startDateTime="2017-01-01T00:53:20",
+        ...     endDateTime="2017-03-19T07:06:40",
+        ...     parameters=["hs", "fp"],
+        ... )
+        >>>
     """
 
     def __init__(self):

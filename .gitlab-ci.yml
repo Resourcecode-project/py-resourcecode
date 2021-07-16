@@ -21,6 +21,15 @@ stages:
   - release
   - publish
 
+doctest:
+  stage: tests
+  needs: []
+  before_script:
+    - pip install .
+    - pip install sphinx
+  script:
+    - sphinx-build -b doctest doc .
+
 pages:
   stage: deployment
   rules:
