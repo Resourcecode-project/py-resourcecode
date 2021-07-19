@@ -117,16 +117,14 @@ class PTO:
             else:
                 s_s = 0
             power_t = pd.DataFrame(
-                [
-                    self.rho
-                    * self.g
-                    * self.width
+                (
+                    (self.rho * self.g * self.width)
                     * np.trapz(
-                        c_g * self.s.loc[t] * cw_column,
+                        (c_g * s).to_numpy()[np.newaxis, :]
+                        * self.capture_width.columns.to_numpy()[:, np.newaxis],
                         x=self.freqs,
                     )
-                    for cw_column in self.capture_width
-                ],
+                ),
                 index=self.capture_width.columns,
             )
             power_t_no_red = power_t.copy()
