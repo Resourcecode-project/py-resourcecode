@@ -96,8 +96,6 @@ class PTO:
         # frequency domain data
         hs_list = []
         tp_list = []
-        power_list = []
-        pto_damp_list = []
 
         for t in self.times:
             # Hs, Tp conditions
@@ -156,17 +154,15 @@ class PTO:
                 * np.trapz(c_g * self.s.loc[t], x=self.freqs)
             )
             # frequency domain data
-            hs_list.extend([hs])
-            tp_list.extend([tp])
-            power_list.extend(self.power.loc[t].values)
-            pto_damp_list.extend(self.pto_damp.loc[t].values)
+            hs_list.append(hs)
+            tp_list.append(tp)
 
         self.freq_data = pd.DataFrame(
             {
                 "Hs": hs_list,
                 "Tp": tp_list,
-                "Power": power_list,
-                "PTO damping": pto_damp_list,
+                "Power": self.power.values.flatten(),
+                "PTO damping": self.pto_damp.values.flatten(),
             }
         )
         self.mean_power = pd.DataFrame(
