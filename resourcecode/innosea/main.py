@@ -63,15 +63,12 @@ class PTO:
         :return: True if same frequency vector (if everything under tolerance), else return False
         :rtype: bool"""
 
-        wave_freq = list(self.freqs)
-        capture_width_freq = list(self.capture_width.index)
+        wave_freq = self.freqs.to_numpy()
+        capture_width_freq = self.capture_width.index.to_numpy()
         if len(wave_freq) != len(capture_width_freq):
             return False
         else:
-            for wf, cwf in zip(wave_freq, capture_width_freq):
-                if abs(wf - cwf) > tolerance:
-                    return True
-            return False
+            return abs(wave_freq - capture_width_freq).max() > tolerance
 
     def interp_freq(self):
         """Checks if wave frequency and capture width frequency are the same at a given tolerance.
