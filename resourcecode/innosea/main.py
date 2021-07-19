@@ -74,17 +74,21 @@ class PTO:
         """Checks if wave frequency and capture width frequency are the same at a given tolerance.
         If not, interpolates the capture width table"""
 
+        known_freqs = set(self.capture_width.index)
         tolerance = 0.001
         if self.is_same_freq(tolerance):
             self.freqs = self.capture_width.index
         else:
             for freq in self.freqs:
-                if freq not in self.capture_width.index:
-                    self.capture_width = self.capture_width.append(
-                        pd.Series(name=freq, dtype="float64")
-                    )
-                    self.capture_width.sort_index(inplace=True)
-                    self.capture_width = self.capture_width.interpolate()
+                if freq in known_freqs:
+                    continue
+
+                known_freqs.add(freq)
+                self.capture_width = self.capture_width.append(
+                    pd.Series(name=freq, dtype="float64")
+                )
+                self.capture_width.sort_index(inplace=True)
+                self.capture_width = self.capture_width.interpolate()
 
     def get_power_pto_damp(self):
         """Compute absorbed power, mean power, median power, PTO damping time series"""
