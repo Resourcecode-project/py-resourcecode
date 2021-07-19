@@ -6,10 +6,11 @@
 # Modified by:
 # ------------------------------
 
+import math as mt
 
 import numpy as np
 import pandas as pd
-import math as mt
+import numexpr as ne
 
 
 class PTO:
@@ -260,24 +261,23 @@ def jonswap_f(hs, tp, gamma, freq):
     :return: vector containing the spectrum on input freq
     :rtype: numpy.array"""
 
-    hs = float(hs)
-    tp = float(tp)
-    gamma = float(gamma)
-
-    fp = 1.0 / tp
-    sigma = 0.07 * (freq < fp) + 0.09 * (freq >= fp)
-    sf = (
-        5
-        / (16 * freq ** 5)
-        * (hs ** 2)
-        / (tp ** 4)
-        * np.exp(-5.0 / (4 * tp ** 4) / (freq ** 4))
-        * gamma ** (np.exp(-((freq - 1 / tp) ** 2) * (tp ** 2) / (2 * (sigma ** 2))))
+    expr = (
+        "5"
+        "/ (16 * freq ** 5)"
+        "* (hs ** 2)"
+        "/ (tp ** 4)"
+        "* exp(-5.0 / (4 * tp ** 4) /(freq ** 4))"
+        "* gamma ** ("
+        "   exp("
+        "       -((freq - 1 / tp) ** 2)"
+        "       * (tp ** 2)"
+        "       / (2 * (where(freq < (1.0 / tp), 0.07, 0.09) ** 2))"
+        "   )"
+        ")"
     )
+    sf = ne.evaluate(expr)
     alpha = (hs ** 2) / (16 * np.trapz(sf, x=freq))
-    sf = alpha * sf
-
-    return sf
+    return alpha * sf
 
 
 def create_wave_spectrum(wave_data, freq_vec):

@@ -24,6 +24,7 @@ install_requires = [
     "scipy >= 1.6.1, < 2.0.0",
     "pyextremes >= 2.0.0, < 3.0.0",
     "pyarrow >= 4.0.0, < 5.0.0",
+    "numexpr >= 2.7.0, < 3.0.0",
 ]
 
 classifiers = [
