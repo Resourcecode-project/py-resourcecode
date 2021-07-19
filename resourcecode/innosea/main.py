@@ -97,11 +97,14 @@ class PTO:
         hs_list = []
         tp_list = []
 
-        for t in self.times:
+        for i, t in enumerate(self.times):
             # Hs, Tp conditions
-            m_m1 = self.compute_spectrum_moment(self.freqs, self.s.loc[t], n=-1)
-            m_0 = self.compute_spectrum_moment(self.freqs, self.s.loc[t], n=0)
-            m_2 = self.compute_spectrum_moment(self.freqs, self.s.loc[t], n=2)
+            s = self.s.iloc[i]
+
+            m_m1 = self.compute_spectrum_moment(self.freqs, s, n=-1)
+            m_0 = self.compute_spectrum_moment(self.freqs, s, n=0)
+            m_2 = self.compute_spectrum_moment(self.freqs, s, n=2)
+
             hs = 4 * np.sqrt(m_0)
             te = m_m1 / m_0
             tz = np.sqrt(m_0 / m_2)
@@ -140,12 +143,12 @@ class PTO:
             # PTO damping chosen for best power capture
             # (including reduction capture if wave steepness too high)
             pto_opt = power_t.idxmax()
-            self.pto_damp.loc[t] = pto_opt
-            self.power.loc[t] = power_t.loc[pto_opt.values].values
+            self.pto_damp.iloc[i] = pto_opt
+            self.power.iloc[i] = power_t.loc[pto_opt.values].values
             # PTO damping chosen for best power capture (without reduction)
             pto_opt_no_red = power_t_no_red.idxmax()
-            self.pto_damp_no_red.loc[t] = pto_opt_no_red
-            self.power_no_red.loc[t] = power_t_no_red.loc[pto_opt_no_red.values].values
+            self.pto_damp_no_red.iloc[i] = pto_opt_no_red
+            self.power_no_red.iloc[i] = power_t_no_red.loc[pto_opt_no_red.values].values
             # wave power computation
             self.wave_power.loc[t] = (
                 self.rho
