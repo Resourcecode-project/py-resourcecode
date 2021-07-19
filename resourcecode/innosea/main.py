@@ -35,9 +35,6 @@ class PTO:
         self.mean_power_no_red = None  # mean absorbed power, no reduction (W)
         self.median_power = None  # median absorbed power (W)
         self.median_power_no_red = None  # median absorbed power, no reduction (W)
-        self.wave_power = pd.DataFrame(
-            np.zeros(len(self.times)), index=self.times
-        )  # incident wave power (W)
         self.pto_damp = pd.DataFrame(
             np.zeros(len(self.times)), index=self.times
         )  # PTO damping (Ns/m)
@@ -97,6 +94,10 @@ class PTO:
         hs_list = []
         tp_list = []
 
+        # group velocity
+        # infinite depth assumption
+        c_g = (self.g / (4 * mt.pi)) / self.freqs
+
         for i, t in enumerate(self.times):
             # Hs, Tp conditions
             s = self.s.iloc[i]
@@ -115,9 +116,6 @@ class PTO:
                 s_s = 2.0 * np.pi * hs / (self.g * tz ** 2)
             else:
                 s_s = 0
-            # group velocity
-            # infinite depth assumption
-            c_g = (self.g / (4 * mt.pi)) / self.freqs
             power_t = pd.DataFrame(
                 [
                     self.rho
@@ -150,15 +148,14 @@ class PTO:
             self.pto_damp_no_red.iloc[i] = pto_opt_no_red
             self.power_no_red.iloc[i] = power_t_no_red.loc[pto_opt_no_red.values].values
             # wave power computation
-            self.wave_power.loc[t] = (
-                self.rho
-                * self.g
-                * self.width
-                * np.trapz(c_g * self.s.loc[t], x=self.freqs)
-            )
             # frequency domain data
             hs_list.append(hs)
             tp_list.append(tp)
+
+        self.wave_power = pd.DataFrame(
+            self.rho * self.g * self.width * np.trapz(c_g * self.s, x=self.freqs),
+            index=self.times,
+        )  # incident wave power (W)
 
         self.freq_data = pd.DataFrame(
             {
