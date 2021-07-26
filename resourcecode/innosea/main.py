@@ -10,7 +10,6 @@ import math as mt
 
 import numpy as np
 import pandas as pd
-import numexpr as ne
 
 
 class PTO:
@@ -245,56 +244,3 @@ class PTO:
         :type csv_path: str"""
 
         self.to_dataframe().to_csv(csv_path)
-
-
-def jonswap_f(hs, tp, gamma, freq):
-    """Compute Jonswap spectrum with f (Hz) formulation (Sf = 2*pi*Sw)
-
-    :param hs: Significant wave height (m)
-    :type hs: float
-    :param tp: Peak period (s)
-    :type tp: float
-    :param gamma: peakness factor (e.g. 1 or 3.3)
-    :type gamma: float
-    :param freq: vector of frequency where the spectrum is to be computed
-    :type freq: numpy.array
-    :return: vector containing the spectrum on input freq
-    :rtype: numpy.array"""
-
-    expr = (
-        "5"
-        "/ (16 * freq ** 5)"
-        "* (hs ** 2)"
-        "/ (tp ** 4)"
-        "* exp(-5.0 / (4 * tp ** 4) /(freq ** 4))"
-        "* gamma ** ("
-        "   exp("
-        "       -((freq - 1 / tp) ** 2)"
-        "       * (tp ** 2)"
-        "       / (2 * (where(freq < (1.0 / tp), 0.07, 0.09) ** 2))"
-        "   )"
-        ")"
-    )
-    sf = ne.evaluate(expr)
-    alpha = (hs ** 2) / (16 * np.trapz(sf, x=freq))
-    return alpha * sf
-
-
-def create_wave_spectrum(wave_data, freq_vec):
-    """Creates JONSWAP wave spectrum time series from Hs and Tp time series
-
-    :param wave_data: Hs, Tp DataFrame table
-    :type wave_data: pandas.DataFrame
-    :param freq_vec: frequency vector
-    :type freq_vec: list, pandas.DataFrame.index
-    :return: JONSWAP wave spectrum time series
-    :rtype: pandas.DataFrame"""
-
-    def create_jsonswap_vector(hs, tp):
-        return jonswap_f(hs, tp, gamma=1, freq=freq_vec)
-
-    spectrum = wave_data.apply(
-        lambda x: pd.Series(create_jsonswap_vector(x["hs"], x["tp"]), index=freq_vec),
-        axis=1,
-    )
-    return spectrum

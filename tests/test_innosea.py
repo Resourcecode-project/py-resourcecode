@@ -6,6 +6,7 @@ from pathlib import Path
 import pytest
 
 from resourcecode import innosea
+from resourcecode.spectrum import compute_jonswap_wave_spectrum
 
 
 def test_innosea():
@@ -24,7 +25,7 @@ def test_innosea():
     wave_data = pd.read_csv(hs_tp_input_path, delimiter=",", index_col="time", header=0)
 
     freq_vec = capture_width.index
-    spectrum = innosea.create_wave_spectrum(wave_data, freq_vec)
+    spectrum = compute_jonswap_wave_spectrum(wave_data, freq_vec)
 
     pto = innosea.PTO(capture_width, spectrum)
     assert len(pto.freq_data) == len(wave_data)
