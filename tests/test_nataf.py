@@ -5,9 +5,9 @@ import pytest
 import numpy as np
 import pandas as pd
 
-from resourcecode.nataf.censgaussfit import censgaussfit
-from resourcecode.nataf.huseby import huseby
-from resourcecode.nataf.extrema import get_gpd_parameters
+from resourcecode.multivariate_extremes.nataf.censgaussfit import censgaussfit
+from resourcecode.multivariate_extremes.nataf.huseby import huseby
+from resourcecode.multivariate_extremes.nataf.extrema import get_gpd_parameters
 
 from . import DATA_DIR
 
