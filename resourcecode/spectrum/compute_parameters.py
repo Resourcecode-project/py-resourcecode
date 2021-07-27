@@ -1,0 +1,261 @@
+#!/usr/bin/env python3
+# coding: utf-8
+
+from typing import Optional
+from dataclasses import dataclass, astuple
+
+import numpy as np
+import pandas as pd
+from scipy.interpolate import interp1d
+from scipy.constants import g
+
+from resourcecode.spectrum.dispersion import dispersion
+from resourcecode.spectrum.convert2D1D import convert_spectrum_2Dto1D
+
+
+@dataclass
+class SeaStatesParameters:
+    """Describe Sea States Parameters, computed from spectra.
+
+    Parameters
+    ----------
+
+    Hm0: m
+        Significant wave height from moments
+    Tp: s
+        Peak Period
+    T01: s
+        Mean period from moments m0 and m1
+    T02: s
+        Mean period from moments m0 and m2
+    Te: s
+        Energy period from moments m-1 and m0
+    Mu:
+        Spectral bandwitdth parameter
+    Nu:
+        Spectral bandwidth parameter
+    Dm: ° - from
+        Mean direction
+    Dpm: ° - from
+        Mean direction at peak frequency
+    Spr:
+        Directional Spreading
+    CgE: kW/m
+        Energy flux (kW/m)
+    Km: m⁻¹
+        Average wave number
+    Lm: m
+        Average wavelength
+    depth: m
+        depth where the spectrum is calculated
+    Thetam: 2D only
+        Mean direction and directional spreading
+    Thetapm: 2D only
+        Mean direction at peak frequency
+    Spr: 2D only
+        Spreading
+    Qp: 2D only
+        Spectral bandwidth and peakedness parameter (Goba 1970)
+    """
+
+    Hm0: float
+    Tp: float
+    T01: float
+    T02: float
+    Te: float
+    mu: float
+    nu: float
+    CgE: float
+    km: float
+    lm: float
+    depth: float
+    Thetam: Optional[float] = None
+    Thetapm: Optional[float] = None
+    Spr: Optional[float] = None
+    Qp: Optional[float] = None
+
+    # those two methods (iter and len) allows SeaStatesParameters to be compared
+    # using pytest.approx
+    def __iter__(self):
+        return iter(astuple(self))
+
+    def __len__(self):
+        return len(astuple(self))
+
+    def to_dataframe(self):
+        """Convert the dataclass to a pandas DataFrame"""
+        return pd.DataFrame.from_dict({k: [v] for k, v in self.__dict__.items()})
+
+
+def compute_parameters_from_1D_spectrum(
+    Ef: np.ndarray,
+    freq: np.ndarray,
+    depth: float = float("inf"),
+    water_density: float = 1025,
+) -> SeaStatesParameters:
+    """
+    Compute Sea-States global parameters from 1D (frequency) spectra
+
+    Parameters
+    ----------
+
+    Ef:
+        the 1D spectrum (freq) at one time step
+    freq: Hz
+        the frequency vector
+    depth: m
+        the depth of the water, default to float("inf")
+    water_density: kg/m³
+        the water density, default to 1025 kg/m³
+
+    Return
+    ------
+
+    res: SeaStatesParameters
+    """
+
+    # Total energy
+    M0 = np.trapz(Ef, x=freq)
+
+    # Significant Wave Height
+    Hm0 = 4 * np.sqrt(M0)
+
+    # Periods
+    M01 = np.trapz(freq * Ef, x=freq)
+    T01 = M0 / M01
+
+    M02 = np.trapz(freq ** 2 * Ef, x=freq)
+    T02 = np.sqrt(M0 / M02)
+
+    Me = np.trapz(Ef / freq, x=freq)
+    Te = Me / M0
+
+    # fp evaluaton using spline fitting around Ef peak
+    nk = len(freq)
+    freqp = interp1d(np.arange(nk), freq)(np.linspace(0, nk - 1, 30 * nk))
+    Efp = interp1d(freq, Ef, kind="cubic")(freqp)
+
+    iEfp_max = Efp.argmax()
+    fp = freqp[iEfp_max]
+    Tp = 1 / fp
+
+    # Spectral Bandwidth and Peakedness parameter (Godo 1970)
+    nu = np.sqrt((M0 * M02) / (M01 ** 2) - 1)
+    mu = np.sqrt(1 - M01 ** 2 / (M0 * M02))
+
+    k = dispersion(freq, depth, n_iter=200, tol=1e-6)
+    kd = k * depth
+    km = np.trapz(k * Ef, x=freq) / M0
+    lm = 2 * np.pi / km
+
+    # Group velocity
+    c1 = 1 + 2 * kd / np.sinh(2 * kd)
+    c2 = np.sqrt(g * np.tanh(kd) / k)
+    cg = 0.5 * c1 * c2
+
+    # Energy flux
+    cgef = np.trapz(cg * Ef, x=freq) / M0
+    CgE = water_density * g * cgef
+
+    return SeaStatesParameters(
+        Hm0,
+        Tp,
+        T01,
+        T02,
+        Te,
+        mu,
+        nu,
+        CgE,
+        km,
+        lm,
+        depth,
+    )
+
+
+def compute_parameters_from_2D_spectrum(
+    E: np.ndarray,
+    freq: np.ndarray,
+    vdir: np.ndarray,
+    depth: float = float("inf"),
+    water_density: float = 1025,
+) -> SeaStatesParameters:
+    """
+    Compute Sea-States global parameters from 2D (frequency) spectra
+
+    Parameters
+    ----------
+
+    Ef:
+        the 2D spectrum (dir, freq) at one time step
+    freq: Hz
+        the frequency vector
+    depth: m
+        the depth of the water, default to float("inf")
+    water_density: kg/m³
+        the water density, default to 1025 kg/m³
+
+    Return
+    ------
+
+    res: SeaStatesParameters
+    """
+
+    Ef = convert_spectrum_2Dto1D(E, vdir)
+    parameters = compute_parameters_from_1D_spectrum(Ef, freq, depth, water_density)
+
+    # need to convert to radian and order for the remains calculations
+    vd = ((vdir + 180) % 360 * np.pi) / 180
+    ivd = vd.argsort()
+    E = E[ivd, :]
+    vdir = vd[ivd]
+
+    M0 = (parameters.Hm0 / 4) ** 2
+
+    # Energy flux
+    k = dispersion(freq, depth, n_iter=200, tol=1e-6)
+    kd = k * depth
+    c1 = 1 + 2 * kd / np.sinh(2 * kd)
+    c2 = np.sqrt(g * np.tanh(kd) / k)
+    cg = 0.5 * c1 * c2
+
+    # Energy flux
+    cgef = np.trapz(cg[:, np.newaxis] * E.T, x=vdir, axis=1)
+    parameters.CgE = water_density * g * np.trapz(cgef, x=freq)
+
+    # compute direction from (°)
+    aa = (E.T * np.cos(vdir)).T
+    bb = (E.T * np.sin(vdir)).T
+
+    af = np.trapz(aa, x=vdir, axis=0)
+    am = np.trapz(af, x=freq)
+
+    bf = np.trapz(bb, x=vdir, axis=0)
+    bm = np.trapz(bf, x=freq)
+
+    Thetam = (np.arctan2(bm, am) * 180 / np.pi) % 360
+
+    Spr = np.sqrt(2 * (1 - np.sqrt((am ** 2 + bm ** 2) / M0 ** 2)))
+    Spr = (Spr * 180 / np.pi) % 360
+
+    iEfm = np.trapz(E, x=vdir, axis=0).argmax()
+    aap = E[:, iEfm] * np.cos(vdir)
+    apm = np.trapz(aap, x=vdir)
+
+    bbp = E[:, iEfm] * np.sin(vdir)
+    bpm = np.trapz(bbp, x=vdir)
+
+    # Mean direction at peak frequency
+    Thetapm = (np.arctan2(bpm, apm) * 180 / np.pi) % 360
+
+    S2 = E ** 2
+    Qpf = np.trapz((S2 * freq).T, x=vdir)
+    MQ = np.trapz(Qpf, x=freq)
+
+    Qp = 2 * MQ / (M0 ** 2)
+
+    parameters.Thetam = Thetam
+    parameters.Thetapm = Thetapm
+    parameters.Spr = Spr
+    parameters.Qp = Qp
+
+    return parameters

@@ -2,6 +2,7 @@
 # coding: utf-8
 
 from scipy.constants import g
+from scipy.optimize import minimize
 import numpy as np
 
 
@@ -9,7 +10,7 @@ def dispersion(
     frequencies: np.ndarray,
     depth: float = float("inf"),
     n_iter: int = 200,
-    dx_rel: float = 1e-6,
+    tol: float = 1e-6,
 ) -> np.ndarray:
     """Compute the dispersion relation of waves
         Find *k* s.t. (2.pi.f)^2 = g.k.tanh(k.d)
@@ -22,9 +23,11 @@ def dispersion(
     depth:
         the depth
     n_iter:
-        the np.maximum np.number of iteration in the Newton-Raphson algorithm.
-    dx_rel:
-        the np.minimum variation of each step
+        the maximum number of iterations in the non linear solver algorithm.
+    tol:
+        Tolerance for termination. When tol is specified, the selected
+        minimization algorithm sets some relevant solver-specific tolerance(s)
+        equal to tol. For detailed control, use solver-specific options.
 
     Returns
     -------
@@ -49,27 +52,22 @@ def dispersion(
 
     """
 
+    frequencies = np.array(frequencies)
+    infinite_depth_dispersion = (4 * np.pi ** 2 / g) * frequencies ** 2
+
     if not np.isfinite(depth):
-        return (4 * np.pi ** 2 / g) * frequencies ** 2
+        return infinite_depth_dispersion
 
-    k = np.empty_like(frequencies)
-    for i, fi in enumerate(frequencies):
-        if fi == 0:
-            k[i] = 0
-            continue
+    def to_minimize(k):
+        return sum(((2 * np.pi * frequencies) ** 2 - g * k * np.tanh(k * depth)) ** 2)
 
-        c0 = (2 * np.pi * fi) ** 2
-        k0 = 4.0243 * fi ** 2
-        xk = k0
-        for ii in range(n_iter):
-            z = xk * depth
-            y = np.tanh(z)
-            ff = c0 - g * xk * y
-            dff = g * (z * (y ** 2 - 1) - y)
-            xk_prev = xk
-            xk = xk_prev - ff / dff
-            if abs((xk - xk_prev) / xk_prev) <= dx_rel:
-                break
+    result = minimize(
+        to_minimize,
+        x0=infinite_depth_dispersion,
+        tol=tol,
+        options={"maxiter": n_iter},
+    )
+    if result.success:
+        return result.x
 
-        k[i] = xk
-    return k
+    raise ValueError(result.message)
