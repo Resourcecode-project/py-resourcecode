@@ -6,26 +6,26 @@ Module to support operational planning
 The module allows calculating statistics of number of weather windows and/or
 statistics of length of operations, when accounting for weather downtime
 
-In this module weather window is defined as uninterrupted window of given 
-length, when the operational critera are met. The main deliverable is the 
+In this module weather window is defined as uninterrupted window of given
+length, when the operational critera are met. The main deliverable is the
 number (count) of weather windows (and various statistics around the number).
-The number of weather windows for a given period of time can be considered 
-back-to-back (next window is considered after the end of pervious window) 
-or for any timestamp - every timestamop is considered as potential start 
+The number of weather windows for a given period of time can be considered
+back-to-back (next window is considered after the end of pervious window)
+or for any timestamp - every timestamop is considered as potential start
 of a weather window
 
-The operational length is how long will it take to carry out the operation of 
-given nominal length, when taking into account weather downtime. Operational 
-length is provided in units of time. When calculating the length, operations 
-can be considered critical or non-critical. With critical operations, the 
+The operational length is how long will it take to carry out the operation of
+given nominal length, when taking into account weather downtime. Operational
+length is provided in units of time. When calculating the length, operations
+can be considered critical or non-critical. With critical operations, the
 full operations have to restart if criteria is exceeded. With non-critical
-operations, they can be paused for the bad weather and continued once the 
+operations, they can be paused for the bad weather and continued once the
 conditions meet the criteria
 
 The module, in order of execution to produce a full result, consists of:
 
-1. cris_check - method to check all the timestamps if the meet the 
-   operational criteria
+1. Use a pandas query to limit the dataset to the timestamps matching
+   operational criteria (`data.query("hs < 2 and tp < 3")` for instance)
 2. ww_calc - method to identify the weather windows
 3. oplen_calc - method to calculate operational length
 4. wwmonstats - method that produces monthly statistics of number of
@@ -33,7 +33,7 @@ The module, in order of execution to produce a full result, consists of:
 5. olmonstats - method that produces monthly statistics of operational
    length values
 
-IMPORTANT: read_data_temp - is a temporary method to be replaced by method to 
+IMPORTANT: read_data_temp - is a temporary method to be replaced by method to
 export the data directly from Casandra
 
 Created on Wed Dec  2 14:14:48 2020
@@ -45,56 +45,33 @@ import datetime as dt
 import numpy as np
 
 
-def crit_check(critinp, data, tstep=None):
+def _get_timestep(data: pd.DataFrame) -> pd.Timedelta:
     """
-    Method to check each datapoint if it meets the operational criteria.
+    Compute the data timestep, estimated using either:
+    - dataframe built-in methods
+    - directly as difference between the timestamps
 
     Parameters
     ----------
-    critinp : DICT
-        Dictionary where key ios the parameter name as in RCODE output and
-        the value is a list with first element being the relation sign and
-        second being the value. The method assums only 'AND' relationship.
-        Example: for operational (acceptable) conditions of Hs<2m and Tp<9sec
-        input is:
-            {'hs':['<',2],'tp':['<',9]}
-    data : PANDAS DATAFRAME
-        Dataframe containing the data.
-    tstep : TIMEDELTA, optional
-        If known, the original data timestep can be input. If 'None' the
-        method will attempt to estomate it through either dataframe built-in
-        methods or directly as difference between the timestamps.
-        The default is None.
+
+    data:
+        a dataframe resulting from the resourcode Client, with a
+        DateTimeIndex.
 
     Returns
     -------
-    critsubs : PANDAS DATAFRAME
-        Subset of original dataset containing only data that meets the
-        criteria
-    """
-    if tstep is None:
-        tsfrq = data.index.inferred_freq
-        if tsfrq is None:
-            tsdif = data.index.to_series().diff().abs()
-            tstep = tsdif[tsdif != dt.timedelta(0)].min()
-        else:
-            tstep = pd.to_timedelta(pd.tseries.frequencies.to_offset(tsfrq))
-    critexpr = "data[("
-    for var in critinp.keys():
-        critexpr = (
-            critexpr
-            + '(data["'
-            + var
-            + '"]'
-            + critinp[var][0]
-            + str(critinp[var][1])
-            + ") & "
-        )
-    critexpr = critexpr[:-3] + ")]"
-    critsubs = eval(critexpr)
 
-    critsubs.tstep = tstep
-    return critsubs
+    dt:
+        the estimated timestep
+    """
+
+    tsfrq = data.index.inferred_freq
+    if tsfrq is None:
+        tsdif = data.index.to_series().diff().abs()
+        tstep = tsdif[tsdif != dt.timedelta(0)].min()
+    else:
+        tstep = pd.to_timedelta(pd.tseries.frequencies.to_offset(tsfrq))
+    return tstep
 
 
 def ww_calc(critsubs, winlen, flag=0):
@@ -105,7 +82,7 @@ def ww_calc(critsubs, winlen, flag=0):
     ----------
     critsubs : PANDAS DATAFRAME
         Subset of original dataset containing only data that meets the
-        criteria, derived from crit_check method
+        criteria
     winlen : DOUBLE
         Length of the weather window in hours
     flag : INT,DOUBLE, optional
@@ -125,13 +102,14 @@ def ww_calc(critsubs, winlen, flag=0):
 
     """
     windetect = []
+    tstep = _get_timestep(critsubs)
     if flag == 0:  # back-to-back windows
         k = 0
         while k < (critsubs.shape[0] - 2):
             strtwin = critsubs.index.values[k]
             thistime = strtwin
             nexttime = critsubs.index.values[k + 1]
-            while pd.Timedelta(nexttime - thistime) <= critsubs.tstep and k < (
+            while pd.Timedelta(nexttime - thistime) <= tstep and k < (
                 critsubs.shape[0] - 2
             ):
                 k += 1
@@ -151,7 +129,7 @@ def ww_calc(critsubs, winlen, flag=0):
             strtwin = critsubs.index.values[k]
             thistime = strtwin
             nexttime = critsubs.index.values[k + 1]
-            while pd.Timedelta(nexttime - thistime) <= critsubs.tstep and k < (
+            while pd.Timedelta(nexttime - thistime) <= tstep and k < (
                 critsubs.shape[0] - 2
             ):
                 k += 1
@@ -182,7 +160,7 @@ def oplen_calc(critsubs, oplen, flag=0, date=1, monstrt=True):
 
     critsubs : PANDAS DATAFRAME
         Subset of original dataset containing only data that meets the
-        criteria, derived from crit_check method
+        criteria
     oplen : DOUBLE
         Nominal length of the operation (if no downtime), in hours
     flag : INT,DOUBLE
@@ -224,6 +202,7 @@ def oplen_calc(critsubs, oplen, flag=0, date=1, monstrt=True):
         operations in Timedelta format.
 
     """
+    tstep = _get_timestep(critsubs)
 
     if monstrt and isinstance(monstrt, bool):
         if isinstance(date, dt.datetime):
@@ -276,7 +255,7 @@ def oplen_calc(critsubs, oplen, flag=0, date=1, monstrt=True):
                     k += 1
                 if k >= (critsubs.shape[0] - 1):
                     stopflg = 1
-                dur = dur + critsubs.tstep
+                dur = dur + tstep
 
         elif flag == 1:  # critical ops
             count = 0
@@ -289,13 +268,10 @@ def oplen_calc(critsubs, oplen, flag=0, date=1, monstrt=True):
                 if k >= (critsubs.shape[0] - 1):
                     stopflg = 1
 
-                if (
-                    count > 0
-                    and (critsubs.index[k] - critsubs.index[k - 1]) <= critsubs.tstep
-                ):
-                    dur = dur + critsubs.tstep
+                if count > 0 and (critsubs.index[k] - critsubs.index[k - 1]) <= tstep:
+                    dur = dur + tstep
                 elif count == 0:
-                    dur = dur + critsubs.tstep
+                    dur = dur + tstep
                 else:
                     dur = dt.timedelta(seconds=0)
 

@@ -5,7 +5,7 @@ import pytest
 import pandas as pd
 import numpy as np
 
-from resourcecode.opsplanning import crit_check, ww_calc, wwmonstats
+from resourcecode.opsplanning import ww_calc, wwmonstats
 
 from . import DATA_DIR
 
@@ -23,11 +23,11 @@ def data():
 
 @pytest.fixture
 def criteria():
-    return {"hs": ["<", 2], "tp": ["<", 3]}
+    return "hs < 2 and tp < 3"
 
 
 def test_ww_calc_concurrent_window(data, criteria):
-    critsubs = crit_check(criteria, data)
+    critsubs = data.query(criteria)
     got_windows = ww_calc(critsubs, winlen=1, flag=0)
 
     assert (
@@ -57,7 +57,7 @@ def test_ww_calc_concurrent_window(data, criteria):
 
 
 def test_ww_calc_continuous_window(data, criteria):
-    critsubs = crit_check(criteria, data)
+    critsubs = data.query(criteria)
     got_windows = ww_calc(critsubs, winlen=1, flag=1)
 
     assert (
@@ -94,7 +94,7 @@ def test_ww_calc_continuous_window(data, criteria):
 
 
 def test_wwmonstats(data, criteria):
-    critsubs = crit_check(criteria, data)
+    critsubs = data.query(criteria)
     windows = ww_calc(critsubs, winlen=1)
     got_stats = wwmonstats(windows)
 
