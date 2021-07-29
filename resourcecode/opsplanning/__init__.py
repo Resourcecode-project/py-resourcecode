@@ -76,7 +76,7 @@ def _get_timestep(data: pd.DataFrame) -> pd.Timedelta:
 
 def ww_calc(
     critsubs: pd.DataFrame, winlen: float, concurrent_windows: bool = True
-) -> pd.DataFrame:
+) -> pd.Series:
     """
     Method that calculates and returns start date of each weather window
 
@@ -97,8 +97,8 @@ def ww_calc(
 
     Returns
     -------
-    windetect : PANDAS DATAFRAME
-        Dataframe containing the starting dates of weather windows
+    windetect : PANDAS Series
+        Series containing the starting dates of weather windows
 
     """
     windetect = []
@@ -144,8 +144,7 @@ def ww_calc(
             count += 1
             k = count
 
-    windetect = pd.DataFrame(windetect, columns=["WeatherWindowStrtDate"])
-    return windetect
+    return pd.Series(windetect)
 
 
 def oplen_calc(critsubs, oplen, flag=0, date=1, monstrt=True):
@@ -287,8 +286,8 @@ def wwmonstats(windetect, fileall=None, filestats=None):
 
     Parameters
     ----------
-    windetect : PANDAS DATAFRAME
-        Dataframe containing the starting dates of weather windows, produced
+    windetect : PANDAS Series
+        Series containing the starting dates of weather windows, produced
         using ww_calc method
     fileall : STRING, optional
         Full path name to file where the number of weather windows by month
@@ -303,8 +302,8 @@ def wwmonstats(windetect, fileall=None, filestats=None):
         Returns number of weather window by year/month.
 
     """
-    yeun = windetect.WeatherWindowStrtDate.dt.year.unique()
-    moun = windetect.WeatherWindowStrtDate.dt.month.unique()
+    yeun = windetect.dt.year.unique()
+    moun = windetect.dt.month.unique()
     yeun.sort()
     moun.sort()
     prcntl = [0.01, 0.05, 0.25, 0.5, 0.75, 0.95, 0.99]
@@ -313,9 +312,7 @@ def wwmonstats(windetect, fileall=None, filestats=None):
     )
     for idy, ye in enumerate(yeun):
         for idm, mo in enumerate(moun):
-            subs = windetect.WeatherWindowStrtDate[
-                windetect.WeatherWindowStrtDate.dt.year == ye
-            ][windetect.WeatherWindowStrtDate.dt.month == mo]
+            subs = windetect[windetect.dt.year == ye][windetect.dt.month == mo]
             wwmonres.at[ye, mo] = subs.shape[0]
     stats = wwmonres.describe(percentiles=prcntl)
     if fileall is not None:
