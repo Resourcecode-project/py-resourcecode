@@ -223,12 +223,18 @@ def oplen_calc(critsubs, oplen, flag=0, date=1, monstrt=True):
         )
         daterng = daterng.shift(dayval - 1, freq="D")
         oplendetect = pd.DataFrame(
-            np.zeros(daterng.shape[0]), index=daterng, columns=["OpLengthHrs"]
+            np.zeros(daterng.shape[0], dtype="timedelta64[s]"),
+            index=daterng,
+            columns=["OpLengthHrs"],
         )
     elif not (monstrt) and isinstance(monstrt, bool):
         if isinstance(date, dt.datetime):
             daterng = pd.date_range(start=date, end=date)
-            oplendetect = pd.DataFrame(data=0, index=daterng, columns=["OpLengthHrs"])
+            oplendetect = pd.DataFrame(
+                np.zeros(daterng.shape[0], dtype="timedelta64[s]"),
+                index=daterng,
+                columns=["OpLengthHrs"],
+            )
         else:
             msg = (
                 "Variable date in single result calculation should be"

@@ -5,7 +5,7 @@ import pytest
 import pandas as pd
 import numpy as np
 
-from resourcecode.opsplanning import ww_calc, wwmonstats
+from resourcecode.opsplanning import ww_calc, wwmonstats, oplen_calc
 
 from . import DATA_DIR
 
@@ -116,3 +116,54 @@ def test_wwmonstats(data, criteria):
     )
 
     assert expected_stats.equals(got_stats)
+
+
+def test_oplen_calc_non_critical_operation(data, criteria):
+    critsubs = data.query(criteria)
+
+    oplendetect_got = oplen_calc(critsubs, oplen=10, flag=0)
+
+    expected_operational_length_hours = pd.to_timedelta(
+        [
+            "91 days 15:00:00",
+            "98 days 23:00:00",
+            "69 days 12:00:00",
+            "39 days 12:00:00",
+            "17 days 08:00:00",
+            "32 days 08:00:00",
+            "62 days 10:00:00",
+            "82 days 00:00:00",
+            "68 days 13:00:00",
+            " 0 days 00:00:00",
+            " 0 days 00:00:00",
+        ]
+    )
+
+    assert (
+        oplendetect_got.OpLengthHrs.values == expected_operational_length_hours.values
+    ).all()
+
+
+def test_oplen_calc_critical_operation(data, criteria):
+    critsubs = data.query(criteria)
+
+    oplendetect_got = oplen_calc(critsubs, oplen=3, flag=1)
+    expected_operational_length_hours = pd.to_timedelta(
+        [
+            " 26 days 23:00:00",
+            "109 days 08:00:00",
+            " 78 days 08:00:00",
+            " 48 days 08:00:00",
+            " 17 days 08:00:00",
+            " 16 days 07:00:00",
+            "  0 days 00:00:00",
+            "  0 days 00:00:00",
+            "  0 days 00:00:00",
+            " 19 days 01:00:00",
+            "  0 days 00:00:00",
+        ]
+    )
+
+    assert (
+        oplendetect_got.OpLengthHrs.values == expected_operational_length_hours.values
+    ).all()
