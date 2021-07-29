@@ -7,6 +7,7 @@ import configparser
 import logging
 from pathlib import Path
 
+import numpy as np
 from numpy import triu_indices, tril_indices
 
 CONFIG_FILEPATHS = [
@@ -52,3 +53,20 @@ def set_trig(m, values, part="upper"):
 
     for n, (i, j) in enumerate(zip(*tri_indices)):
         m[i, j] = values[n]
+
+
+def haversine(lon1, lat1, lon2, lat2):
+    """
+    Calculate the great circle distance between two points
+    on the earth (specified in decimal degrees)
+    """
+    EARTH_RADIUS_METER = 6367e3
+    lon1, lat1, lon2, lat2 = map(np.radians, [lon1, lat1, lon2, lat2])
+
+    dlon = lon2 - lon1
+    dlat = lat2 - lat1
+
+    a = np.sin(dlat / 2.0) ** 2 + np.cos(lat1) * np.cos(lat2) * np.sin(dlon / 2.0) ** 2
+
+    c = 2 * np.arcsin(np.sqrt(a))
+    return c * EARTH_RADIUS_METER

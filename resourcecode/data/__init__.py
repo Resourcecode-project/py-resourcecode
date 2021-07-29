@@ -1,10 +1,14 @@
 #!/usr/bin/env python3
 # coding: utf-8
 
+from typing import Tuple, Any
 from functools import partial
 from pathlib import Path
 
+import pandas as pd
 import pyarrow.feather as feather
+
+from resourcecode.utils import haversine
 
 DATA_DIR = Path(__file__).parent
 
@@ -81,6 +85,63 @@ The default returned columns are: name, longname, unit
 {COMMON_PARAMETERS}
 """
 
+
+def _get_closest(
+    dataset: pd.DataFrame, latitude: float, longitude: float, returned_attribute: str
+) -> Tuple[Any, float]:
+    distances = haversine(
+        dataset.latitude,
+        dataset.longitude,
+        latitude,
+        longitude,
+    )
+
+    min_idx = distances.idxmin()
+    return dataset.loc[min_idx, returned_attribute], distances[min_idx].round(2)
+
+
+def get_closest_point(latitude: float, longitude: float) -> Tuple[int, float]:
+    """Get the closest point in the mesh, from the given position
+
+    Parameters
+    ----------
+
+    latitude
+        the latitude in decimal degrees
+    longitude
+        the latitude in decimal degrees
+
+    Return
+    ------
+
+    (pointId, distance)
+        the corresponding point id, and its distance in meters, to the requested
+        coordinates
+    """
+    return _get_closest(get_grid_field(), latitude, longitude, "node")
+
+
+def get_closest_station(latitude: float, longitude: float) -> Tuple[str, float]:
+    """Get the closest station name from the given position
+
+    Parameters
+    ----------
+
+    latitude
+        the latitude in decimal degrees
+    longitude
+        the latitude in decimal degrees
+
+    Return
+    ------
+
+    (station name, distance)
+        the corresponding station name, and its distance in meters, to the
+        requested coordinates
+    """
+    return _get_closest(get_grid_spec(), latitude, longitude, "name")
+
+
 __all__ = [
     "get_coastlines",
     "get_grid_field",
@@ -88,4 +149,6 @@ __all__ = [
     "get_islands",
     "get_triangles",
     "get_variables",
+    "get_closest_point",
+    "get_closest_station",
 ]

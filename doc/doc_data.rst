@@ -1,5 +1,5 @@
-Helpers to get load embedded data
-=================================
+Helpers to get embedded data
+============================
 
 .. automodule:: resourcecode.data
     :members:
