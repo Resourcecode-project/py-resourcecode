@@ -12,6 +12,8 @@ import pandas as pd
 import numpy as np
 
 from resourcecode.utils import get_config
+from resourcecode.data import get_variables
+from resourcecode.exceptions import BadParameterError
 
 
 class Client:
@@ -38,6 +40,7 @@ class Client:
 
     def __init__(self):
         self.config = get_config()
+        self.possible_parameters = set(get_variables().name)
 
     @property
     def cassandra_base_url(self):
@@ -180,6 +183,15 @@ class Client:
             parsed_criteria["parameter"] = parsed_criteria["parameters"]
 
         result_array = None
+        parameters = parsed_criteria.get("parameter", ())
+        unknown_parameters = set(parameters) - self.possible_parameters
+        if unknown_parameters:
+            raise BadParameterError(
+                f"{','.join(unknown_parameters)} parameter(s) is/are unknown. "
+                "Please have to look to `resourcecode.data.get_variables()`, "
+                "to get the accepted parameters."
+            )
+
         for parameter in parsed_criteria.get("parameter", ()):
             # we assume that multiple parameters can be given.
             # for each parameter, we make a query and we concatenate all the

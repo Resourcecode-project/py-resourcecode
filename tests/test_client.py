@@ -9,6 +9,7 @@ import pytest
 import pandas as pd
 
 import resourcecode
+from resourcecode.exceptions import BadParameterError
 
 from . import DATA_DIR
 
@@ -78,6 +79,28 @@ def test_import_client():
     # remove this tests when a real test can be achieved.
     client = resourcecode.Client()
     assert client.config.get("default", "cassandra-base-url")
+
+
+def test_unknown_parameters():
+    client = resourcecode.Client()
+
+    with mock.patch("requests.get", side_effect=mock_requests_get_raw_data):
+        assert not client.get_dataframe(
+            pointId=1,
+            parameters=[
+                "hs",
+            ],
+        ).empty
+
+        with pytest.raises(BadParameterError) as excinfo:
+            # hs_max does not exist
+            client.get_dataframe(
+                pointId=1,
+                parameters=[
+                    "hs_max",
+                ],
+            )
+        assert "hs_max" in str(excinfo.value)
 
 
 def test_get_raw_data():
