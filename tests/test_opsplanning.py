@@ -5,7 +5,7 @@ import pytest
 import pandas as pd
 import numpy as np
 
-from resourcecode.opsplanning import ww_calc, wwmonstats, oplen_calc
+from resourcecode.opsplanning import ww_calc, wwmonstats, oplen_calc, olmonstats
 
 from . import DATA_DIR
 
@@ -167,3 +167,31 @@ def test_oplen_calc_critical_operation(data, criteria):
     assert (
         oplendetect_got.OpLengthHrs.values == expected_operational_length_hours.values
     ).all()
+
+
+def test_olmonstats(data, criteria):
+    critsubs = data.query(criteria)
+    oplendetect = oplen_calc(critsubs, oplen=10)
+    got_stats = olmonstats(oplendetect)
+
+    expected_stats = pd.DataFrame(
+        [
+            [
+                2199.0,
+                2375.0,
+                1668.0,
+                948.0,
+                416.0,
+                776.0,
+                1498.0,
+                1968.0,
+                1645.0,
+                0.0,
+                0.0,
+            ]
+        ],
+        columns=range(2, 13),
+        index=[2005],
+    )
+
+    assert expected_stats.equals(got_stats)
