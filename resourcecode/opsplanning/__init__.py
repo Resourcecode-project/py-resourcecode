@@ -372,12 +372,7 @@ def olmonstats(oplendetect, fileall=None, filestats=None):
     )
     for ye, mo in product(yeun, moun):
         subs = oplendetect[
-            np.array(
-                [
-                    oplendetect.index.year == ye,
-                    oplendetect.index.month == mo,
-                ]
-            ).all(axis=0)
+            (oplendetect.index.year == ye) & (oplendetect.index.month == mo)
         ]
         olmonres.at[ye, mo] = subs[0].days * 24 + subs[0].seconds / 3600
 
@@ -390,11 +385,6 @@ def olmonstats(oplendetect, fileall=None, filestats=None):
         stats.to_csv(
             filestats, index=True, float_format="%.3f", index_label="Stats", header=True
         )
-
-    pltst = stats.transpose().plot()
-    pltst.set_xlabel("Month")
-    pltst.set_ylabel("Operational Length [hrs]")
-    pltal = olmonres.plot()
-    pltal.set_xlabel("Year")
-    pltal.set_ylabel("Operational Length [hrs]")
+    #    pltal.set_xlabel("Year")
+    #    pltal.set_ylabel("Operational Length [hrs]")
     return olmonres
