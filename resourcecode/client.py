@@ -262,7 +262,7 @@ class Client:
         return pd.DataFrame(
             result_array[:, 1:],
             columns=parsed_criteria["parameter"],
-            index=pd.to_datetime(index_array.astype(int), unit="ms"),
+            index=pd.to_datetime(index_array.astype(np.int64), unit="ms"),
         )
 
     def _get_rawdata_from_criteria(self, single_parameter_criteria):
