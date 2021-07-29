@@ -139,9 +139,7 @@ def test_oplen_calc_non_critical_operation(data, criteria):
         ]
     )
 
-    assert (
-        oplendetect_got.OpLengthHrs.values == expected_operational_length_hours.values
-    ).all()
+    assert (oplendetect_got.values == expected_operational_length_hours.values).all()
 
 
 def test_oplen_calc_critical_operation(data, criteria):
@@ -164,9 +162,7 @@ def test_oplen_calc_critical_operation(data, criteria):
         ]
     )
 
-    assert (
-        oplendetect_got.OpLengthHrs.values == expected_operational_length_hours.values
-    ).all()
+    assert (oplendetect_got.values == expected_operational_length_hours.values).all()
 
 
 def test_olmonstats(data, criteria):

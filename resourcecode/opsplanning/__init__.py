@@ -195,8 +195,8 @@ def oplen_calc(critsubs, oplen, flag=0, date=1, monstrt=True):
 
     Returns
     -------
-    oplendetect : PANDAS DATAFRAME
-        Output dataframe where indexes reflect the start date of the
+    oplendetect : PANDAS Series
+        Output pandas series where indexes reflect the start date of the
         operation and the OpLengthHrs column shows the length of the
         operations in Timedelta format.
 
@@ -222,18 +222,14 @@ def oplen_calc(critsubs, oplen, flag=0, date=1, monstrt=True):
             freq="MS",
         )
         daterng = daterng.shift(dayval - 1, freq="D")
-        oplendetect = pd.DataFrame(
-            np.zeros(daterng.shape[0], dtype="timedelta64[s]"),
-            index=daterng,
-            columns=["OpLengthHrs"],
+        oplendetect = pd.Series(
+            np.zeros(daterng.shape[0], dtype="timedelta64[s]"), index=daterng
         )
     elif not (monstrt) and isinstance(monstrt, bool):
         if isinstance(date, dt.datetime):
             daterng = pd.date_range(start=date, end=date)
-            oplendetect = pd.DataFrame(
-                np.zeros(daterng.shape[0], dtype="timedelta64[s]"),
-                index=daterng,
-                columns=["OpLengthHrs"],
+            oplendetect = pd.Series(
+                np.zeros(daterng.shape[0], dtype="timedelta64[s]"), index=daterng
             )
         else:
             msg = (
@@ -255,7 +251,7 @@ def oplen_calc(critsubs, oplen, flag=0, date=1, monstrt=True):
             while stopflg == 0:
                 if dur >= dt.timedelta(seconds=3600 * oplen):
                     stopflg = 1
-                    oplendetect.at[strtime, "OpLengthHrs"] = critsubs.index[k] - strtime
+                    oplendetect.at[strtime] = critsubs.index[k] - strtime
                 else:
                     k += 1
                 if k >= (critsubs.shape[0] - 1):
@@ -267,7 +263,7 @@ def oplen_calc(critsubs, oplen, flag=0, date=1, monstrt=True):
             while stopflg == 0:
                 if dur >= dt.timedelta(seconds=3600 * oplen):
                     stopflg = 1
-                    oplendetect.at[strtime, "OpLengthHrs"] = critsubs.index[k] - strtime
+                    oplendetect.at[strtime] = critsubs.index[k] - strtime
                 else:
                     k += 1
                 if k >= (critsubs.shape[0] - 1):
@@ -348,8 +344,8 @@ def olmonstats(oplendetect, fileall=None, filestats=None):
 
     Parameters
     ----------
-    oplendetect : PANDAS DATAFRAME
-        Dataframe containing the starting dates and corresponding operational
+    oplendetect : PANDAS Series
+        Series containing the starting dates and corresponding operational
         lengths, produced using oplen_calc method.
     fileall : STRING, optional
         Full path name to file where the operational length by month
@@ -364,8 +360,8 @@ def olmonstats(oplendetect, fileall=None, filestats=None):
         Returns operational length in hours by year/month.
 
     """
-    yeun = oplendetect.OpLengthHrs.index.year.unique().to_numpy()
-    moun = oplendetect.OpLengthHrs.index.month.unique().to_numpy()
+    yeun = oplendetect.index.year.unique().to_numpy()
+    moun = oplendetect.index.month.unique().to_numpy()
 
     moun.sort()
     yeun.sort()
@@ -375,11 +371,11 @@ def olmonstats(oplendetect, fileall=None, filestats=None):
         np.zeros([yeun.shape[0], moun.shape[0]]), columns=moun, index=yeun
     )
     for ye, mo in product(yeun, moun):
-        subs = oplendetect.OpLengthHrs[
+        subs = oplendetect[
             np.array(
                 [
-                    oplendetect.OpLengthHrs.index.year == ye,
-                    oplendetect.OpLengthHrs.index.month == mo,
+                    oplendetect.index.year == ye,
+                    oplendetect.index.month == mo,
                 ]
             ).all(axis=0)
         ]
