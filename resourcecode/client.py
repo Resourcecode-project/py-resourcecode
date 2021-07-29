@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 
+import sys
 import json
 from urllib.parse import urljoin, urlparse, parse_qs
 from datetime import datetime
@@ -210,6 +211,15 @@ class Client:
                 result_array = parameter_array
                 index_array = parameter_array[:, 0]
                 mask_index_nan = np.isnan(index_array)
+            except Exception:
+                if raw_data["query"]["dataSetSize"] == 0:
+                    print(
+                        "It appears the API failed to returned the expected values. "
+                        "You may try to recall the function in a few moment.",
+                        file=sys.stderr,
+                    )
+                    return pd.DataFrame()
+                raise
 
             # the index may be incomplete in some cases (when the variable is
             # NaN).
