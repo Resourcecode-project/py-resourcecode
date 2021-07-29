@@ -331,6 +331,7 @@ def wwmonstats(windetect, fileall=None, filestats=None):
     yeun = windetect.WeatherWindowStrtDate.dt.year.unique()
     moun = windetect.WeatherWindowStrtDate.dt.month.unique()
     yeun.sort()
+    moun.sort()
     prcntl = [0.01, 0.05, 0.25, 0.5, 0.75, 0.95, 0.99]
     wwmonres = pd.DataFrame(
         np.zeros([yeun.shape[0], moun.shape[0]]), columns=moun, index=yeun
