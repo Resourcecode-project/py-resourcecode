@@ -45,29 +45,6 @@ import datetime as dt
 import numpy as np
 
 
-def read_data_temp(fname):
-    """
-    Temporary method to import test dataset in pandas dataframe used by RCODE
-    data extraction module
-
-    Parameters
-    ----------
-    fname : STRING
-        Full path to the csv file, which includes test data (hs, t0m1 and cge)
-
-    Returns
-    -------
-    df : PANDAS DATAFRAME
-        Pandas datframe contraining tyhe data from the csv file, replicating
-        dataframe created by RCODE data extraction method
-    """
-    custom_date_parser = lambda x: dt.datetime.strptime(x, "%d/%m/%Y %H:%M")
-    df = pd.read_csv(
-        fname, parse_dates=[0], index_col="DateTime", date_parser=custom_date_parser
-    )  # parse_dates=['DateTime']
-    return df
-
-
 def crit_check(critinp, data, tstep=None):
     """
     Method to check each datapoint if it meets the operational criteria.
@@ -95,13 +72,11 @@ def crit_check(critinp, data, tstep=None):
         Subset of original dataset containing only data that meets the
         criteria
     """
-    if tstep == None:
+    if tstep is None:
         tsfrq = data.index.inferred_freq
-        if tsfrq == None:
+        if tsfrq is None:
             tsdif = data.index.to_series().diff().abs()
-            print(tsdif)
             tstep = tsdif[tsdif != dt.timedelta(0)].min()
-            print(tstep)
         else:
             tstep = pd.to_timedelta(pd.tseries.frequencies.to_offset(tsfrq))
     critexpr = "data[("
@@ -124,7 +99,7 @@ def crit_check(critinp, data, tstep=None):
 
 def ww_calc(critsubs, winlen, flag=0):
     """
-    Mthod that calculates and returns start date of each weather window
+    Method that calculates and returns start date of each weather window
 
     Parameters
     ----------
@@ -350,7 +325,7 @@ def wwmonstats(windetect, fileall=None, filestats=None):
     Returns
     -------
     wwmonres : PANDAS DATAFRAME
-        Returns numer of weather window by year/month.
+        Returns number of weather window by year/month.
 
     """
     yeun = windetect.WeatherWindowStrtDate.dt.year.unique()
@@ -367,11 +342,11 @@ def wwmonstats(windetect, fileall=None, filestats=None):
             ][windetect.WeatherWindowStrtDate.dt.month == mo]
             wwmonres.at[ye, mo] = subs.shape[0]
     stats = wwmonres.describe(percentiles=prcntl)
-    if fileall != None:
+    if fileall is not None:
         wwmonres.to_csv(
             fileall, index=True, index_label="Year", header=True, float_format="%.1f"
         )
-    if filestats != None:
+    if filestats is not None:
         stats.to_csv(
             filestats, index=True, float_format="%.3f", index_label="Stats", header=True
         )
@@ -431,11 +406,11 @@ def olmonstats(oplendetect, fileall=None, filestats=None):
             olmonres.at[ye, mo] = subs[0].days * 24 + subs[0].seconds / 3600
 
     stats = olmonres.describe(percentiles=prcntl)
-    if fileall != None:
+    if fileall is not None:
         olmonres.to_csv(
             fileall, index=True, index_label="Year", header=True, float_format="%.1f"
         )
-    if filestats != None:
+    if filestats is not None:
         stats.to_csv(
             filestats, index=True, float_format="%.3f", index_label="Stats", header=True
         )
