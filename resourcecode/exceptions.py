@@ -6,3 +6,9 @@ class BadParameterError(ValueError):
     """Exception raised when user queried an unknown parameter"""
 
     pass
+
+
+class BadPointIdError(ValueError):
+    """Exception raised when user queried an unknown pointId"""
+
+    pass

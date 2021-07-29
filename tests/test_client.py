@@ -9,7 +9,7 @@ import pytest
 import pandas as pd
 
 import resourcecode
-from resourcecode.exceptions import BadParameterError
+from resourcecode.exceptions import BadPointIdError, BadParameterError
 
 from . import DATA_DIR
 
@@ -81,7 +81,7 @@ def test_import_client():
     assert client.config.get("default", "cassandra-base-url")
 
 
-def test_unknown_parameters():
+def test_unknown_parameters_and_pointid():
     client = resourcecode.Client()
 
     with mock.patch("requests.get", side_effect=mock_requests_get_raw_data):
@@ -91,6 +91,22 @@ def test_unknown_parameters():
                 "hs",
             ],
         ).empty
+
+        with pytest.raises(BadPointIdError):
+            client.get_dataframe(
+                pointId="abc",
+                parameters=[
+                    "hs",
+                ],
+            )
+
+        with pytest.raises(BadPointIdError):
+            client.get_dataframe(
+                pointId=328031,
+                parameters=[
+                    "hs",
+                ],
+            )
 
         with pytest.raises(BadParameterError) as excinfo:
             # hs_max does not exist

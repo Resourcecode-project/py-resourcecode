@@ -12,8 +12,8 @@ import pandas as pd
 import numpy as np
 
 from resourcecode.utils import get_config
-from resourcecode.data import get_variables
-from resourcecode.exceptions import BadParameterError
+from resourcecode.data import get_variables, get_grid_field
+from resourcecode.exceptions import BadParameterError, BadPointIdError
 
 
 class Client:
@@ -30,7 +30,7 @@ class Client:
         ...     "https://resourcecode.ifremer.fr/explore/?pointId=42"
         ... )
         >>> data = client.get_dataframe(
-        ...     pointId=0,
+        ...     pointId=42,
         ...     startDateTime="2017-01-01T00:53:20",
         ...     endDateTime="2017-03-19T07:06:40",
         ...     parameters=["hs", "fp"],
@@ -41,6 +41,7 @@ class Client:
     def __init__(self):
         self.config = get_config()
         self.possible_parameters = set(get_variables().name)
+        self.possible_points_id = set(get_grid_field().node)
 
     @property
     def cassandra_base_url(self):
@@ -164,7 +165,7 @@ class Client:
         min_date = self.config.get("default", "min-start-date")
         max_date = datetime.today().isoformat()
         default_criteria = {
-            "node": 0,
+            "node": 1,
             "start": int(datetime.fromisoformat(min_date).timestamp()),
             "end": int(datetime.fromisoformat(max_date).timestamp()),
         }
@@ -191,6 +192,19 @@ class Client:
                 "Please have to look to `resourcecode.data.get_variables()`, "
                 "to get the accepted parameters."
             )
+
+        try:
+            node_id = int(parsed_criteria["node"])
+        except ValueError:  # failed to convert node to an integer
+            raise BadPointIdError(
+                "Point Id must be an integer, can not be "
+                f"{parsed_criteria['node']!r}"
+            )
+        else:
+            if node_id not in self.possible_points_id:
+                raise BadPointIdError(
+                    f"{parsed_criteria['node']} is an unknown pointId."
+                )
 
         for parameter in parsed_criteria.get("parameter", ()):
             # we assume that multiple parameters can be given.
