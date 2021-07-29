@@ -39,6 +39,7 @@ export the data directly from Casandra
 Created on Wed Dec  2 14:14:48 2020
 @author: david.darbinyan
 """
+from itertools import product
 
 import pandas as pd
 import datetime as dt
@@ -310,10 +311,11 @@ def wwmonstats(windetect, fileall=None, filestats=None):
     wwmonres = pd.DataFrame(
         np.zeros([yeun.shape[0], moun.shape[0]]), columns=moun, index=yeun
     )
-    for idy, ye in enumerate(yeun):
-        for idm, mo in enumerate(moun):
-            subs = windetect[windetect.dt.year == ye][windetect.dt.month == mo]
-            wwmonres.at[ye, mo] = subs.shape[0]
+
+    for ye, mo in product(yeun, moun):
+        subs = windetect[(windetect.dt.year == ye) & (windetect.dt.month == mo)]
+        wwmonres.at[ye, mo] = subs.shape[0]
+
     stats = wwmonres.describe(percentiles=prcntl)
     if fileall is not None:
         wwmonres.to_csv(
@@ -366,17 +368,16 @@ def olmonstats(oplendetect, fileall=None, filestats=None):
     olmonres = pd.DataFrame(
         np.zeros([yeun.shape[0], moun.shape[0]]), columns=moun, index=yeun
     )
-    for idy, ye in enumerate(yeun):
-        for idm, mo in enumerate(moun):
-            subs = oplendetect.OpLengthHrs[
-                np.array(
-                    [
-                        oplendetect.OpLengthHrs.index.year == ye,
-                        oplendetect.OpLengthHrs.index.month == mo,
-                    ]
-                ).all(axis=0)
-            ]
-            olmonres.at[ye, mo] = subs[0].days * 24 + subs[0].seconds / 3600
+    for ye, mo in product(yeun, moun):
+        subs = oplendetect.OpLengthHrs[
+            np.array(
+                [
+                    oplendetect.OpLengthHrs.index.year == ye,
+                    oplendetect.OpLengthHrs.index.month == mo,
+                ]
+            ).all(axis=0)
+        ]
+        olmonres.at[ye, mo] = subs[0].days * 24 + subs[0].seconds / 3600
 
     stats = olmonres.describe(percentiles=prcntl)
     if fileall is not None:
