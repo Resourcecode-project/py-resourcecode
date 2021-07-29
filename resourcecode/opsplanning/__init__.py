@@ -74,7 +74,9 @@ def _get_timestep(data: pd.DataFrame) -> pd.Timedelta:
     return tstep
 
 
-def ww_calc(critsubs, winlen, flag=0):
+def ww_calc(
+    critsubs: pd.DataFrame, winlen: float, concurrent_windows: bool = True
+) -> pd.DataFrame:
     """
     Method that calculates and returns start date of each weather window
 
@@ -83,17 +85,15 @@ def ww_calc(critsubs, winlen, flag=0):
     critsubs : PANDAS DATAFRAME
         Subset of original dataset containing only data that meets the
         criteria
-    winlen : DOUBLE
+    winlen : float
         Length of the weather window in hours
-    flag : INT,DOUBLE, optional
-        Flag having value 0 or 1.
-        Flag 0 is for concurrent windows:
-            Algorithm searches for window, If a window is found, search of next
-            window will start from the end of the previous window.
-        Flag 1 is for continuous window search:
-            Algorithm searches for window starting from every time step that
-            meets the criteria.
-        The default is 0.
+    concurrent_windows: bool
+        If True, the algorithm searches for window, if a window is found,
+        search of next window will start from the end of the previous window.
+
+        If False, it uses continuous window search:
+            The algorithm searches for window starting from every time step
+            that meets the criteria.
 
     Returns
     -------
@@ -103,7 +103,7 @@ def ww_calc(critsubs, winlen, flag=0):
     """
     windetect = []
     tstep = _get_timestep(critsubs)
-    if flag == 0:  # back-to-back windows
+    if concurrent_windows:  # back-to-back windows
         k = 0
         while k < (critsubs.shape[0] - 2):
             strtwin = critsubs.index.values[k]
@@ -122,7 +122,7 @@ def ww_calc(critsubs, winlen, flag=0):
                     thistime = critsubs.index.values[k]
                     nexttime = critsubs.index.values[k + 1]
             k += 1
-    elif flag == 1:  # any start time
+    else:  # any start time
         k = 0
         count = 0
         while k < (critsubs.shape[0] - 2):
@@ -143,8 +143,7 @@ def ww_calc(critsubs, winlen, flag=0):
                     nexttime = critsubs.index.values[k + 1]
             count += 1
             k = count
-    else:
-        raise NameError("Flag value should be 0 or 1")
+
     windetect = pd.DataFrame(windetect, columns=["WeatherWindowStrtDate"])
     return windetect
 

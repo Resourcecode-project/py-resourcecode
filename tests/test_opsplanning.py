@@ -28,7 +28,7 @@ def criteria():
 
 def test_ww_calc_concurrent_window(data, criteria):
     critsubs = data.query(criteria)
-    got_windows = ww_calc(critsubs, winlen=1, flag=0)
+    got_windows = ww_calc(critsubs, winlen=1, concurrent_windows=True)
 
     assert (
         got_windows.values
@@ -58,7 +58,7 @@ def test_ww_calc_concurrent_window(data, criteria):
 
 def test_ww_calc_continuous_window(data, criteria):
     critsubs = data.query(criteria)
-    got_windows = ww_calc(critsubs, winlen=1, flag=1)
+    got_windows = ww_calc(critsubs, winlen=1, concurrent_windows=False)
 
     assert (
         got_windows.values
