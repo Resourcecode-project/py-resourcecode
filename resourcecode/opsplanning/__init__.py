@@ -178,7 +178,7 @@ def oplen_calc(critsubs, oplen, flag=0, date=1, monstrt=True):
         If the method is used for one off operational length calulation
         (see monstrt) the start date in DATETIME format should be defined
         If the method is used for producing a monthly statistics of operational
-        lengths for opearations starting on the day of month deined as integer
+        lengths for opearations starting on the day of month defined as integer
         in date parameter. The default is 1 (with default monstrt = True)
     monstrt : BOOLEAN, optional
         Calculate operational lengths for monthly start dates or for a specific
@@ -196,7 +196,7 @@ def oplen_calc(critsubs, oplen, flag=0, date=1, monstrt=True):
     Returns
     -------
     oplendetect : PANDAS DATAFRAME
-        Ouutput dataframe where indexes reflect the start date of the
+        Output dataframe where indexes reflect the start date of the
         operation and the OpLengthHrs column shows the length of the
         operations in Timedelta format.
 
@@ -211,7 +211,7 @@ def oplen_calc(critsubs, oplen, flag=0, date=1, monstrt=True):
         else:
             msg = (
                 "Variable date in monthly results calculation should be"
-                + " positive integer or datetime object"
+                " positive integer or datetime object"
             )
             raise NameError(msg)
         yerng = [min(critsubs.index).year, max(critsubs.index).year]
@@ -238,7 +238,7 @@ def oplen_calc(critsubs, oplen, flag=0, date=1, monstrt=True):
         else:
             msg = (
                 "Variable date in single result calculation should be"
-                + " a datetime object"
+                " a datetime object"
             )
             raise NameError(msg)
     else:
