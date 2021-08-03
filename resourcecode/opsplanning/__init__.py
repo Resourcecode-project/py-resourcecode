@@ -282,7 +282,7 @@ def oplen_calc(critsubs, oplen, flag=0, date=1, monstrt=True):
     return oplendetect
 
 
-def wwmonstats(windetect, fileall=None, filestats=None):
+def wwmonstats(windetect):
     """
     Method to produce monthly statistics of weather windows. Produces plots
     and, optionally, can save the results in csv files
@@ -292,12 +292,6 @@ def wwmonstats(windetect, fileall=None, filestats=None):
     windetect : PANDAS Series
         Series containing the starting dates of weather windows, produced
         using ww_calc method
-    fileall : STRING, optional
-        Full path name to file where the number of weather windows by month
-        and year are saved on csv format. The default is None (don't save)
-    filestats : STRING, optional
-        Full path name to file where the monthly statistics of weather windows
-        are saved in csv format. The default is None (don't save)
 
     Returns
     -------
@@ -308,8 +302,6 @@ def wwmonstats(windetect, fileall=None, filestats=None):
     yeun = windetect.dt.year.unique()
     moun = windetect.dt.month.unique()
     yeun.sort()
-    moun.sort()
-    prcntl = [0.01, 0.05, 0.25, 0.5, 0.75, 0.95, 0.99]
     wwmonres = pd.DataFrame(
         np.zeros([yeun.shape[0], moun.shape[0]]), columns=moun, index=yeun
     )
@@ -318,22 +310,6 @@ def wwmonstats(windetect, fileall=None, filestats=None):
         subs = windetect[(windetect.dt.year == ye) & (windetect.dt.month == mo)]
         wwmonres.at[ye, mo] = subs.shape[0]
 
-    stats = wwmonres.describe(percentiles=prcntl)
-    if fileall is not None:
-        wwmonres.to_csv(
-            fileall, index=True, index_label="Year", header=True, float_format="%.1f"
-        )
-    if filestats is not None:
-        stats.to_csv(
-            filestats, index=True, float_format="%.3f", index_label="Stats", header=True
-        )
-
-    pltst = stats.transpose().plot()
-    pltst.set_xlabel("Month")
-    pltst.set_ylabel("Number of Weather Windows")
-    pltal = wwmonres.plot()
-    pltal.set_xlabel("Year")
-    pltal.set_ylabel("Number of Weather Windows")
     return wwmonres
 
 
