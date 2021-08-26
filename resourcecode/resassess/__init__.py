@@ -19,7 +19,10 @@ Created on Wed Dec  2 14:14:48 2020
 import pandas as pd
 import datetime as dt
 import numpy as np
-from matplotlib import pyplot as plt
+import plotly.express as px
+import plotly.graph_objects as go
+
+pd.options.plotting.backend = "plotly"
 
 
 def exceed(df):
@@ -67,70 +70,59 @@ def univar_monstats(df, varnm):
         Contains monthly statistics for the chosen variable.
     """
 
-    yeun = df.index.year.unique()
-    moun = df.index.month.unique()
+    # sort rows according to the variable selected
+    sorted_df = df[[varnm]].sort_values(by=varnm)
 
-    dtm = pd.DataFrame(
-        np.zeros([moun.shape[0], 4]),
-        columns=["Min", "Mean", "Max", "St.Dev."],
-        index=moun,
-    )
-    dty = pd.DataFrame(
-        np.zeros([yeun.shape[0], 4]),
-        columns=["Min", "Mean", "Max", "St.Dev."],
-        index=yeun,
-    )
-    for mo in moun:
-        subs = df[varnm][df[varnm].index.month == mo]
-        monm = dt.datetime(2000, mo, 1).strftime("%b")
-        dtm.at[mo, "Min"] = subs.min()
-        dtm.at[mo, "Mean"] = subs.mean()
-        dtm.at[mo, "Max"] = subs.max()
-        dtm.at[mo, "St.Dev."] = subs.std()
-        dsrt, excd = exceed(subs)
-        print('Coucou', subs)
-        plt.plot(dsrt, excd, label=monm)
-        plt.xlabel(varnm)
-        plt.ylabel("Exceedance")
-        plt.legend()
-    if varnm == "cge":
-        plt.xscale("log")
-    plt.show()
-    for ye in yeun:
-        subs = df[varnm][df[varnm].index.year == ye]
-        dty.at[ye, "Min"] = subs.min()
-        dty.at[ye, "Mean"] = subs.mean()
-        dty.at[ye, "Max"] = subs.max()
-        dty.at[ye, "St.Dev."] = subs.std()
-    plt.plot(moun, dtm["Mean"], label="Mean")
-    plt.plot(moun, dtm["Min"], label="Min")
-    plt.plot(moun, dtm["Max"], label="Max")
-    plt.fill_between(
-        moun,
-        dtm["Mean"] - dtm["St.Dev."],
-        dtm["Mean"] + dtm["St.Dev."],
-        alpha=0.5,
-        label="St.Dev",
-    )
-    plt.xlabel("Month")
-    plt.ylabel(varnm)
-    plt.legend()
-    plt.show()
-    plt.plot(yeun, dty["Mean"], label="Mean")
-    plt.plot(yeun, dty["Min"], label="Min")
-    plt.plot(yeun, dty["Max"], label="Max")
-    plt.fill_between(
-        yeun,
-        dty["Mean"] - dty["St.Dev."],
-        dty["Mean"] + dty["St.Dev."],
-        alpha=0.5,
-        label="St.Dev",
-    )
-    plt.xlabel("Year")
-    plt.ylabel(varnm)
-    plt.legend()
-    plt.show()
-    return dty, dtm
+    # Extract some time information
+    sorted_df["month_index"] = sorted_df.index.month
+    sorted_df["month"] = sorted_df.index.month_name()
+    sorted_df["year"] = sorted_df.index.year
+
+    # Compute the percentile of rows inside each group (pct == percentage).
+    sorted_df['Exceedance'] = sorted_df.groupby('month')[varnm].rank(method='min', pct=True)
+    sorted_df.plot.line(x=varnm, y="Exceedance", color='month',
+                        line_group="month")
+
+    res = []
+
+    # For month, groups on month_index (number) and month (name) to keep month order
+    for groups in (["month_index", "month"], ["year"]):
+        # describe get mean, min, max, stdev, 25%, 50% and 75% and count
+        dtm = sorted_df.groupby(groups)[varnm].describe()
+        # reset_index to get index as column (e.g. month and month_index )
+        dtm = dtm.reset_index()
+        res.append(dtm)
+
+        fig = px.line(dtm, x=dtm[groups[-1]], y=['mean', 'max', 'min'])
+
+        fig.add_trace(
+            go.Scatter(
+                x=dtm[groups[-1]],
+                y=dtm['mean'] + dtm['std'],
+                line=dict(color='rgba(0,0,0,0)'),
+                showlegend=False,
+                text='mean + stdev',
+                name=''
+            )
+        )
+        fig.add_trace(
+            go.Scatter(
+                x=dtm[groups[-1]],
+                y=dtm['mean'] - dtm['std'],
+                fill='tonexty',
+                line=dict(color='rgba(0,0,0,0)'),
+                fillcolor='rgba(142,186,217,0.5)',
+                opacity=0.5,
+                name='St.dev',
+                text='mean-stdev'
+            )
+        )
+        fig.update_layout(yaxis_title=varnm)
+
+        # We have all the x index already (don't use float number for year)
+        fig.update_xaxes(type='category')
+        fig.show()
+    return res
 
 
 def bivar_stats(df, steph=0.5, stept=1):
