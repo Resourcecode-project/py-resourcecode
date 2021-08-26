@@ -148,7 +148,7 @@ def ww_calc(
     return pd.Series(windetect)
 
 
-def oplen_calc(critsubs, oplen, flag=0, date=1, monstrt=True):
+def oplen_calc(critsubs, oplen, critical_operation=False, date=1, monstrt=True):
     """
     Method for calculating length of operations when taking into account the
     weather downtime. The operational length is calculated for a given starting
@@ -162,18 +162,16 @@ def oplen_calc(critsubs, oplen, flag=0, date=1, monstrt=True):
         criteria
     oplen : DOUBLE
         Nominal length of the operation (if no downtime), in hours
-    flag : INT,DOUBLE
-        Flag having value 0 or 1.
-
-        - Flag 0 is for non-critical operations:
-          With this flag it is assumed that the operation can be halted
-          for the duration of weather downtime and started again
-        - Flag 1 is for continuous window search:
+    critical_operation : BOOLEAN
+        - False for non-critical operations:
+          With this flag to False, it is assumed that the operation can be
+          halted for the duration of weather downtime and started again
+        - True is for continuous window search:
           In this case operations can't be halted and if stopped due to
           weather downtime have to restart from the beginning once the
           conditions allow
 
-        The default is 0.
+        The default is non critical operation.
     date : INT,DATETIME optional
         If the method is used for one off operational length calulation
         (see monstrt) the start date in DATETIME format should be defined
@@ -203,7 +201,7 @@ def oplen_calc(critsubs, oplen, flag=0, date=1, monstrt=True):
     """
     tstep = _get_timestep(critsubs)
 
-    if monstrt and isinstance(monstrt, bool):
+    if monstrt is True:
         if isinstance(date, dt.datetime):
             dayval = date.day
         elif isinstance(date, int) and date >= 1:
@@ -225,7 +223,7 @@ def oplen_calc(critsubs, oplen, flag=0, date=1, monstrt=True):
         oplendetect = pd.Series(
             np.zeros(daterng.shape[0], dtype="timedelta64[s]"), index=daterng
         )
-    elif not (monstrt) and isinstance(monstrt, bool):
+    elif monstrt is False:
         if isinstance(date, dt.datetime):
             daterng = pd.date_range(start=date, end=date)
             oplendetect = pd.Series(
@@ -247,7 +245,7 @@ def oplen_calc(critsubs, oplen, flag=0, date=1, monstrt=True):
             break
         stopflg = 0
         dur = dt.timedelta(seconds=0)
-        if flag == 0:  # non-critical
+        if critical_operation is False:
             while stopflg == 0:
                 if dur >= dt.timedelta(seconds=3600 * oplen):
                     stopflg = 1
@@ -258,7 +256,7 @@ def oplen_calc(critsubs, oplen, flag=0, date=1, monstrt=True):
                     stopflg = 1
                 dur = dur + tstep
 
-        elif flag == 1:  # critical ops
+        elif critical_operation is True:
             count = 0
             while stopflg == 0:
                 if dur >= dt.timedelta(seconds=3600 * oplen):
@@ -278,7 +276,7 @@ def oplen_calc(critsubs, oplen, flag=0, date=1, monstrt=True):
 
                 count += 1
         else:
-            raise NameError("Flag value should be 0 or 1")
+            raise NameError("critical_operation flag should be True or False")
     return oplendetect
 
 
@@ -313,7 +311,7 @@ def wwmonstats(windetect):
     return wwmonres
 
 
-def olmonstats(oplendetect, fileall=None, filestats=None):
+def olmonstats(oplendetect):
     """
     Method to produce monthly statistics of operational lengths. Produces plots
     and, optionally, can save the results in csv files
@@ -323,12 +321,6 @@ def olmonstats(oplendetect, fileall=None, filestats=None):
     oplendetect : PANDAS Series
         Series containing the starting dates and corresponding operational
         lengths, produced using oplen_calc method.
-    fileall : STRING, optional
-        Full path name to file where the operational length by month
-        and year are saved in csv format. The default is None (don't save)
-    filestats : STRING, optional
-        Full path name to file where the monthly statistics of operational
-        length are saved in csv format. The default is None (don't save)
 
     Returns
     -------
@@ -342,7 +334,6 @@ def olmonstats(oplendetect, fileall=None, filestats=None):
     moun.sort()
     yeun.sort()
 
-    prcntl = [0.01, 0.05, 0.25, 0.5, 0.75, 0.95, 0.99]
     olmonres = pd.DataFrame(
         np.zeros([yeun.shape[0], moun.shape[0]]), columns=moun, index=yeun
     )
@@ -351,16 +342,4 @@ def olmonstats(oplendetect, fileall=None, filestats=None):
             (oplendetect.index.year == ye) & (oplendetect.index.month == mo)
         ]
         olmonres.at[ye, mo] = subs[0].days * 24 + subs[0].seconds / 3600
-
-    stats = olmonres.describe(percentiles=prcntl)
-    if fileall is not None:
-        olmonres.to_csv(
-            fileall, index=True, index_label="Year", header=True, float_format="%.1f"
-        )
-    if filestats is not None:
-        stats.to_csv(
-            filestats, index=True, float_format="%.3f", index_label="Stats", header=True
-        )
-    #    pltal.set_xlabel("Year")
-    #    pltal.set_ylabel("Operational Length [hrs]")
     return olmonres

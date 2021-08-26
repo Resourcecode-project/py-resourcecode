@@ -121,7 +121,7 @@ def test_wwmonstats(data, criteria):
 def test_oplen_calc_non_critical_operation(data, criteria):
     critsubs = data.query(criteria)
 
-    oplendetect_got = oplen_calc(critsubs, oplen=10, flag=0)
+    oplendetect_got = oplen_calc(critsubs, oplen=10, critical_operation=False)
 
     expected_operational_length_hours = pd.to_timedelta(
         [
@@ -145,7 +145,7 @@ def test_oplen_calc_non_critical_operation(data, criteria):
 def test_oplen_calc_critical_operation(data, criteria):
     critsubs = data.query(criteria)
 
-    oplendetect_got = oplen_calc(critsubs, oplen=3, flag=1)
+    oplendetect_got = oplen_calc(critsubs, oplen=3, critical_operation=True)
     expected_operational_length_hours = pd.to_timedelta(
         [
             " 26 days 23:00:00",
