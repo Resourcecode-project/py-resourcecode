@@ -104,46 +104,24 @@ def ww_calc(
     """
     windetect = []
     tstep = _get_timestep(critsubs)
-    if concurrent_windows:  # back-to-back windows
-        k = 0
-        while k < (critsubs.shape[0] - 2):
-            strtwin = critsubs.index.values[k]
-            thistime = strtwin
-            nexttime = critsubs.index.values[k + 1]
-            while pd.Timedelta(nexttime - thistime) <= tstep and k < (
-                critsubs.shape[0] - 2
-            ):
-                k += 1
-                if pd.Timedelta(nexttime - strtwin) >= dt.timedelta(
-                    seconds=3600 * winlen
-                ):
-                    windetect.append(strtwin)
-                    break
-                else:
-                    thistime = critsubs.index.values[k]
-                    nexttime = critsubs.index.values[k + 1]
+    k = 0
+    count = 0
+    while k < (critsubs.shape[0] - 2):
+        strtwin = critsubs.index.values[k]
+        thistime = strtwin
+        nexttime = critsubs.index.values[k + 1]
+        while pd.Timedelta(nexttime - thistime) <= tstep and k < (
+            critsubs.shape[0] - 2
+        ):
             k += 1
-    else:  # any start time
-        k = 0
-        count = 0
-        while k < (critsubs.shape[0] - 2):
-            strtwin = critsubs.index.values[k]
-            thistime = strtwin
-            nexttime = critsubs.index.values[k + 1]
-            while pd.Timedelta(nexttime - thistime) <= tstep and k < (
-                critsubs.shape[0] - 2
-            ):
-                k += 1
-                if pd.Timedelta(nexttime - strtwin) >= dt.timedelta(
-                    seconds=3600 * winlen
-                ):
-                    windetect.append(strtwin)
-                    break
-                else:
-                    thistime = critsubs.index.values[k]
-                    nexttime = critsubs.index.values[k + 1]
-            count += 1
-            k = count
+            if pd.Timedelta(nexttime - strtwin) >= dt.timedelta(seconds=3600 * winlen):
+                windetect.append(strtwin)
+                break
+            else:
+                thistime = critsubs.index.values[k]
+                nexttime = critsubs.index.values[k + 1]
+        count += 1
+        k = count if not concurrent_windows else k + 1
 
     return pd.Series(windetect)
 
