@@ -221,40 +221,29 @@ def oplen_calc(critsubs, oplen, critical_operation=False, date=1, monstrt=True):
             k = critsubs.index.get_loc(critsubs.index[critsubs.index >= strtime].min())
         else:
             break
-        stopflg = 0
+
+        stopflg = False
+        count = 0
         dur = dt.timedelta(seconds=0)
-        if critical_operation is False:
-            while stopflg == 0:
-                if dur >= dt.timedelta(seconds=3600 * oplen):
-                    stopflg = 1
-                    oplendetect.at[strtime] = critsubs.index[k] - strtime
-                else:
-                    k += 1
-                if k >= (critsubs.shape[0] - 1):
-                    stopflg = 1
+        while not stopflg:
+            if dur >= dt.timedelta(seconds=3600 * oplen):
+                stopflg = True
+                oplendetect.at[strtime] = critsubs.index[k] - strtime
+            else:
+                k += 1
+            if k >= (critsubs.shape[0] - 1):
+                stopflg = True
+
+            if not critical_operation:
                 dur = dur + tstep
-
-        elif critical_operation is True:
-            count = 0
-            while stopflg == 0:
-                if dur >= dt.timedelta(seconds=3600 * oplen):
-                    stopflg = 1
-                    oplendetect.at[strtime] = critsubs.index[k] - strtime
-                else:
-                    k += 1
-                if k >= (critsubs.shape[0] - 1):
-                    stopflg = 1
-
+            else:
                 if count > 0 and (critsubs.index[k] - critsubs.index[k - 1]) <= tstep:
                     dur = dur + tstep
                 elif count == 0:
                     dur = dur + tstep
                 else:
                     dur = dt.timedelta(seconds=0)
-
                 count += 1
-        else:
-            raise NameError("critical_operation flag should be True or False")
     return oplendetect
 
 
