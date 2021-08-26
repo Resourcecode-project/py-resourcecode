@@ -40,7 +40,7 @@ def exceed(df):
         Calculated exceedance probabilities for the ranked input data
     """
     datasrt = df.sort_values(ascending=False)
-    exceedance = 1.0 - np.arange(1.0, len(datasrt) + 1.0) / len(datasrt)
+    exceedance = np.linspace(0, 1, len(datasrt), endpoint=False)[::-1]
     return datasrt, exceedance
 
 
@@ -88,6 +88,7 @@ def univar_monstats(df, varnm):
         dtm.at[mo, "Max"] = subs.max()
         dtm.at[mo, "St.Dev."] = subs.std()
         dsrt, excd = exceed(subs)
+        print('Coucou', subs)
         plt.plot(dsrt, excd, label=monm)
         plt.xlabel(varnm)
         plt.ylabel("Exceedance")
