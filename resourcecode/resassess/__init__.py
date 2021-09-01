@@ -47,7 +47,7 @@ def exceed(df):
     return datasrt, exceedance
 
 
-def univar_monstats(df, varnm):
+def univar_monstats(df, varnm, display=True):
     """
     Method to calculate univariate statistics for any input variable. Used in
     resource assessment to produce deliverables as per IEC
@@ -61,6 +61,8 @@ def univar_monstats(df, varnm):
         Dataframe containing the data.
     varnm : STRING
         Variable name as in dataframe column names
+    display : BOOLEAN
+        Graphic has to be displayed. Default to False
 
     Returns
     -------
@@ -78,10 +80,12 @@ def univar_monstats(df, varnm):
     sorted_df["month"] = sorted_df.index.month_name()
     sorted_df["year"] = sorted_df.index.year
 
-    # Compute the percentile of rows inside each group (pct == percentage).
-    sorted_df['Exceedance'] = sorted_df.groupby('month')[varnm].rank(method='min', pct=True)
-    sorted_df.plot.line(x=varnm, y="Exceedance", color='month',
-                        line_group="month")
+    if display:
+        # Compute the percentile of rows inside each group (pct == percentage).
+        sorted_df["Exceedance"] = sorted_df.groupby("month")[varnm].rank(
+            method="min", pct=True
+        )
+        sorted_df.plot.line(x=varnm, y="Exceedance", color="month", line_group="month")
 
     res = []
 
@@ -93,35 +97,36 @@ def univar_monstats(df, varnm):
         dtm = dtm.reset_index()
         res.append(dtm)
 
-        fig = px.line(dtm, x=dtm[groups[-1]], y=['mean', 'max', 'min'])
+        if display:
+            fig = px.line(dtm, x=dtm[groups[-1]], y=["mean", "max", "min"])
 
-        fig.add_trace(
-            go.Scatter(
-                x=dtm[groups[-1]],
-                y=dtm['mean'] + dtm['std'],
-                line=dict(color='rgba(0,0,0,0)'),
-                showlegend=False,
-                text='mean + stdev',
-                name=''
+            fig.add_trace(
+                go.Scatter(
+                    x=dtm[groups[-1]],
+                    y=dtm["mean"] + dtm["std"],
+                    line=dict(color="rgba(0,0,0,0)"),
+                    showlegend=False,
+                    text="mean + stdev",
+                    name="",
+                )
             )
-        )
-        fig.add_trace(
-            go.Scatter(
-                x=dtm[groups[-1]],
-                y=dtm['mean'] - dtm['std'],
-                fill='tonexty',
-                line=dict(color='rgba(0,0,0,0)'),
-                fillcolor='rgba(142,186,217,0.5)',
-                opacity=0.5,
-                name='St.dev',
-                text='mean-stdev'
+            fig.add_trace(
+                go.Scatter(
+                    x=dtm[groups[-1]],
+                    y=dtm["mean"] - dtm["std"],
+                    fill="tonexty",
+                    line=dict(color="rgba(0,0,0,0)"),
+                    fillcolor="rgba(142,186,217,0.5)",
+                    opacity=0.5,
+                    name="St.dev",
+                    text="mean-stdev",
+                )
             )
-        )
-        fig.update_layout(yaxis_title=varnm)
+            fig.update_layout(yaxis_title=varnm)
 
-        # We have all the x index already (don't use float number for year)
-        fig.update_xaxes(type='category')
-        fig.show()
+            # We have all the x index already (don't use float number for year)
+            fig.update_xaxes(type="category")
+            fig.show()
     return res
 
 
