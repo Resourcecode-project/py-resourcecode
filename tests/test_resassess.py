@@ -2,6 +2,7 @@
 # coding: utf-8
 
 import pytest
+import unittest
 import pandas as pd
 import numpy as np
 
@@ -25,6 +26,26 @@ def test_exceed():
     sorted_data, exceedance = exceed(data)
     np.testing.assert_array_equal(sorted_data.values, np.arange(4, 0, -1))
     np.testing.assert_array_equal(exceedance, [0.75, 0.5, 0.25, 0.0])
+
+
+class TestBivarStats(unittest.TestCase):
+    def test_bivar_stats_missing_column(self):
+        data = pd.DataFrame()
+        with self.assertRaises(NameError) as e:
+            bivar_stats(data)
+        assert str(e.exception) == "Crucial parameter missing: cge, hs, t0m1"
+
+        data = pd.DataFrame({"hs": [], "cge": [], "loutre": []})
+        with self.assertRaises(NameError) as e:
+            bivar_stats(data)
+            assert str(e.exception) == "Crucial parameter missing: t0m1"
+
+    def test_univar_monstats_missing_columns(self):
+        data = pd.DataFrame({"toto": []})
+        with self.assertRaises(NameError) as e:
+            univar_monstats(data, "hs")
+        error_msg = "Parameter hs is not in the dataframe. Possible values are: toto"
+        assert str(e.exception) == error_msg
 
 
 def test_bivar_stats(data):

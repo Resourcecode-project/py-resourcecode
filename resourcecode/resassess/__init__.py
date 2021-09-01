@@ -71,7 +71,12 @@ def univar_monstats(df, varnm, display=True):
     dtm : PANDAS DATAFRAME
         Contains monthly statistics for the chosen variable.
     """
-
+    if varnm not in df.columns:
+        existing_col = ", ".join(sorted(df.columns))
+        raise NameError(
+            f"Parameter {varnm} is not in the dataframe. "
+            f"Possible values are: {existing_col}"
+        )
     # sort rows according to the variable selected
     sorted_df = df[[varnm]].sort_values(by=varnm)
 
@@ -174,10 +179,12 @@ def bivar_stats(df, steph=0.5, stept=1):
         are t0m1 bins
 
     """
-    if not all(
-        [any(df.columns == "hs"), any(df.columns == "t0m1"), any(df.columns == "cge")]
-    ):
-        raise NameError("Crucial parameter missing: " "hs" "," "t0m1" " or " "cge" "")
+
+    required_columns = {"hs", "cge", "t0m1"}
+    missing_columns = required_columns.difference(df.columns)
+    if missing_columns:
+        missing_params = ", ".join(sorted(missing_columns))
+        raise NameError(f"Crucial parameter missing: {missing_params}")
     else:
         hsbin = steph * np.arange(
             np.floor(df["hs"].min() / steph), 1 + np.ceil(df["hs"].max() / steph)
