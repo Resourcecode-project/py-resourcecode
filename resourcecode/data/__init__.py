@@ -6,18 +6,17 @@ from functools import partial
 from pathlib import Path
 
 import pandas as pd
-import pyarrow.feather as feather
 
 from resourcecode.utils import haversine
 
 DATA_DIR = Path(__file__).parent
 
-get_coastline = partial(feather.read_feather, DATA_DIR / "coastline.feather")
-get_grid_field = partial(feather.read_feather, DATA_DIR / "grid_FIELD.feather")
-get_grid_spec = partial(feather.read_feather, DATA_DIR / "grid_SPEC.feather")
-get_islands = partial(feather.read_feather, DATA_DIR / "islands.feather")
-get_triangles = partial(feather.read_feather, DATA_DIR / "triangles.feather")
-get_variables = partial(feather.read_feather, DATA_DIR / "variables.feather")
+get_coastline = partial(pd.read_feather, DATA_DIR / "coastline.feather")
+get_grid_field = partial(pd.read_feather, DATA_DIR / "grid_FIELD.feather")
+get_grid_spec = partial(pd.read_feather, DATA_DIR / "grid_SPEC.feather")
+get_islands = partial(pd.read_feather, DATA_DIR / "islands.feather")
+get_triangles = partial(pd.read_feather, DATA_DIR / "triangles.feather")
+get_variables = partial(pd.read_feather, DATA_DIR / "variables.feather")
 
 # those parameters are from the feather.read_feather function
 COMMON_PARAMETERS = """\
