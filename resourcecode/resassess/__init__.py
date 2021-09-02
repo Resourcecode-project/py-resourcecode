@@ -16,6 +16,7 @@ export the data directly from Casandra
 Created on Wed Dec  2 14:14:48 2020
 @author: david.darbinyan
 """
+from pathlib import Path
 import pandas as pd
 import datetime as dt
 import numpy as np
@@ -282,78 +283,59 @@ def bivar_monstats(df, filename="resource_assess", steph=0.5, stept=1, disptab=T
     None. Writes csv files.
 
     """
-    if filename[-4:] == ".csv":
-        filename = filename[:-4]
+    # with_suffix put an empty string as suffix (thus removing potential suffix)
+    base_path = Path(filename).with_suffix("")
+
+    def write_and_display_dataframe(df, file_path, title, display):
+        df.to_csv(
+            file_path,
+            index=True,
+            index_label="Hs/Te",
+            header=True,
+            float_format="%.1f",
+        )
+        if display:
+            disp_table(df, title)
 
     moun = df.index.month.unique()
-    tallprc, tallcnt, tallcgemn, tallcgesd = bivar_stats(df, steph=0.5, stept=1)
-    tallprc.to_csv(
-        filename + "_All_perc_occur.csv",
-        index=True,
-        index_label="Hs/Te",
-        header=True,
-        float_format="%.1f",
-    )
-    tallcnt.to_csv(
-        filename + "_All_count.csv",
-        index=True,
-        index_label="Hs/Te",
-        header=True,
-        float_format="%.1f",
-    )
-    tallcgemn.to_csv(
-        filename + "_All_av_energy_flux.csv",
-        index=True,
-        index_label="Hs/Te",
-        header=True,
-        float_format="%.1f",
-    )
-    tallcgesd.to_csv(
-        filename + "_All_std_energy_flux.csv",
-        index=True,
-        index_label="Hs/Te",
-        header=True,
-        float_format="%.1f",
-    )
-    if disptab:
-        disp_table(tallprc, "Percentage Occurence - All")
-        disp_table(tallcnt, "Number Occurence - All")
-        disp_table(tallcgemn, "Average Energy Flux - All")
-        disp_table(tallcgesd, "Energy Flux ST. Dev - All")
+    all_stat = bivar_stats(df, steph=steph, stept=stept)
+
+    filenames = [
+        f"{base_path}_{name}"
+        for name in (
+            "All_perc_occur.csv",
+            "All_count.csv",
+            "All_av_energy_flux.csv",
+            "All_std_energy_flux.csv",
+        )
+    ]
+    titles = [
+        "Percentage Occurence - All",
+        "Number Occurence - All",
+        "Average Energy Flux - All",
+        "Energy Flux ST. Dev - All",
+    ]
+    for stat, filename, title in zip(all_stat, filenames, titles):
+        write_and_display_dataframe(stat, filename, title, disptab)
+
     for mo in moun:
         subs = df[df.index.month == mo]
-        tmprc, tmcnt, tmcgemn, tmcgesd = bivar_stats(subs)
+        monthly_stats = bivar_stats(subs, steph=steph, stept=stept)
         monm = dt.datetime(2000, mo, 1).strftime("%b")
-        tmprc.to_csv(
-            filename + "_" + monm + "_perc_occur.csv",
-            index=True,
-            index_label="Hs/Te",
-            header=True,
-            float_format="%.1f",
-        )
-        tmcnt.to_csv(
-            filename + "_" + monm + "_count.csv",
-            index=True,
-            index_label="Hs/Te",
-            header=True,
-            float_format="%.1f",
-        )
-        tmcgemn.to_csv(
-            filename + "_" + monm + "_av_energy_flux.csv",
-            index=True,
-            index_label="Hs/Te",
-            header=True,
-            float_format="%.1f",
-        )
-        tmcgesd.to_csv(
-            filename + "_" + monm + "_std_energy_flux.csv",
-            index=True,
-            index_label="Hs/Te",
-            header=True,
-            float_format="%.1f",
-        )
-        if disptab:
-            disp_table(tmprc, "Percentage Occurence - " + monm)
-            disp_table(tmcnt, "Number Occurence - " + monm)
-            disp_table(tmcgemn, "Average Energy Flux - " + monm)
-            disp_table(tmcgesd, "Energy Flux ST. Dev - " + monm)
+        filenames = [
+            f"{base_path}_{monm}_{name}_"
+            for name in (
+                "perc_occur.csv",
+                "count.csv",
+                "av_energy_flux.csv",
+                "std_energy_flux.csv",
+            )
+        ]
+        titles = [
+            f"Percentage Occurence - {monm}",
+            f"Number Occurence - {monm}",
+            f"Average Energy Flux - {monm}",
+            f"Energy Flux ST. Dev - {monm}",
+        ]
+        for stat, filename, title in zip(monthly_stats, filenames, titles):
+            write_and_display_dataframe(stat, filename, title, disptab)
