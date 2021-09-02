@@ -185,45 +185,52 @@ def bivar_stats(df, steph=0.5, stept=1):
     if missing_columns:
         missing_params = ", ".join(sorted(missing_columns))
         raise NameError(f"Crucial parameter missing: {missing_params}")
-    else:
-        hsbin = steph * np.arange(
-            np.floor(df["hs"].min() / steph), 1 + np.ceil(df["hs"].max() / steph)
-        )
-        tebin = stept * np.arange(
-            np.floor(df["t0m1"].min() / stept), 1 + np.ceil(df["t0m1"].max() / stept)
-        )
-        tabprc = np.zeros([len(hsbin), len(tebin)])
-        tabcnt = np.zeros([len(hsbin), len(tebin)])
-        tabcgemn = np.zeros([len(hsbin), len(tebin)])
-        tabcgesd = np.zeros([len(hsbin), len(tebin)])
-        hsnm = []
-        tenm = []
-        for idy, hsl in enumerate(hsbin):
-            for idx, tel in enumerate(tebin):
-                if idx == 1:
-                    hsnm.append(str(pd.Interval(left=hsl, right=hsl + steph)))
-                if idy == 1:
-                    tenm.append(str(pd.Interval(left=tel, right=tel + stept)))
-                cgesub = (
-                    df["cge"]
-                    .loc[
-                        (df["hs"] > hsl)
-                        & (df["hs"] <= (hsl + steph))
-                        & (df["t0m1"] > tel)
-                        & (df["t0m1"] <= (tel + stept))
-                    ]
-                    .values
-                )
-                if not cgesub.size == 0:
-                    tabprc[idy, idx] = 100 * len(cgesub) / len(df)
-                    tabcnt[idy, idx] = len(cgesub)
-                    tabcgemn[idy, idx] = cgesub.mean()
-                    tabcgesd[idy, idx] = cgesub.std()
-        dfprc = pd.DataFrame(data=tabprc, columns=tenm, index=hsnm)
-        dfcnt = pd.DataFrame(data=tabcnt, columns=tenm, index=hsnm)
-        dfcgemn = pd.DataFrame(data=tabcgemn, columns=tenm, index=hsnm)
-        dfcgesd = pd.DataFrame(data=tabcgesd, columns=tenm, index=hsnm)
-        return dfprc, dfcnt, dfcgemn, dfcgesd
+
+    # upperbound (end) has to be greater than max as it is excluded
+    # XX: Having end = max + freq should be enough but fails in the test
+    hsbin = pd.interval_range(
+        start=np.floor(df["hs"].min()),
+        end=df["hs"].max() + 2 * steph,
+        freq=steph,
+        name="hs",
+    )
+    tebin = pd.interval_range(
+        start=np.floor(df["t0m1"].min()),
+        end=df["t0m1"].max() + 2 * stept,
+        freq=stept,
+        name="tebin",
+    )
+
+    # Add a column indicating the containing interval
+    df = df.assign(hsbin=pd.cut(df.hs, bins=hsbin), tebin=pd.cut(df.t0m1, bins=tebin))
+
+    # For ddof (Delta Degrees of Freedom) see:
+    # https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.std.html
+    # The rationnal is:
+    # - in numpy ddof is 0 by default
+    # - in pandas ddof is 1 by default
+    stats = df.groupby(by=["hsbin", "tebin"]).agg(
+        count=("cge", "count"),
+        mean=("cge", np.mean),
+        stdev=("cge", lambda x: np.std(x, ddof=0)),
+    )
+    stats["percentage"] = 100 * stats["count"] / len(df)
+
+    # Groupby create a hierarchical index (hsbin and tebin)
+    # It pivots the last level of index and put it as column.
+    # res has:
+    # - hsbin as row index
+    # - MultiIndex([count, mean, stdev, percentage], tebin) as column index
+    res = stats.unstack(level=-1)
+
+    # default value for mean, count, percentage and stdev is 0
+    res = res.fillna(0)
+    return (
+        res["percentage"],
+        res["count"],
+        res["mean"],
+        res["stdev"],
+    )
 
 
 def disp_table(df, title):
