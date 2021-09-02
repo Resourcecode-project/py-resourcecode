@@ -26,7 +26,7 @@ import plotly.graph_objects as go
 pd.options.plotting.backend = "plotly"
 
 
-def exceed(df):
+def exceed(df: pd.DataFrame):
     """
     Returns ranked data and exceedance probabilities
 
@@ -48,7 +48,7 @@ def exceed(df):
     return datasrt, exceedance
 
 
-def univar_monstats(df, varnm, display=True):
+def univar_monstats(df: pd.DataFrame, varnm: str, display: bool = True):
     """
     Method to calculate univariate statistics for any input variable. Used in
     resource assessment to produce deliverables as per IEC
@@ -136,7 +136,7 @@ def univar_monstats(df, varnm, display=True):
     return res
 
 
-def bivar_stats(df, steph=0.5, stept=1):
+def bivar_stats(df: pd.DataFrame, steph: float = 0.5, stept: float = 1):
     """
     Method to calculate bi-variate statistcs and average and standard deviation
     of energy flux binned in significant wave height and energy period bins.
@@ -234,7 +234,7 @@ def bivar_stats(df, steph=0.5, stept=1):
     )
 
 
-def disp_table(df, title):
+def disp_table(df: pd.DataFrame, title: str):
     """
     Method to output tables - (courtesy of Chris Old, Edinburgh University)
     Parameters
@@ -259,7 +259,13 @@ def disp_table(df, title):
     print(df)
 
 
-def bivar_monstats(df, filename="resource_assess", steph=0.5, stept=1, disptab=True):
+def bivar_monstats(
+    df: pd.DataFrame,
+    filename: str = "resource_assess",
+    steph: float = 0.5,
+    stept: float = 1,
+    disptab: bool = True,
+):
     """
     Method to produce monthly and annual bi-variate statistics and energy flux
     tables. These are calculated from bivar_stats method in a loop and saved
@@ -286,7 +292,9 @@ def bivar_monstats(df, filename="resource_assess", steph=0.5, stept=1, disptab=T
     # with_suffix put an empty string as suffix (thus removing potential suffix)
     base_path = Path(filename).with_suffix("")
 
-    def write_and_display_dataframe(df, file_path, title, display):
+    def write_and_display_dataframe(
+        df: pd.DataFrame, file_path: str, title: str, display: bool
+    ):
         df.to_csv(
             file_path,
             index=True,
