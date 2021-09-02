@@ -1,8 +1,12 @@
 #!/usr/bin/env python3
 # coding: utf-8
 
+import pandas as pd
+from pandas.core.base import PandasObject
+
 from resourcecode.client import Client
 from resourcecode.__version__ import __version__
+from resourcecode.io import to_netcfd, read_netcfd
 from resourcecode.data import (
     get_coastline,
     get_grid_field,
@@ -13,6 +17,9 @@ from resourcecode.data import (
     get_closest_point,
     get_closest_station,
 )
+
+PandasObject.to_netcfd = to_netcfd
+pd.read_netcfd = read_netcfd
 
 
 __all__ = [

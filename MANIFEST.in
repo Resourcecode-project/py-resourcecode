@@ -7,7 +7,7 @@ include *.md
 exclude .gitlab-ci.yml
 recursive-include notebooks *.ipynb
 recursive-include resourcecode *.py
-recursive-include resourcecode/data *.feather
+recursive-include resourcecode/data *.feather *.json
 recursive-include tests *.py
 recursive-include tests *.json *.csv
 recursive-include resourcecode *.csv

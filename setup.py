@@ -25,6 +25,7 @@ install_requires = [
     "pyextremes >= 2.0.0, < 3.0.0",
     "pyarrow >= 4.0.0, < 5.0.0",
     "numexpr >= 2.7.0, < 3.0.0",
+    "xarray >= 0.19.0, < 1.0.0",
 ]
 
 classifiers = [
