@@ -6,6 +6,7 @@ import sys
 import configparser
 import logging
 from pathlib import Path
+from typing import Union, Tuple
 
 import numpy as np
 from numpy import triu_indices, tril_indices
@@ -70,3 +71,31 @@ def haversine(lon1, lat1, lon2, lat2):
 
     c = 2 * np.arcsin(np.sqrt(a))
     return c * EARTH_RADIUS_METER
+
+
+def zmcomp2metconv(
+    u: Union[float, np.ndarray], v: Union[float, np.ndarray]
+) -> Union[Tuple[float, float], Tuple[np.ndarray, np.ndarray]]:
+    """
+    Converts wind or current zonal and meridional velocity components to
+    magnitude and direction according to meteorological convention.
+
+    Parameters
+    ----------
+    u:
+        zonal velocity (ISU)
+    v:
+        meridional velocity (ISU)
+
+    Results
+    -------
+    V:
+        magnitude of speed (ISU)
+    D:
+        direction from which flow comes (<B0>)
+    """
+
+    V = np.sqrt(u ** 2 + v ** 2)
+    D = (270 - np.arctan2(v, u) * 180 / np.pi) % 360
+
+    return (V, D)
