@@ -10,6 +10,8 @@ from resourcecode.data import (
     get_islands,
     get_triangles,
     get_variables,
+    get_closest_point,
+    get_closest_station,
 )
 
 
@@ -22,4 +24,6 @@ __all__ = [
     "get_islands",
     "get_triangles",
     "get_variables",
+    "get_closest_station",
+    "get_closest_point",
 ]
