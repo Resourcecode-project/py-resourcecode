@@ -123,7 +123,7 @@ def ww_calc(
         count += 1
         k = count if not concurrent_windows else k + 1
 
-    return pd.Series(windetect)
+    return pd.Series(pd.to_datetime(windetect))
 
 
 def oplen_calc(critsubs, oplen, critical_operation=False, date=1, monstrt=True):
