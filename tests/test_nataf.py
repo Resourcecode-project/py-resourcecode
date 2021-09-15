@@ -7,7 +7,10 @@ import pandas as pd
 
 from resourcecode.multivariate_extremes.nataf.censgaussfit import censgaussfit
 from resourcecode.multivariate_extremes.nataf.huseby import huseby
-from resourcecode.multivariate_extremes.nataf.extrema import get_gpd_parameters
+from resourcecode.multivariate_extremes.nataf.extrema import (
+    get_fitted_models,
+    get_gpd_parameters,
+)
 
 from . import DATA_DIR
 
@@ -59,7 +62,8 @@ def test_gpd_paramaters():
         ]
     )
 
-    gpg_parameters = get_gpd_parameters(X, quant)
+    models = get_fitted_models(X, quant)
+    gpg_parameters = get_gpd_parameters(models)
 
     # first column is the quantiles, it should be the same as R
     assert gpg_parameters[:, 0] == pytest.approx(expected_parameters[:, 0])
