@@ -264,7 +264,8 @@ def bivar_monstats(
     filename: str = "resource_assess",
     steph: float = 0.5,
     stept: float = 1,
-    disptab: bool = True,
+    display: bool = True,
+    write: bool = True,
 ):
     """
     Method to produce monthly and annual bi-variate statistics and energy flux
@@ -283,25 +284,29 @@ def bivar_monstats(
         Bin size for significant wave height. The default is 0.5.
     stept : DOUBLE, optional
         Bin size for energy period. The default is 1.
-
+    display : BOOLEAN
+        Graphic has to be displayed. Default to True
+    write : BOOLEAN
+        Table has to be written. Default to True
     Returns
     -------
-    None. Writes csv files.
+    None. Writes csv files or display table.
 
     """
     # with_suffix put an empty string as suffix (thus removing potential suffix)
     base_path = Path(filename).with_suffix("")
 
     def write_and_display_dataframe(
-        df: pd.DataFrame, file_path: str, title: str, display: bool
+        df: pd.DataFrame, file_path: str, title: str
     ):
-        df.to_csv(
-            file_path,
-            index=True,
-            index_label="Hs/Te",
-            header=True,
-            float_format="%.1f",
-        )
+        if write:
+            df.to_csv(
+                file_path,
+                index=True,
+                index_label="Hs/Te",
+                header=True,
+                float_format="%.1f",
+            )
         if display:
             disp_table(df, title)
 
@@ -324,7 +329,7 @@ def bivar_monstats(
         "Energy Flux ST. Dev - All",
     ]
     for stat, filename, title in zip(all_stat, filenames, titles):
-        write_and_display_dataframe(stat, filename, title, disptab)
+        write_and_display_dataframe(stat, filename, title)
 
     for mo in moun:
         subs = df[df.index.month == mo]
@@ -346,4 +351,4 @@ def bivar_monstats(
             f"Energy Flux ST. Dev - {monm}",
         ]
         for stat, filename, title in zip(monthly_stats, filenames, titles):
-            write_and_display_dataframe(stat, filename, title, disptab)
+            write_and_display_dataframe(stat, filename, title)
