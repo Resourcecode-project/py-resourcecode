@@ -1,12 +1,18 @@
 #!/usr/bin/env python3
 # coding: utf-8
 
+from typing import Union
+
 import numpy as np
 import pandas as pd
 from pyextremes import EVA
 
 
-def get_gpd_parameters(dataframe: pd.DataFrame, quantile: float = 0.9) -> np.ndarray:
+def get_gpd_parameters(
+    dataframe: pd.DataFrame,
+    quantile: float = 0.9,
+    r: Union[str, pd.Timedelta] = "0",
+) -> np.ndarray:
     gpd_param = np.zeros((dataframe.shape[1], 3))
 
     for index, (var_name, serie) in enumerate(dataframe.items()):
@@ -18,7 +24,7 @@ def get_gpd_parameters(dataframe: pd.DataFrame, quantile: float = 0.9) -> np.nda
         # in the R extRemes package, the default value seems to be 0.
         # the default in pyextremes is 24H. It must be a pandas.Timedelta or a
         # string.
-        model.get_extremes(method="POT", threshold=threshold, r="0")
+        model.get_extremes(method="POT", threshold=threshold, r=r)
         model.fit_model()
 
         scale = model.model.fit_parameters["scale"]
