@@ -48,7 +48,7 @@ def exceed(df: pd.DataFrame):
     return datasrt, exceedance
 
 
-def univar_monstats(df: pd.DataFrame, varnm: str, display: bool = True):
+def univar_monstats(df: pd.DataFrame, varnm: str):
     """
     Method to calculate univariate statistics for any input variable. Used in
     resource assessment to produce deliverables as per IEC
@@ -67,10 +67,12 @@ def univar_monstats(df: pd.DataFrame, varnm: str, display: bool = True):
 
     Returns
     -------
-    dty : PANDAS DATAFRAME
-        Contains yearly statistics for the chosen variable.
+    dte: PANDAS DATAFRAME
+        Contains monthly exceedance for the chosen variable
     dtm : PANDAS DATAFRAME
         Contains monthly statistics for the chosen variable.
+    dty : PANDAS DATAFRAME
+        Contains yearly statistics for the chosen variable.
     """
     if varnm not in df.columns:
         existing_col = ", ".join(sorted(df.columns))
@@ -85,15 +87,11 @@ def univar_monstats(df: pd.DataFrame, varnm: str, display: bool = True):
     sorted_df["month_index"] = sorted_df.index.month
     sorted_df["month"] = sorted_df.index.month_name()
     sorted_df["year"] = sorted_df.index.year
+    sorted_df["Exceedance"] = sorted_df.groupby("month")[varnm].rank(
+        method="min", pct=True
+    )
 
-    if display:
-        # Compute the percentile of rows inside each group (pct == percentage).
-        sorted_df["Exceedance"] = sorted_df.groupby("month")[varnm].rank(
-            method="min", pct=True
-        )
-        sorted_df.plot.line(x=varnm, y="Exceedance", color="month", line_group="month")
-
-    res = []
+    res = [sorted_df]
 
     # For month, groups on month_index (number) and month (name) to keep month order
     for groups in (["month_index", "month"], ["year"]):
@@ -103,37 +101,66 @@ def univar_monstats(df: pd.DataFrame, varnm: str, display: bool = True):
         dtm = dtm.reset_index()
         res.append(dtm)
 
-        if display:
-            fig = px.line(dtm, x=dtm[groups[-1]], y=["mean", "max", "min"])
+    dte, dtm, dty = res
+    return dte, dtm, dty
 
-            fig.add_trace(
-                go.Scatter(
-                    x=dtm[groups[-1]],
-                    y=dtm["mean"] + dtm["std"],
-                    line=dict(color="rgba(0,0,0,0)"),
-                    showlegend=False,
-                    text="mean + stdev",
-                    name="",
-                )
-            )
-            fig.add_trace(
-                go.Scatter(
-                    x=dtm[groups[-1]],
-                    y=dtm["mean"] - dtm["std"],
-                    fill="tonexty",
-                    line=dict(color="rgba(0,0,0,0)"),
-                    fillcolor="rgba(142,186,217,0.5)",
-                    opacity=0.5,
-                    name="St.dev",
-                    text="mean-stdev",
-                )
-            )
-            fig.update_layout(yaxis_title=varnm)
 
-            # We have all the x index already (don't use float number for year)
-            fig.update_xaxes(type="category")
-            fig.show()
-    return res
+def display_univar_monstats(df: pd.DataFrame, varnm: str):
+    """
+    Method to display univariate statistics for any input variable. Used in
+    resource assessment to produce deliverables as per IEC
+
+    The mehtod produces plots including monthly statistcs and yearly statistics
+    for the input variable and monthly exceedance plots
+
+    Optionally, the statistics can also be written in a csv file
+
+    Parameters
+    ----------
+    df : PANDAS DATAFRAME
+        Dataframe containing the data.
+    varnm : STRING
+        Variable name as in dataframe column names
+
+    Returns
+    -------
+    None
+    """
+
+    exceedance, dtm, dty = univar_monstats(df, varnm)
+    # Compute the percentile of rows inside each group (pct == percentage).
+    exceedance.plot.line(x=varnm, y="Exceedance", color="month", line_group="month")
+
+    for stat_period, period_df in (("month", dtm), ("year", dty)):
+        fig = px.line(period_df, x=period_df[stat_period], y=["mean", "max", "min"])
+
+        fig.add_trace(
+            go.Scatter(
+                x=period_df[stat_period],
+                y=period_df["mean"] + period_df["std"],
+                line=dict(color="rgba(0,0,0,0)"),
+                showlegend=False,
+                text="mean + stdev",
+                name="",
+            )
+        )
+        fig.add_trace(
+            go.Scatter(
+                x=period_df[stat_period],
+                y=period_df["mean"] - period_df["std"],
+                fill="tonexty",
+                line=dict(color="rgba(0,0,0,0)"),
+                fillcolor="rgba(142,186,217,0.5)",
+                opacity=0.5,
+                name="St.dev",
+                text="mean-stdev",
+            )
+        )
+        fig.update_layout(yaxis_title=varnm)
+
+        # We have all the x index already (don't use float number for year)
+        fig.update_xaxes(type="category")
+        fig.show()
 
 
 def bivar_stats(df: pd.DataFrame, steph: float = 0.5, stept: float = 1):
@@ -296,9 +323,7 @@ def bivar_monstats(
     # with_suffix put an empty string as suffix (thus removing potential suffix)
     base_path = Path(filename).with_suffix("")
 
-    def write_and_display_dataframe(
-        df: pd.DataFrame, file_path: str, title: str
-    ):
+    def write_and_display_dataframe(df: pd.DataFrame, file_path: str, title: str):
         if write:
             df.to_csv(
                 file_path,

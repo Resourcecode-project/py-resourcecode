@@ -63,7 +63,7 @@ def test_bivar_stats(data):
 
 
 def test_univar_monstats(data):
-    dtm, dty = univar_monstats(data, "hs", display=False)
+    exceed, dtm, dty = univar_monstats(data, "hs")
     stored_results = ("monthly_stat.csv", "yearly_stat.csv")
     for result, expected_result_path in zip((dtm, dty), stored_results):
         path = DATA_DIR / "resassess" / expected_result_path
