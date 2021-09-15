@@ -5,3 +5,4 @@ Operational planning and Resource assessment code
    :maxdepth: 1
 
    opsplanning_resassess/opsplanning
+   opsplanning_resassess/resassess
