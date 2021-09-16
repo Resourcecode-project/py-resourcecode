@@ -51,15 +51,18 @@ class TestBivarStats(unittest.TestCase):
 def test_bivar_stats(data):
     all_df_results = bivar_stats(data)
     stored_results = (
-        "df_percentage_occurence.csv",
-        "df_nubmer_occurence.csv",
-        "df_average_energy.csv",
-        "df_standard_deviation_energy.csv",
+        ("percentage", "df_percentage_occurence.csv"),
+        ("count", "df_number_occurence.csv"),
+        ("mean", "df_average_energy.csv"),
+        ("stdev", "df_standard_deviation_energy.csv"),
     )
-    for result, expected_result_path in zip(all_df_results, stored_results):
+    statistics = [stat for stat, _ in stored_results]
+    existing_statistics = all_df_results.columns.levels[0].to_list()
+    assert sorted(existing_statistics) == sorted(statistics)
+    for stat, expected_result_path in stored_results:
         path = DATA_DIR / "resassess" / expected_result_path
         expected_result = pd.read_csv(path, index_col=0)
-        np.testing.assert_allclose(result, expected_result, rtol=1e-13)
+        np.testing.assert_allclose(all_df_results[stat], expected_result, rtol=1e-13)
 
 
 def test_univar_monstats(data):

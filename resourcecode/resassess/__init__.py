@@ -189,23 +189,14 @@ def bivar_stats(df: pd.DataFrame, steph: float = 0.5, stept: float = 1):
 
     Returns
     -------
-    dfprc : PANDAS DATAFRAME
-        Dataframe containing percentage occurrence for significant wave
-        height (hs) vs energy period (t0m1). Indices are hs bins, columns
-        are t0m1 bins
-    dfcnt : PANDAS DATAFRAME
-        Dataframe containing number occurrence for significant wave
-        height (hs) vs energy period (t0m1). Indices are hs bins, columns
-        are t0m1 bins
-    dfcgemn : PANDAS DATAFRAME
-        Dataframe containing average energy flux for significant wave
-        height (hs) vs energy period (t0m1) bins. Indices are hs bins, columns
-        are t0m1 bins
-    dfcgesd : PANDAS DATAFRAME
-        Dataframe containing st deviation of energy flux for significant wave
-        height (hs) vs energy period (t0m1) bins. Indices are hs bins, columns
-        are t0m1 bins
-
+    res : PANDAS DATAFRAME
+        Dataframe with hs bins as index. The columns is a hierarchical index of
+        statistics and te bins:
+        [("count", "mean", "stdev", "percentage"), te_bins].
+        Examples:
+            - res.loc[4.4, ("mean", 3.5)] returns the mean for the bin containing
+              4.4 for hs and 3.5 for te
+            - res["mean"] returns the datframe containing all the means
     """
 
     required_columns = {"hs", "cge", "t0m1"}
@@ -253,12 +244,7 @@ def bivar_stats(df: pd.DataFrame, steph: float = 0.5, stept: float = 1):
 
     # default value for mean, count, percentage and stdev is 0
     res = res.fillna(0)
-    return (
-        res["percentage"],
-        res["count"],
-        res["mean"],
-        res["stdev"],
-    )
+    return res
 
 
 def disp_table(df: pd.DataFrame, title: str):
