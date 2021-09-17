@@ -17,16 +17,19 @@ Created on Wed Dec  2 14:14:48 2020
 @author: david.darbinyan
 """
 from pathlib import Path
-import pandas as pd
+from typing import Tuple
+
 import datetime as dt
 import numpy as np
+import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+
 
 pd.options.plotting.backend = "plotly"
 
 
-def exceed(df: pd.DataFrame):
+def exceed(df: pd.DataFrame) -> Tuple[pd.DataFrame, np.ndarray]:
     """
     Returns ranked data and exceedance probabilities
 
@@ -48,7 +51,9 @@ def exceed(df: pd.DataFrame):
     return datasrt, exceedance
 
 
-def univar_monstats(df: pd.DataFrame, varnm: str):
+def univar_monstats(
+    df: pd.DataFrame, varnm: str
+) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     """
     Method to calculate univariate statistics for any input variable. Used in
     resource assessment to produce deliverables as per IEC
@@ -163,7 +168,7 @@ def display_univar_monstats(df: pd.DataFrame, varnm: str):
         fig.show()
 
 
-def bivar_stats(df: pd.DataFrame, steph: float = 0.5, stept: float = 1):
+def bivar_stats(df: pd.DataFrame, steph: float = 0.5, stept: float = 1) -> pd.DataFrame:
     """
     Method to calculate bi-variate statistcs and average and standard deviation
     of energy flux binned in significant wave height and energy period bins.
