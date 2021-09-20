@@ -1,0 +1,44 @@
+default:
+  image: python
+  tags:
+    - resourcecode-runner
+
+
+include:
+  - remote: https://forge.extranet.logilab.fr/open-source/gitlab-ci-templates/-/raw/branch/default/templates/no-duplicated-ci-pipelines.yml
+  - remote: https://forge.extranet.logilab.fr/open-source/gitlab-ci-templates/-/raw/branch/default/templates/lint/check-manifest.yml
+  - remote: https://forge.extranet.logilab.fr/open-source/gitlab-ci-templates/-/raw/branch/default/templates/lint/flake8.yml
+  - remote: https://forge.extranet.logilab.fr/open-source/gitlab-ci-templates/-/raw/branch/default/templates/lint/black.yml
+  - remote: https://forge.extranet.logilab.fr/open-source/gitlab-ci-templates/-/raw/branch/default/templates/lint/mypy.yml
+  - remote: https://forge.extranet.logilab.fr/open-source/gitlab-ci-templates/-/raw/branch/default/templates/tests/py3.yml
+  - remote: https://forge.extranet.logilab.fr/open-source/gitlab-ci-templates/-/raw/branch/default/templates/create-release-on-heptapod.yml
+  - remote: https://forge.extranet.logilab.fr/open-source/gitlab-ci-templates/-/raw/branch/default/templates/upload-python-package-to-heptapod.yml
+
+stages:
+  - lint
+  - tests
+  - deployment
+  - release
+  - publish
+
+doctest:
+  stage: tests
+  needs: []
+  before_script:
+    - pip install .
+    - pip install sphinx
+  script:
+    - sphinx-build -b doctest doc .
+
+pages:
+  stage: deployment
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "branch/default"'
+  before_script:
+    - pip install .
+    - pip install sphinx sphinx-book-theme
+  script:
+    - sphinx-build -b html doc public
+  artifacts:
+    paths:
+      - public
