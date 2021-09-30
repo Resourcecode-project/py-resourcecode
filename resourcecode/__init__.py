@@ -6,7 +6,7 @@ from pandas.core.base import PandasObject
 
 from resourcecode.client import Client
 from resourcecode.__version__ import __version__
-from resourcecode.io import to_netcfd, read_netcfd
+from resourcecode.io import to_netcdf, read_netcdf
 from resourcecode.data import (
     get_coastline,
     get_grid_field,
@@ -18,8 +18,8 @@ from resourcecode.data import (
     get_closest_station,
 )
 
-PandasObject.to_netcfd = to_netcfd
-pd.read_netcfd = read_netcfd
+PandasObject.to_netcdf = to_netcdf
+pd.read_netcdf = read_netcdf
 
 
 __all__ = [

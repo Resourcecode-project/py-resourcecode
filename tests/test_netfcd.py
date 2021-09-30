@@ -5,7 +5,7 @@ import pandas as pd
 import xarray
 import pytest
 
-# (needed to load to_netcfd and read_netcfd functions)
+# (needed to load to_netcdf and read_netcdf functions)
 import resourcecode  # noqa
 
 
@@ -29,12 +29,12 @@ def dataframe():
 
 
 def test_import_export_cycle(dataframe):
-    exported_netcfd = dataframe.to_netcfd()
-    assert pd.read_netcfd(exported_netcfd).equals(dataframe)
+    exported_netcdf = dataframe.to_netcdf()
+    assert pd.read_netcdf(exported_netcdf).equals(dataframe)
 
 
 def test_encoding_is_exported(dataframe):
-    xr = xarray.open_dataset(dataframe.to_netcfd(), mask_and_scale=True)
+    xr = xarray.open_dataset(dataframe.to_netcdf(), mask_and_scale=True)
     assert xr.hs.attrs["units"] == "m"
     assert xr.hs.attrs["long_name"] == "significant height of wind and swell waves"
     assert xr.hs.encoding["scale_factor"] == 0.002

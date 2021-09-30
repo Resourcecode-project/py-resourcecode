@@ -16,11 +16,11 @@ if TYPE_CHECKING:
     except ImportError:
         Delayed = None
 
-with open(DATA_DIR / "netcfd_description.json") as fobj:
+with open(DATA_DIR / "netcdf_description.json") as fobj:
     NETCFD_DESCRIPTION = json.load(fobj)
 
 
-def to_netcfd(
+def to_netcdf(
     dataframe: pd.DataFrame, path: Union[str, Path] = None
 ) -> Union[bytes, "Delayed", None]:
     """Write dataframe contents to a netCFD file.
@@ -49,7 +49,7 @@ def to_netcfd(
     return xr.to_netcdf(path)
 
 
-def read_netcfd(filename_or_obj: Union[str, Path, BinaryIO]) -> pd.DataFrame:
+def read_netcdf(filename_or_obj: Union[str, Path, BinaryIO]) -> pd.DataFrame:
     """Open and decode a dataframe from a file or file-like object.
 
     Parameters
@@ -68,7 +68,7 @@ def read_netcfd(filename_or_obj: Union[str, Path, BinaryIO]) -> pd.DataFrame:
 
     Notes
     -----
-    `read_netcfd` is a simple helper to load netcdf files. Please refer to
+    `read_netcdf` is a simple helper to load netcdf files. Please refer to
     :py:func:`xarray.open_dataset` for more parameters if needs be.
     """
 
