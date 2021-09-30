@@ -3,6 +3,7 @@
 
 import pandas as pd
 from pandas.core.base import PandasObject
+import plotly.io as pio
 
 from resourcecode.client import Client
 from resourcecode.__version__ import __version__
@@ -17,6 +18,11 @@ from resourcecode.data import (
     get_closest_point,
     get_closest_station,
 )
+
+# load the resourcecode plotly theme
+import resourcecode.plotly_theme  # noqa
+
+pio.templates.default = "plotly+resourcecode"
 
 PandasObject.to_netcdf = to_netcdf
 pd.read_netcdf = read_netcdf
