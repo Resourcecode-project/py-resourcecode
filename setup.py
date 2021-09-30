@@ -1,5 +1,22 @@
-#!/usr/bin/env python
 # coding: utf-8
+
+# copyright 2021 IFREMER (Brest, FRANCE), all rights reserved.
+# contact -- mailto:nicolas.raillard@ifremer.fr
+#
+# This file is part of Resourcecode.
+#
+# Resourcecode is free software: you can redistribute it and/or modify it under
+# the terms of the GNU Lesser General Public License as published by the Free
+# Software Foundation, either version 3.0 of the License, or (at your option)
+# any later version.
+#
+# Resourcecode is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+# details.
+#
+# You should have received a copy of the GNU Lesser General Public License along
+# with Resourcecode. If not, see <https://www.gnu.org/licenses/>.
 
 from pathlib import Path
 from setuptools import find_packages, setup
@@ -12,10 +29,11 @@ with open(HERE / "resourcecode" / "__version__.py") as f:
 
 author = "Logilab S.A. (Paris, France)"
 author_email = "contact@logilab.fr"
+__version__ = version_context["__version__"]
 
 description = ""
-url = "https://forge.extranet.logilab.fr/ifremer/resourcecode"
-license = "closed source"
+url = "https://gitlab.ifremer.fr/resourcecode/resourcecode"
+license = "LGPL"
 
 install_requires = [
     "pandas >= 1.0.0",
@@ -37,7 +55,7 @@ classifiers = [
 
 setup(
     name="resourcecode",
-    version=version_context["__version__"],
+    version=__version__,
     license=license,
     description=description,
     author=author,
