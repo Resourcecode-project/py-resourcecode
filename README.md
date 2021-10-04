@@ -116,3 +116,11 @@ which will generate the following plot:
 
 ![plot_hs_fp](./fp_hs.png)
 
+
+# Acknowledgments
+
+The ResourceCode Python module was developed by [Logilab](https://logilab.fr/)
+based on various scientific codes written by the partners of the ResourceCode
+Projet: EMEC, CentraleNantes, Ocean Data Lab, Smart Bay Ireland, University
+College Dublin, INNOSEA, Ifremer, University of Edinburgh. More information at
+http://resourcecode.info.
