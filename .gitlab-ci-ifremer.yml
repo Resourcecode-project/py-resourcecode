@@ -1,5 +1,5 @@
 default:
-  image: python
+  image: python:3.9
   tags:
     - resourcecode-runner
 
