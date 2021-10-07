@@ -120,8 +120,7 @@ class PTO:
                 (
                     (self.rho * self.g * self.width)
                     * np.trapz(
-                        (c_g * s).to_numpy()[np.newaxis, :]
-                        * self.capture_width.columns.to_numpy()[:, np.newaxis],
+                        ((c_g * s)[:, np.newaxis] * self.capture_width).T,
                         x=self.freqs,
                     )
                 ),
