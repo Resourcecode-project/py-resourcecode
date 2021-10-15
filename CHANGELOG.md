@@ -1,3 +1,29 @@
+## Version upcoming release (2021-10-15)
+### 🎉 New features
+
+- add a utils function to convert wind/zonal velocity to magnitude and direction of speed (#26)
+- export get_closest_point and get_closest_station at the root of the module
+- netcfd: add to helpers to read from / export to netcfd (#25)
+- opsplanning: add the code and the doc
+- resassess: add the code and the doc
+- theme: add a plotly theme to embed a resourcecode watermark and use it by default
+
+### 👷 Bug fixes
+
+- innosea: the optimisation done in c20b0a6ba was a bit to much
+- opsplanning: make sure windetect is returned as a pandas datetime series
+- typo: rename netcfd to netcdf
+
+### 📝 Documentation
+
+- nataf: add a documentation about nataf
+- opsplanning: add the auto doc
+
+### 🤖 Continuous integration
+
+- add a gitlab-ci for ifremer runners
+- use python3.9
+
 ## Version 0.3.0 (2021-09-03)
 ### 🎉 New features
 
