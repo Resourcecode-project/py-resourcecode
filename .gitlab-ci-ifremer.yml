@@ -3,23 +3,52 @@ default:
   tags:
     - resourcecode-runner
 
-
-include:
-  - remote: https://forge.extranet.logilab.fr/open-source/gitlab-ci-templates/-/raw/branch/default/templates/no-duplicated-ci-pipelines.yml
-  - remote: https://forge.extranet.logilab.fr/open-source/gitlab-ci-templates/-/raw/branch/default/templates/lint/check-manifest.yml
-  - remote: https://forge.extranet.logilab.fr/open-source/gitlab-ci-templates/-/raw/branch/default/templates/lint/flake8.yml
-  - remote: https://forge.extranet.logilab.fr/open-source/gitlab-ci-templates/-/raw/branch/default/templates/lint/black.yml
-  - remote: https://forge.extranet.logilab.fr/open-source/gitlab-ci-templates/-/raw/branch/default/templates/lint/mypy.yml
-  - remote: https://forge.extranet.logilab.fr/open-source/gitlab-ci-templates/-/raw/branch/default/templates/tests/py3.yml
-  - remote: https://forge.extranet.logilab.fr/open-source/gitlab-ci-templates/-/raw/branch/default/templates/create-release-on-heptapod.yml
-  - remote: https://forge.extranet.logilab.fr/open-source/gitlab-ci-templates/-/raw/branch/default/templates/upload-python-package-to-heptapod.yml
-
 stages:
   - lint
   - tests
   - deployment
   - release
   - publish
+
+
+check-manifest:
+  interruptible: true
+  stage: lint
+  before_script:
+    - pip install tox
+  script: tox -e check-manifest
+
+flake8:
+  interruptible: true
+  stage: lint
+  before_script:
+    - pip install tox
+  script: tox -e flake8
+
+black:
+  interruptible: true
+  stage: lint
+  before_script: 
+    - pip install tox
+  script: tox -e black
+
+mypy:
+  interruptible: true
+  stage: lint
+  before_script: 
+    - pip install tox
+  script: tox -e mypy
+
+py3:
+  interruptible: true
+  stage: tests
+  before_script:
+    - pip install tox
+  script: tox -e py3 -- --junitxml=report.xml
+  artifacts:
+    when: always
+    reports:
+      junit: report.xml
 
 doctest:
   stage: tests
@@ -29,6 +58,33 @@ doctest:
     - pip install sphinx
   script:
     - sphinx-build -b doctest doc .
+
+
+create-release-on-gitlab:
+  stage: release
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  rules:
+    - if: '$CI_MERGE_REQUEST_ID'
+      when: never
+    - if: '$CI_COMMIT_TAG'
+      when: on_success
+  script:
+    - |
+      release-cli create --name "Release $CI_COMMIT_TAG"\
+                         --tag-name $CI_COMMIT_TAG
+
+upload-python-package-to-gitlab:
+  stage: publish
+  rules:
+    - if: '$CI_MERGE_REQUEST_ID'
+      when: never
+    - if: '$CI_COMMIT_TAG'
+      when: on_success
+  before_script:
+    - pip install twine
+  script:
+    - python setup.py sdist bdist_wheel
+    - TWINE_PASSWORD=${CI_JOB_TOKEN} TWINE_USERNAME=gitlab-ci-token python -m twine upload --repository-url ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/pypi dist/*
 
 pages:
   stage: deployment
