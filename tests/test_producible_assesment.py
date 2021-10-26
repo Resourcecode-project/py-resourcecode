@@ -22,13 +22,13 @@ import pandas as pd
 from pathlib import Path
 import pytest
 
-from resourcecode import innosea
+from resourcecode import producible_assesment
 from resourcecode.spectrum import compute_jonswap_wave_spectrum
 
 
-def test_innosea():
+def test_producible_assesment():
 
-    INNOSEA_DATA_DIR = Path(innosea.__file__).parent / "Inputs"
+    INNOSEA_DATA_DIR = Path(producible_assesment.__file__).parent / "Inputs"
     capture_width_path = INNOSEA_DATA_DIR / "capture_width.csv"
     freq_path = INNOSEA_DATA_DIR / "Frequencies.csv"
     pto_data_path = INNOSEA_DATA_DIR / "PTO_values.csv"
@@ -44,7 +44,7 @@ def test_innosea():
     freq_vec = capture_width.index
     spectrum = compute_jonswap_wave_spectrum(wave_data, freq_vec)
 
-    pto = innosea.PTO(capture_width, spectrum)
+    pto = producible_assesment.PTO(capture_width, spectrum)
     assert len(pto.freq_data) == len(wave_data)
     assert pto.width == 20
     assert pto.wave_power[0][0] == pytest.approx(29315.1936)
