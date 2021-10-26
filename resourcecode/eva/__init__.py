@@ -1,4 +1,5 @@
 # coding: utf-8
+# Extreme Values Modelling
 
 # copyright 2021 IFREMER (Brest, FRANCE), all rights reserved.
 # contact -- mailto:nicolas.raillard@ifremer.fr
@@ -19,13 +20,13 @@
 # You should have received a copy of the GNU Lesser General Public License along
 # with Resourcecode. If not, see <https://www.gnu.org/licenses/>.
 
-from resourcecode.multivariate_extremes.nataf.censgaussfit import censgaussfit
-from resourcecode.multivariate_extremes.nataf.extrema import (
+from resourcecode.eva.censgaussfit import censgaussfit
+from resourcecode.eva.extrema import (
     get_fitted_models,
     get_gpd_parameters,
 )
-from resourcecode.multivariate_extremes.nataf.huseby import huseby
-from resourcecode.multivariate_extremes.nataf.simulation import run_simulation
+from resourcecode.eva.huseby import huseby
+from resourcecode.eva.simulation import run_simulation
 
 __all__ = [
     "censgaussfit",

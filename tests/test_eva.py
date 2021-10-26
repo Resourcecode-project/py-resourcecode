@@ -22,9 +22,9 @@ import pytest
 import numpy as np
 import pandas as pd
 
-from resourcecode.multivariate_extremes.nataf.censgaussfit import censgaussfit
-from resourcecode.multivariate_extremes.nataf.huseby import huseby
-from resourcecode.multivariate_extremes.nataf.extrema import (
+from resourcecode.eva.censgaussfit import censgaussfit
+from resourcecode.eva.huseby import huseby
+from resourcecode.eva.extrema import (
     get_fitted_models,
     get_gpd_parameters,
 )
