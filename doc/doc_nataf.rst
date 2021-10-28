@@ -32,6 +32,6 @@ details).
    https://doi.org/10.1016/j.oceaneng.2019.05.016 , Open Access version :
    https://archimer.ifremer.fr/doc/00498/60948/
 
-.. automodule:: resourcecode.multivariate_extremes.nataf
+.. automodule:: resourcecode.eva
     :members:
 
