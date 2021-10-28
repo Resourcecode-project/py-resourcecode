@@ -19,6 +19,7 @@ barriers and promote growth in renewable energy.
    doc_data
    doc_nataf
    doc_weatherwindow
+   doc_produciple_assessment
    doc_opsplanning_resassess
    doc_spectrum
 
