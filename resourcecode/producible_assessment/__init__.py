@@ -19,6 +19,6 @@
 # You should have received a copy of the GNU Lesser General Public License along
 # with Resourcecode. If not, see <https://www.gnu.org/licenses/>.
 
-from resourcecode.producible_assesment.main import PTO
+from resourcecode.producible_assessment.main import PTO
 
 __all__ = ["PTO"]
