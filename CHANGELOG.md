@@ -1,3 +1,13 @@
+## Version 0.5.1 (2021-10-28)
+### 👷 Bug fixes
+
+- fix typo in 'producible_assessment' module name
+
+### 📝 Documentation
+
+- add doc for producible assessment
+- fix documentation link for EVA
+
 ## Version 0.5.0 (2021-10-28)
 ### 📝 Documentation
 
