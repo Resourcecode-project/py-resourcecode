@@ -218,6 +218,7 @@ def bivar_stats(df: pd.DataFrame, steph: float = 0.5, stept: float = 1) -> pd.Da
         Dataframe with hs bins as index. The columns is a hierarchical index of
         statistics and te bins:
         [("count", "mean", "stdev", "percentage"), te_bins].
+
         Examples:
             - res.loc[4.4, ("mean", 3.5)] returns the mean for the bin containing
               4.4 for hs and 3.5 for te
