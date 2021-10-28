@@ -1,4 +1,15 @@
-## Version upcoming release (2021-10-15)
+## Version 0.5.0 (2021-10-28)
+### 📝 Documentation
+
+- add acknowledgements to logilab
+- ask to contact N. Raillard for tokens and replace logilab's forge by ifremer's one
+
+### 🤖 Continuous integration
+
+- refactor gitlab-ci-ifremer not to be dependant of logilab
+
+
+## Version 0.4.0 (2021-10-15)
 ### 🎉 New features
 
 - add a utils function to convert wind/zonal velocity to magnitude and direction of speed (#26)
