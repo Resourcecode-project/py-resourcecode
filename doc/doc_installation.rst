@@ -25,8 +25,8 @@ Install the library
 
 In this virtual environment, you can now install the library. The library is not
 available on PyPI yet, but on a private repository. Therefore, you need an
-access token to install it. Please, contact us at `project-ifremer@logilab.fr
-<projet-ifremer@logilab.fr>`_ to get one.
+access token to install it. You can ask for a token access by writing an email
+to `nicolas.raillard AT ifremer DOT fr` to get one.
 
 Once you have an access token, you can install the library using the following
 command :
@@ -35,7 +35,7 @@ command :
 .. code-block:: shell
 
    (env-resourcecode)$ python -m pip install resourcecode \
-      --extra-index-url https://<username>:<your_personal_token>@forge.extranet.logilab.fr/api/v4/projects/440/packages/pypi/simple
+      --extra-index-url https://<username>:<your_personal_token>@gitlab.ifremer.fr/api/v4/projects/1881/packages/pypi/simple
 
 where you need to replace `<your_personal_token>` by the token provided to you,
 and <username> by your user name.  If the token is correct, the installation
