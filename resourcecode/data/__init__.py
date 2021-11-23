@@ -159,7 +159,7 @@ def get_closest_station(latitude: float, longitude: float) -> Tuple[str, float]:
 
 
 __all__ = [
-    "get_coastlines",
+    "get_coastline",
     "get_grid_field",
     "get_grid_spec",
     "get_islands",
