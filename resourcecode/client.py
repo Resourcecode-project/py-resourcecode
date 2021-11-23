@@ -21,7 +21,7 @@
 
 import sys
 import json
-from urllib.parse import urljoin, urlparse, parse_qs
+from urllib.parse import urljoin, urlparse, parse_qs, unquote_plus
 from datetime import datetime
 from typing import Iterable, Union, Optional
 
@@ -133,7 +133,7 @@ class Client:
         `endDateTime`, and with one column per parameter.
         """
 
-        search_parameters = parse_qs(urlparse(selection_url).query)
+        search_parameters = parse_qs(urlparse(unquote_plus(selection_url)).query)
         if not search_parameters:
             raise ValueError("no criteria found in the url")
 
