@@ -18,5 +18,5 @@
 # You should have received a copy of the GNU Lesser General Public License along
 # with Resourcecode. If not, see <https://www.gnu.org/licenses/>.
 
-numversion = (0, 5, 1)
+numversion = (0, 5, 2)
 __version__ = ".".join(str(num) for num in numversion)

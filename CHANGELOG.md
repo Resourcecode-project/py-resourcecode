@@ -1,3 +1,13 @@
+## Version 0.5.2 (2021-11-24)
+### 👷 Bug fixes
+
+- fix an issue in which the node extracted from Casandra was not the right one
+
+### 📝 Documentation
+
+- Add LISENSE file
+- Add CITATION.cff to ease citation of the package
+
 ## Version 0.5.1 (2021-10-28)
 ### 👷 Bug fixes
 
