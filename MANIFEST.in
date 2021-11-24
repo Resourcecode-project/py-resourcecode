@@ -1,3 +1,4 @@
+include CITATION.cff
 include tox.ini
 include mypy.ini
 include config/config.ini
