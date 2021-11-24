@@ -225,7 +225,7 @@ class Client:
                 )
 
         # Cassandra database start indexing at 1, so decrement node
-        parsed_criteria['node'] = parsed_criteria['node']-1
+        parsed_criteria['node'] = parsed_criteria['node'] - 1
 
         for parameter in parsed_criteria.get("parameter", ()):
             # we assume that multiple parameters can be given.
