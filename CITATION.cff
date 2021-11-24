@@ -5,6 +5,10 @@ cff-version: 1.2.0
 title: Resourcecode Toolbox
 message: 'If you use this software, please cite it as below.'
 type: software
+license: LGPL
+repository-code: "https://gitlab.ifremer.fr/resourcecode/resourcecode"
+url: "https://resourcecode.gitlab-pages.ifremer.fr/resourcecode/"
+version: 0.5.2
 authors:
   - given-names: Nicolas
     family-names: Raillard
