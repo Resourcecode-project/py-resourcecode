@@ -223,7 +223,9 @@ class Client:
                 raise BadPointIdError(
                     f"{parsed_criteria['node']} is an unknown pointId."
                 )
-
+		
+        parsed_criteria['node'] = parsed_criteria['node']-1 #Cassandra database start indexing at 1
+		
         for parameter in parsed_criteria.get("parameter", ()):
             # we assume that multiple parameters can be given.
             # for each parameter, we make a query and we concatenate all the
