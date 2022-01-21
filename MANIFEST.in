@@ -6,6 +6,7 @@ include config/config.ini
 include dev_requirements.txt
 include fp_hs.png
 exclude .gitlab-ci.yml .gitlab-ci-ifremer.yml
+include *.md
 recursive-include notebooks *.ipynb
 recursive-include resourcecode *.py
 recursive-include resourcecode/data *.feather *.json
