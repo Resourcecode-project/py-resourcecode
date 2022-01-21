@@ -5,9 +5,6 @@ include mypy.ini
 include config/config.ini
 include dev_requirements.txt
 include fp_hs.png
-include *.md
-include *.bib
-include *.csl
 exclude .gitlab-ci.yml .gitlab-ci-ifremer.yml
 recursive-include notebooks *.ipynb
 recursive-include resourcecode *.py
@@ -15,6 +12,9 @@ recursive-include resourcecode/data *.feather *.json
 recursive-include tests *.py
 recursive-include tests *.json *.csv
 recursive-include resourcecode *.csv
+
+exclude joss_paper
+
 
 prune codes_to_migrate
 prune doc
