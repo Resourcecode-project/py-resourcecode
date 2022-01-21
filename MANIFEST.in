@@ -13,6 +13,7 @@ recursive-include tests *.py
 recursive-include tests *.json *.csv
 recursive-include resourcecode *.csv
 
+recursive-exclude joss_paper *
 exclude joss_paper
 
 
