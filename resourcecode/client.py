@@ -253,7 +253,7 @@ class Client:
             try:
                 # concatenate and get ride of the timestamp (already known from
                 # the previous iteration)
-                result_array = np.column_stack((result_array, parameter_array[:, 1])) # type: ignore
+                result_array = np.column_stack((result_array, parameter_array[:, 1]))  # type: ignore
             except ValueError:
                 result_array = parameter_array
                 index_array = parameter_array[:, 0]
