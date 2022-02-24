@@ -88,6 +88,9 @@ upload-python-package-to-gitlab:
 
 pypi-publish:
   stage: publish
+  variables:
+    TWINE_USERNAME: $TWINE_USERNAME
+    TWINE_PASSWORD: $TWINE_PASSWORD
   rules:
     - if: '$CI_MERGE_REQUEST_ID'
       when: never
