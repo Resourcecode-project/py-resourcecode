@@ -1,3 +1,9 @@
+## Version 0.5.3 (2022-02-24)
+### 📝 Documentation
+
+- Chance LISENSE to GPL v3 and later
+- Release to pipy
+
 ## Version 0.5.2 (2021-11-24)
 ### 👷 Bug fixes
 
