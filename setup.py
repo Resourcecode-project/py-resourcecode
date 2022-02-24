@@ -32,7 +32,7 @@ __version__ = version_context["__version__"]
 
 description = ""
 url = "https://gitlab.ifremer.fr/resourcecode/resourcecode"
-license = "LGPL"
+license = "GPL-v3.0"
 
 install_requires = [
     "pandas >= 1.0.0",
