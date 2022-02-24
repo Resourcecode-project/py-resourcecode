@@ -59,7 +59,7 @@ def jonswap(hs: float, tp: float, gamma: float, freq: np.ndarray) -> np.ndarray:
         ")"
     )
     sf = ne.evaluate(expr)
-    alpha = (hs ** 2) / (16 * np.trapz(sf, x=freq))
+    alpha = (hs**2) / (16 * np.trapz(sf, x=freq))
     return alpha * sf
 
 

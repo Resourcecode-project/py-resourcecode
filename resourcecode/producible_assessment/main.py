@@ -123,10 +123,10 @@ class PTO:
             te = m_m1 / m_0
             tz = np.sqrt(m_0 / m_2)
             gamma = 1  # assumption
-            tp = te * 1.16637561872 * gamma ** -0.0433388762904
+            tp = te * 1.16637561872 * gamma**-0.0433388762904
             # sea-state steepness computation
             if self.coef_power_decrement:
-                s_s = 2.0 * np.pi * hs / (self.g * tz ** 2)
+                s_s = 2.0 * np.pi * hs / (self.g * tz**2)
             else:
                 s_s = 0
             power_t = pd.DataFrame(

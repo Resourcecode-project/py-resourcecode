@@ -140,7 +140,7 @@ def compute_parameters_from_1D_spectrum(
     M01 = np.trapz(freq * Ef, x=freq)
     T01 = M0 / M01
 
-    M02 = np.trapz(freq ** 2 * Ef, x=freq)
+    M02 = np.trapz(freq**2 * Ef, x=freq)
     T02 = np.sqrt(M0 / M02)
 
     Me = np.trapz(Ef / freq, x=freq)
@@ -156,8 +156,8 @@ def compute_parameters_from_1D_spectrum(
     Tp = 1 / fp
 
     # Spectral Bandwidth and Peakedness parameter (Godo 1970)
-    nu = np.sqrt((M0 * M02) / (M01 ** 2) - 1)
-    mu = np.sqrt(1 - M01 ** 2 / (M0 * M02))
+    nu = np.sqrt((M0 * M02) / (M01**2) - 1)
+    mu = np.sqrt(1 - M01**2 / (M0 * M02))
 
     k = dispersion(freq, depth, n_iter=200, tol=1e-6)
     kd = k * depth
@@ -250,7 +250,7 @@ def compute_parameters_from_2D_spectrum(
 
     Thetam = (np.arctan2(bm, am) * 180 / np.pi) % 360
 
-    Spr = np.sqrt(2 * (1 - np.sqrt((am ** 2 + bm ** 2) / M0 ** 2)))
+    Spr = np.sqrt(2 * (1 - np.sqrt((am**2 + bm**2) / M0**2)))
     Spr = (Spr * 180 / np.pi) % 360
 
     iEfm = np.trapz(E, x=vdir, axis=0).argmax()
@@ -263,11 +263,11 @@ def compute_parameters_from_2D_spectrum(
     # Mean direction at peak frequency
     Thetapm = (np.arctan2(bpm, apm) * 180 / np.pi) % 360
 
-    S2 = E ** 2
+    S2 = E**2
     Qpf = np.trapz((S2 * freq).T, x=vdir)
     MQ = np.trapz(Qpf, x=freq)
 
-    Qp = 2 * MQ / (M0 ** 2)
+    Qp = 2 * MQ / (M0**2)
 
     parameters.Thetam = Thetam
     parameters.Thetapm = Thetapm

@@ -112,7 +112,7 @@ def zmcomp2metconv(
         direction from which flow comes (<B0>)
     """
 
-    V = np.sqrt(u ** 2 + v ** 2)
+    V = np.sqrt(u**2 + v**2)
     D = (270 - np.arctan2(v, u) * 180 / np.pi) % 360
 
     return (V, D)

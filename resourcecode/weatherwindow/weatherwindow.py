@@ -160,7 +160,7 @@ def compute_weather_windows(
 
     h_mean = b * gamma_function(1 + 1 / k) + x0
     gamma = k + 1.8 * x0 / (h_mean - x0)
-    beta = 0.6 * gamma ** 0.287
+    beta = 0.6 * gamma**0.287
     A = 35 / np.sqrt(gamma)
 
     tau = (A * (1 - P)) / (P * (-np.log(P)) ** beta)
@@ -175,10 +175,10 @@ def compute_weather_windows(
 
         alpha = 0.267 * gamma * (hs_threshold / h_mean) ** (-0.4)
         C = gamma_function(1 + 1 / alpha) ** alpha
-        Pxi = np.exp(-C * xi ** alpha)
+        Pxi = np.exp(-C * xi**alpha)
 
         ePa = (hs_threshold - x0) / b
-        ePak = ePa ** k
+        ePak = ePa**k
         Pa = np.exp(-ePak)
         PT[ind, :] = Pxi * (1 - Pa)
 

@@ -69,7 +69,7 @@ def dispersion(
     """
 
     frequencies = np.array(frequencies)
-    infinite_depth_dispersion = (4 * np.pi ** 2 / g) * frequencies ** 2
+    infinite_depth_dispersion = (4 * np.pi**2 / g) * frequencies**2
 
     if not np.isfinite(depth):
         return infinite_depth_dispersion
