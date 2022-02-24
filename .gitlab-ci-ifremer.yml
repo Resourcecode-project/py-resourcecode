@@ -88,9 +88,6 @@ upload-python-package-to-gitlab:
 
 pypi-publish:
   stage: publish
-  tags:
-    - publish
-    - pypi-publish
   rules:
     - if: '$CI_MERGE_REQUEST_ID'
       when: never
