@@ -130,6 +130,10 @@ def compute_parameters_from_1D_spectrum(
     res: SeaStatesParameters
     """
 
+    # depth must be positive
+    if depth <= 0:
+        raise ValueError("Depth must be positive")
+
     # Total energy
     M0 = np.trapz(Ef, x=freq)
 
