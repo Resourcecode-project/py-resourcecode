@@ -1,5 +1,18 @@
 # Resourcecode library
 
+## Description
+
+The **ResourceCODE** Marine Data Toolbox is a python package to facilitate the access to recent hindcast database of sea-state,
+along with a set of state-of-the-art methods for data analysis. This toolbox provides developers with a set of standard functions
+for resource assessment and operations planning.
+The advanced statistical modelling tools provided together with the embedded high resolution wave hindcast database allow the
+developers with a set of standard functions for resource assessment, extreme values modelling and operations planning.
+
+It is dedicated to users without the knowledge of manipulating numerous netCDF files or developing statistical analysis,
+but is also designed to fulfill expert met-ocean analysts needs. The advanced statistical modelling tools provided allow
+the developers of Offshore Renewable Energy (**ORE**) devices to conduct the necessary assessments to reduce uncertainty
+in expected environmental conditions,and de-risk investment in future technology design.
+
 
 ## Installation
 

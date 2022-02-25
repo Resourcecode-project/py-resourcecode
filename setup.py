@@ -30,7 +30,8 @@ author = "Nicolas Raillard (IFREMER, Brest)"
 author_email = "nicolas.raillard@ifremer.fr"
 __version__ = version_context["__version__"]
 
-description = ""
+description = "The ResourceCODE Marine Data Toolbox is a python package to facilitate the\
+ access to recent hindcast database of sea-state , along with a set of state-of-the-art methods for data analysis."
 url = "https://gitlab.ifremer.fr/resourcecode/resourcecode"
 license = "GPL-v3.0"
 
