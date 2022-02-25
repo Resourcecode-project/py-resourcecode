@@ -43,6 +43,7 @@ def jonswap(hs: float, tp: float, gamma: float, freq: np.ndarray) -> np.ndarray:
 
     out: vector containing the spectrum on input freq
     """
+    freq = freq[freq > 0]
 
     expr = (
         "5"
@@ -64,14 +65,14 @@ def jonswap(hs: float, tp: float, gamma: float, freq: np.ndarray) -> np.ndarray:
 
 
 def compute_jonswap_wave_spectrum(
-    wave_data: pd.DataFrame, freq: np.ndarray, gamma: float = 1
+    seastate_data: pd.DataFrame, freq: np.ndarray, gamma: float = 1
 ) -> pd.DataFrame:
     """Computes JONSWAP wave spectrum time series from Hs and Tp time series
 
     Parameters
     ----------
 
-    wave_data:
+    seastate_data:
         a dataframe with Hs and Tp columns
     freq: Hz
         the frequency vector where the spectrum is to be computed
@@ -90,7 +91,7 @@ def compute_jonswap_wave_spectrum(
     def compute_jsonswap_vector(hs, tp):
         return pd.Series(jonswap(hs, tp, gamma=gamma, freq=freq), index=freq)
 
-    spectrum = wave_data.apply(
+    spectrum = seastate_data.apply(
         lambda x: compute_jsonswap_vector(x["hs"], x["tp"]),
         axis=1,
     )
