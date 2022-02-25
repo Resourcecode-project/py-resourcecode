@@ -201,12 +201,14 @@ def compute_parameters_from_2D_spectrum(
     Parameters
     ----------
 
-    Ef:
+    E:
         the 2D spectrum (dir, freq) at one time step
     freq: Hz
-        the frequency vector
+        the frequency bins vector
+    vdir: deg
+        the directionnal bins vector
     depth: m
-        the depth of the water, default to float("inf")
+        the water depth, default to float("inf")
     water_density: kg/m³
         the water density, default to 1025 kg/m³
 

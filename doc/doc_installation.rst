@@ -21,12 +21,12 @@ On Unix-based OS:
    $ source env-resourcecode/bin/activate
    (env-resourcecode)$
 
-
 On windows:
- .. code-block:: shell
+
+.. code-block:: shell
 
    <Your_PATH>.\env-resourcecode\Script\activate
-   (env-resourcecode)<Tour_PATH>
+   (env-resourcecode)<Your_PATH>
 
 Install the library
 -------------------
