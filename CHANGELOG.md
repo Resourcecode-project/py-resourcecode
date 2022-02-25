@@ -1,3 +1,18 @@
+## Version 0.5.5 (2022-02-25)
+### 👷 Bug fixes
+
+ - Add some control on inputs in functions (fixed: #5, #6, #7) 
+
+### 📝 Documentation
+
+- Update documentation due to the release on pypi (fixed: #3)
+- Update documentation for the producible estmation module
+- Correct some typos (fixed: #4)
+
+### 🤖 Continuous integration
+
+- CI/CD to automate release to pypi is functionnal
+
 ## Version 0.5.4 (2022-02-24)
 ### 📝 Documentation
 

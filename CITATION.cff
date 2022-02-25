@@ -8,7 +8,7 @@ type: software
 license: LGPL
 repository-code: "https://gitlab.ifremer.fr/resourcecode/resourcecode"
 url: "https://resourcecode.gitlab-pages.ifremer.fr/resourcecode/"
-version: 0.5.4
+version: 0.5.5
 authors:
   - given-names: Nicolas
     family-names: Raillard
