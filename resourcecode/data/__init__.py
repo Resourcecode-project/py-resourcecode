@@ -92,7 +92,7 @@ The default returned columns are: Corner 1, Corner 2, Corner 3.
 """
 
 get_variables.__doc__ = f"""\
-Return a pandas dataframe describing the variables used by the Cassandra
+Return a pandas dataframe describing the variables available in the Cassandra
 database.
 
 The default returned columns are: name, longname, unit
