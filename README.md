@@ -31,13 +31,12 @@ $ source env-resourcecode/bin/activate
 (env-resourcecode)$
 ```
 
-In this virtual environment, you can now install the library. The library is not
-available on PyPI yet, therefore you have to download the archive
-([here](https://forge.extranet.logilab.fr/ifremer/resourcecode/-/archive/branch/default/resourcecode-branch-default.zip)
-for instance), and then install it:
+In this virtual environment, you can now install the library. The library  is
+available on PyPI, and installation is straightfoward, using the following
+command :
 
 ```
-(env-resourcecode)$ python -m pip install /your/downloads/directory/resourcecode-branch-default.zip
+(env-resourcecode)$ python -m pip install resourcecode
 […]
 ```
 
@@ -45,7 +44,7 @@ To test whether the install has been successful, you can run:
 
 ```bash
 (env-resourcecode)$ python -c "import resourcecode ; print(resourcecode.__version__)"
-0.1.0
+0.5.5
 ```
 
 which should print the current locally installed version of `resourcecode`.
@@ -54,7 +53,7 @@ which should print the current locally installed version of `resourcecode`.
 ## Configuration
 
 The library needs a configuration file to work properly. This file contains in
-particular the URL of the Cassendra API.
+particular the URL of the Cassandra API to acess the hindcast data.
 
 The library will look for the configuration at the following location (in the
 order) :
