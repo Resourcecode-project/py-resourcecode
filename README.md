@@ -1,5 +1,18 @@
 # Resourcecode library
 
+## Description
+
+The **ResourceCODE** Marine Data Toolbox is a python package to facilitate the access to recent hindcast database of sea-state,
+along with a set of state-of-the-art methods for data analysis. This toolbox provides developers with a set of standard functions
+for resource assessment and operations planning.
+The advanced statistical modelling tools provided together with the embedded high resolution wave hindcast database allow the
+developers with a set of standard functions for resource assessment, extreme values modelling and operations planning.
+
+It is dedicated to users without the knowledge of manipulating numerous netCDF files or developing statistical analysis,
+but is also designed to fulfill expert met-ocean analysts needs. The advanced statistical modelling tools provided allow
+the developers of Offshore Renewable Energy (**ORE**) devices to conduct the necessary assessments to reduce uncertainty
+in expected environmental conditions,and de-risk investment in future technology design.
+
 
 ## Installation
 
@@ -18,13 +31,12 @@ $ source env-resourcecode/bin/activate
 (env-resourcecode)$
 ```
 
-In this virtual environment, you can now install the library. The library is not
-available on PyPI yet, therefore you have to download the archive
-([here](https://forge.extranet.logilab.fr/ifremer/resourcecode/-/archive/branch/default/resourcecode-branch-default.zip)
-for instance), and then install it:
+In this virtual environment, you can now install the library. The library  is
+available on PyPI, and installation is straightfoward, using the following
+command :
 
 ```
-(env-resourcecode)$ python -m pip install /your/downloads/directory/resourcecode-branch-default.zip
+(env-resourcecode)$ python -m pip install resourcecode
 […]
 ```
 
@@ -32,7 +44,7 @@ To test whether the install has been successful, you can run:
 
 ```bash
 (env-resourcecode)$ python -c "import resourcecode ; print(resourcecode.__version__)"
-0.1.0
+0.5.5
 ```
 
 which should print the current locally installed version of `resourcecode`.
@@ -41,7 +53,7 @@ which should print the current locally installed version of `resourcecode`.
 ## Configuration
 
 The library needs a configuration file to work properly. This file contains in
-particular the URL of the Cassendra API.
+particular the URL of the Cassandra API to acess the hindcast data.
 
 The library will look for the configuration at the following location (in the
 order) :
@@ -114,7 +126,7 @@ max      0.120000    0.948000
 
 which will generate the following plot:
 
-![plot_hs_fp](./fp_hs.png)
+![plot_hs_fp](https://gitlab.ifremer.fr/resourcecode/resourcecode/-/raw/branch/default/fp_hs.png)
 
 
 # Acknowledgments
@@ -123,4 +135,4 @@ The ResourceCode Python module was developed by [Logilab](https://logilab.fr/)
 based on various scientific codes written by the partners of the ResourceCode
 Projet: EMEC, CentraleNantes, Ocean Data Lab, Smart Bay Ireland, University
 College Dublin, INNOSEA, Ifremer, University of Edinburgh. More information at
-http://resourcecode.info.
+https://resourcecode.ifremer.fr.

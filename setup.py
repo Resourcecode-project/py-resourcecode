@@ -6,16 +6,15 @@
 # This file is part of Resourcecode.
 #
 # Resourcecode is free software: you can redistribute it and/or modify it under
-# the terms of the GNU Lesser General Public License as published by the Free
-# Software Foundation, either version 3.0 of the License, or (at your option)
-# any later version.
+# the terms of the GNU General Public License as published by the Free
+# Software Foundation, either version 3.0 of the License, or any later version.
 #
 # Resourcecode is distributed in the hope that it will be useful, but WITHOUT
 # ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-# FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
 # details.
 #
-# You should have received a copy of the GNU Lesser General Public License along
+# You should have received a copy of the GNU General Public License along
 # with Resourcecode. If not, see <https://www.gnu.org/licenses/>.
 
 from pathlib import Path
@@ -27,13 +26,14 @@ version_context = {}
 with open(HERE / "resourcecode" / "__version__.py") as f:
     exec(f.read(), version_context)
 
-author = "Logilab S.A. (Paris, France)"
-author_email = "contact@logilab.fr"
+author = "Nicolas Raillard (IFREMER, Brest)"
+author_email = "nicolas.raillard@ifremer.fr"
 __version__ = version_context["__version__"]
 
-description = ""
+description = "The ResourceCODE Marine Data Toolbox is a python package to facilitate the\
+ access to recent hindcast database of sea-state , along with a set of state-of-the-art methods for data analysis."
 url = "https://gitlab.ifremer.fr/resourcecode/resourcecode"
-license = "LGPL"
+license = "GPL-v3.0"
 
 install_requires = [
     "pandas >= 1.0.0",
@@ -60,6 +60,8 @@ setup(
     description=description,
     author=author,
     author_email=author_email,
+    long_description=open("README.md", "r").read(),
+    long_description_content_type="text/markdown",
     install_requires=install_requires,
     url=url,
     packages=find_packages(exclude=["test"]),

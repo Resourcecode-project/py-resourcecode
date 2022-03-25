@@ -14,39 +14,39 @@ environment:
 
 then, you activate it:
 
+On Unix-based OS:
+
 .. code-block:: shell
 
    $ source env-resourcecode/bin/activate
    (env-resourcecode)$
 
+On windows:
+
+.. code-block:: shell
+
+   <Your_PATH>.\env-resourcecode\Script\activate
+   (env-resourcecode)<Your_PATH>
 
 Install the library
 -------------------
 
-In this virtual environment, you can now install the library. The library is not
-available on PyPI yet, but on a private repository. Therefore, you need an
-access token to install it. You can ask for a token access by writing an email
-to `nicolas.raillard AT ifremer DOT fr` to get one.
-
-Once you have an access token, you can install the library using the following
+In this virtual environment, you can now install the library. The library is 
+available on PyPI, and installation is straightfoward, using the following
 command :
 
 
 .. code-block:: shell
 
-   (env-resourcecode)$ python -m pip install resourcecode \
-      --extra-index-url https://<username>:<your_personal_token>@gitlab.ifremer.fr/api/v4/projects/1881/packages/pypi/simple
+   (env-resourcecode)$ python -m pip install resourcecode
 
-where you need to replace `<your_personal_token>` by the token provided to you,
-and <username> by your user name.  If the token is correct, the installation
-will start.
 
 To test whether the install has been successful, you can run:
 
 .. code-block:: shell
 
    (env-resourcecode)$ python -c "import resourcecode ; print(resourcecode.__version__)"
-   0.1.0
+   0.5.5
 
 which should print the current locally installed version of `resourcecode`.
 
@@ -68,3 +68,5 @@ you simply have to update `pip` to it latest version:
    (env-resourcecode)$ python -m pip install --upgrade pip
 
 and re-run the install step which should be fine.
+
+At this time, `python >= 3.10` is not supported.

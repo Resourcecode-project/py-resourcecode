@@ -6,16 +6,15 @@
 # This file is part of Resourcecode.
 #
 # Resourcecode is free software: you can redistribute it and/or modify it under
-# the terms of the GNU Lesser General Public License as published by the Free
-# Software Foundation, either version 3.0 of the License, or (at your option)
-# any later version.
+# the terms of the GNU General Public License as published by the Free
+# Software Foundation, either version 3.0 of the License, or any later version.
 #
 # Resourcecode is distributed in the hope that it will be useful, but WITHOUT
 # ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-# FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
 # details.
 #
-# You should have received a copy of the GNU Lesser General Public License along
+# You should have received a copy of the GNU General Public License along
 # with Resourcecode. If not, see <https://www.gnu.org/licenses/>.
 
 from typing import Tuple, Any
@@ -93,7 +92,7 @@ The default returned columns are: Corner 1, Corner 2, Corner 3.
 """
 
 get_variables.__doc__ = f"""\
-Return a pandas dataframe describing the variables used by the Cassandra
+Return a pandas dataframe describing the variables available in the Cassandra
 database.
 
 The default returned columns are: name, longname, unit

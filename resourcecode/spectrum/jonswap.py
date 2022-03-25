@@ -6,16 +6,15 @@
 # This file is part of Resourcecode.
 #
 # Resourcecode is free software: you can redistribute it and/or modify it under
-# the terms of the GNU Lesser General Public License as published by the Free
-# Software Foundation, either version 3.0 of the License, or (at your option)
-# any later version.
+# the terms of the GNU General Public License as published by the Free
+# Software Foundation, either version 3.0 of the License, or any later version.
 #
 # Resourcecode is distributed in the hope that it will be useful, but WITHOUT
 # ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-# FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
 # details.
 #
-# You should have received a copy of the GNU Lesser General Public License along
+# You should have received a copy of the GNU General Public License along
 # with Resourcecode. If not, see <https://www.gnu.org/licenses/>.
 
 import numpy as np
@@ -44,6 +43,7 @@ def jonswap(hs: float, tp: float, gamma: float, freq: np.ndarray) -> np.ndarray:
 
     out: vector containing the spectrum on input freq
     """
+    freq = freq[freq > 0]
 
     expr = (
         "5"
@@ -60,19 +60,19 @@ def jonswap(hs: float, tp: float, gamma: float, freq: np.ndarray) -> np.ndarray:
         ")"
     )
     sf = ne.evaluate(expr)
-    alpha = (hs ** 2) / (16 * np.trapz(sf, x=freq))
+    alpha = (hs**2) / (16 * np.trapz(sf, x=freq))
     return alpha * sf
 
 
 def compute_jonswap_wave_spectrum(
-    wave_data: pd.DataFrame, freq: np.ndarray, gamma: float = 1
+    seastate_data: pd.DataFrame, freq: np.ndarray, gamma: float = 1
 ) -> pd.DataFrame:
     """Computes JONSWAP wave spectrum time series from Hs and Tp time series
 
     Parameters
     ----------
 
-    wave_data:
+    seastate_data:
         a dataframe with Hs and Tp columns
     freq: Hz
         the frequency vector where the spectrum is to be computed
@@ -91,7 +91,7 @@ def compute_jonswap_wave_spectrum(
     def compute_jsonswap_vector(hs, tp):
         return pd.Series(jonswap(hs, tp, gamma=gamma, freq=freq), index=freq)
 
-    spectrum = wave_data.apply(
+    spectrum = seastate_data.apply(
         lambda x: compute_jsonswap_vector(x["hs"], x["tp"]),
         axis=1,
     )

@@ -7,16 +7,15 @@
 # Based on a code written by Christophe Maisondieu (christophe.maisondieu@ifremer.fr)
 #
 # Resourcecode is free software: you can redistribute it and/or modify it under
-# the terms of the GNU Lesser General Public License as published by the Free
-# Software Foundation, either version 3.0 of the License, or (at your option)
-# any later version.
+# the terms of the GNU General Public License as published by the Free
+# Software Foundation, either version 3.0 of the License, or any later version.
 #
 # Resourcecode is distributed in the hope that it will be useful, but WITHOUT
 # ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-# FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
 # details.
 #
-# You should have received a copy of the GNU Lesser General Public License along
+# You should have received a copy of the GNU General Public License along
 # with Resourcecode. If not, see <https://www.gnu.org/licenses/>.
 
 from typing import Optional
@@ -161,7 +160,7 @@ def compute_weather_windows(
 
     h_mean = b * gamma_function(1 + 1 / k) + x0
     gamma = k + 1.8 * x0 / (h_mean - x0)
-    beta = 0.6 * gamma ** 0.287
+    beta = 0.6 * gamma**0.287
     A = 35 / np.sqrt(gamma)
 
     tau = (A * (1 - P)) / (P * (-np.log(P)) ** beta)
@@ -176,10 +175,10 @@ def compute_weather_windows(
 
         alpha = 0.267 * gamma * (hs_threshold / h_mean) ** (-0.4)
         C = gamma_function(1 + 1 / alpha) ** alpha
-        Pxi = np.exp(-C * xi ** alpha)
+        Pxi = np.exp(-C * xi**alpha)
 
         ePa = (hs_threshold - x0) / b
-        ePak = ePa ** k
+        ePak = ePa**k
         Pa = np.exp(-ePak)
         PT[ind, :] = Pxi * (1 - Pa)
 

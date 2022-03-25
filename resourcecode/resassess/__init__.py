@@ -7,16 +7,15 @@
 # Based on a code written by David Darbinyan (david.darbinyan@emec.org.uk)
 #
 # Resourcecode is free software: you can redistribute it and/or modify it under
-# the terms of the GNU Lesser General Public License as published by the Free
-# Software Foundation, either version 3.0 of the License, or (at your option)
-# any later version.
+# the terms of the GNU General Public License as published by the Free
+# Software Foundation, either version 3.0 of the License, or any later version.
 #
 # Resourcecode is distributed in the hope that it will be useful, but WITHOUT
 # ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-# FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
 # details.
 #
-# You should have received a copy of the GNU Lesser General Public License along
+# You should have received a copy of the GNU General Public License along
 # with Resourcecode. If not, see <https://www.gnu.org/licenses/>.
 
 """
@@ -26,7 +25,7 @@ The module allows calculation and production of some of the standard
 deliverables for resource assessment listed in IEC 62600-101 for
 reconnoicanse and feasibility study.
 The calculations are based on energy flux, significant wave height and
-energy period parameters from RCODE database. The module produces univariate
+energy period parameters from RESOURCECODE database. The module produces univariate
 statistics for energy flux, bi-variate statistics and energy values binned in
 significant wave height and energy period
 
