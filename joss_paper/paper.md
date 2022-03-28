@@ -42,11 +42,11 @@ journal: JOSS
 
 # Summary
 
-The `resourcecode` Marine Data Toolbox is a python package developed within the **ResourceCODE** project, to facilitate the access to a recent hindcast database of sea-state [@Accensi_2021], along with a set of state-of-the-art methods for data analysis. This toolbox provides developers with a set of standard functions for resource assessment and operations planning. The advanced statistical modelling tools provided together with the embedded high resolution wave hindcast database provide the developers with a set of standard functions for resource assessment, extreme values modelling and operations planning. Suitable for users not familiar with netCDF files handling or statistical analysis development, it is however designed to fulfil expert metocean analysis requirements. The advanced statistical modelling tools provided allow the developers of Offshore Renewable Energy (**ORE**) devices to conduct the necessary assessments to reduce uncertainty in expected environmental conditions, and de-risk investment in future technology design.
+The `resourcecode` Marine Data Toolbox is a python package developed within the **ResourceCODE** project, to facilitate the access to a recently developed Metocean hindcast database [@Accensi_2021], and to a set of state-of-the-art methods for data analysis. This toolbox provides developers with a set of standard functions for resource assessment and operations planning. The advanced statistical modelling tools provided together with the embedded high resolution wave hindcast database provide the developers with a set of standard functions for resource assessment, extreme values modelling and operations and maintenance planning. Suitable for users not familiar with netCDF files handling or statistical analysis development, it is however designed to fulfil expert metocean analysis requirements. The advanced statistical modelling tools provided allow the developers of Offshore Renewable Energy (**ORE**) devices to conduct the necessary assessments to reduce uncertainty in expected environmental conditions, and de-risk investment in future technology design.
 
 # Statement of Need
 
-The `resourcecode` python package allows to retrieve and analyse time series of parameters and spectra extracted from the companion hindcast database. This database consist in a high-resolution unstructured grid, spanning from the south of Spain to the Faroe Islands and from the western Irish continental shelf to the Baltic Sea, over more than 300'000 nodes. At each node, 39 wave parameters and frequency spectra are available with a hourly time-step. Directional spectra are also available, on a coarser grid over the area covered. This data has been extensively validated against both in-situ and satellite remote sensing data. However, this database is very large (more than 50Tb) and can not easily be downloaded by the end users. The `resourcecode` python package objectives are twofold: preparing data harvesting from the database, which is often one of the most time-consuming steps, and providing the user with unified, state-of-the-art methods for analyzing the data extracted. The analysis tools offer different capabilities, such as resource assessment, optimisation of the design of ORE devices and the planning of Operation and Maintenance (O&M) tasks.
+The `resourcecode` python package allows to retrieve and analyse time series of Metocean parameters and spectra extracted from the companion hindcast database. This database consists in a high-resolution unstructured grid with more than 300 000 nodes, spanning from the South of Spain to the Faeroe Islands and from the Western Irish continental shelf to the Baltic Sea. At each node, 39 wave parameters and frequency spectra are available with a hourly time-step. Directional spectra are also available, on a coarser grid over the area covered. This data has been extensively validated against both in-situ and satellite remote sensing data [@Accensi_2021]. However, this database is very large (more than 50Tb) and can not easily be downloaded by the end users. The `resourcecode` python package objectives are twofold: preparing data harvesting from the database, which is often one of the most time-consuming steps, and providing the user with unified, state-of-the-art methods for analysing the data extracted. The analysis tools offer different capabilities, such as resource assessment, optimisation of the design of ORE devices and the planning of Operation and Maintenance (O&M) tasks.
 
 <!--
 For non-expert users of the **ResourceCODE** dataset:
@@ -79,7 +79,7 @@ data = client.get_dataframe_from_criteria(
 )
 ```
 
-In the example above, we used `resourcecode` to fetch data from node *134939*, for the entire time period, and for some parameters: significant wave height $H_s$, peak  wave frequency $f_p$, Mean direction at peak frequency $D_p$ and Wave Energy Flux $CgE$. The `resourcecode` package will automaticlly construct the proper Cassandra request and will process the data internally to output a **pandas** data frame  (@pandas2010) workable in-memory.   
+In the example above, we used `resourcecode` to fetch data from node *134939*, for the entire time period, and for some parameters: significant wave height $H_s$, peak  wave frequency $f_p$, Mean direction at peak frequency $D_p$ and Wave Energy Flux $CgE$. The `resourcecode` package will automatically construct the proper Cassandra request and will process the data internally to output a **pandas** data frame  (@pandas2010) workable in-memory.   
 
 The different tasks that can be handled via this package, both for data management and statistical modelling include :
 
@@ -99,19 +99,19 @@ The different tasks that can be handled via this package, both for data manageme
   - Extreme values modelling;
   - 2D and 3D environmental contours (as in @Raillard_2019).
 - Weather windows for O&M:
- - Model based (as in @Walker_2013);
- - Empirical estimates.
-- Producible estimation:
- - Standard WEC included, extensible with user-provided characteristics;
+  - Model based (as in @Walker_2013);
+  - Empirical estimates.
+- WEC energy production estimates:
+ - A WEC case study is included, extensible with user-provided characteristics;
  - PTO optimization (as in @Payne_2021).
 
 # Companion web Portal
 
-The toolbox is associated to a Web Portal^[https://resourcecode.ifremer.fr/] for exploring the data and accessing some simplified use-case, dynamically rendered and based on the possibilities offered by the toolbox.
+The toolbox is associated to a Web Portal^[https://resourcecode.ifremer.fr/] for exploring the data and accessing some simplified use-cases, dynamically rendered and based on the possibilities offered by the toolbox.
 
-For instance, users can identify and select a specific location on a dynamic map on which all the nodes of the computational grid as well as the nodes of the 2D spectra coarser grid are plotted (see \ref{fig:portal}, left plot). They can either click on the node to select it or enter its coordinates. They can also specify the start and end dates of the data subset to be extracted. The node selected by the user along with the period specified can be directly specified by an url^[https://resourcecode.ifremer.fr/explore?pointId=119949&startDateTime=1998-02-01T14%3A00%3A00.000Z&endDateTime=1998-02-01T23%3A00%3A00.000Z].
+For instance, users can identify and select a specific location on a dynamic map on which all the nodes of the computational grid as well as the nodes of the 2D spectra coarser grid are plotted (see Figure \ref{fig:portal}, left plot). They can either click on the node to select it or enter its coordinates. They can also specify the start and end dates of the data subset to be extracted. The node selected by the user along with the period specified can be directly specified by an url^[https://resourcecode.ifremer.fr/explore?pointId=119949&startDateTime=1998-02-01T14%3A00%3A00.000Z&endDateTime=1998-02-01T23%3A00%3A00.000Z].
 
-Once a node is selected, the user is offered several tools for analysing the data available at the selected location. This tools are developed on top of the python package and allow for several statistical characterization of the selected site: summary statistics; time series visualization; bivariate statistics; wind and wave roses plotting.
+Once a node is selected, the user is offered several tools for analysing the data available at the selected location. These tools are developed on top of the python package and allow for several statistical characterization of the selected site: summary statistics; time series visualization; bivariate statistics; wind and wave roses plotting.
 
 \begin{figure}
 
@@ -124,7 +124,7 @@ Once a node is selected, the user is offered several tools for analysing the dat
 
 # Conclusion
 
-The `resourcecode` package is offering to the met-ocean engineering community a tool to access seamlessly to a large and comprehensive dataset that have proved to be a reference for sea-states hindcasting. Along with the dataset, the functionalities offered by the toolbox permit to foster the development of OREs. For a complete list of available features, the reader can access to the package documentation at https://resourcecode.gitlab-pages.ifremer.fr/resourcecode/.
+The `resourcecode` package is offering to the met-ocean engineering community a tool to access seamlessly a large and comprehensive dataset that have been proven to be a reference for sea-states hindcasting. Along with the dataset, the functionalities offered by the toolbox permit to foster the development of OREs. For a complete list of available features, the reader can access to the package documentation at https://resourcecode.gitlab-pages.ifremer.fr/resourcecode/.
 
 # Acknowledgements
 
