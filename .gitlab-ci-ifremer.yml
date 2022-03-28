@@ -44,7 +44,7 @@ py3:
   stage: tests
   before_script:
     - pip install tox
-  script: tox -e py3 -- --junitxml=report.xml
+  script: tox -e py3 -- --junitxml=report.xml -vv
   artifacts:
     when: always
     reports:
