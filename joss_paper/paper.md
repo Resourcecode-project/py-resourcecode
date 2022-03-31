@@ -15,7 +15,7 @@ authors:
     affiliation: 1
   - name: David Darbynian
     affiliation: 2
-  - name: Gregory Payne
+  - name: Gregory Payne^[Present address&#58; Farwind Energy, 1 rue de la Noë, 44300, Nantes, France]
     orcid: 0000-0002-8527-8815
     affiliation: 3
   - name: Louis Papillon
@@ -25,7 +25,7 @@ affiliations:
    index: 1
  - name: EMEC, Orkney, UK
    index: 2
- - name: Ecole Centrale Nantes, Nantes, France
+ - name: LHEEA, Ecole Centrale de Nantes and CNRS (UMR6598), 1 rue de la Noë, 44300 Nantes, France
    index: 3
  - name: Innosea, Nantes, France
    index: 4
