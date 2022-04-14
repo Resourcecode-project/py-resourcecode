@@ -102,14 +102,14 @@ The different tasks that can be handled via this package, both for data manageme
   - Model based (as in @Walker_2013);
   - Empirical estimates.
 - WEC energy production estimates:
- - A WEC case study is included, extensible with user-provided characteristics;
- - PTO optimization (as in @Payne_2021).
+  - A WEC case study is included, extensible with user-provided characteristics;
+  - PTO optimization (as in @Payne_2021).
 
 # Companion web Portal
 
 The toolbox is associated to a Web Portal^[https://resourcecode.ifremer.fr/] for exploring the data and accessing some simplified use-cases, dynamically rendered and based on the possibilities offered by the toolbox.
 
-For instance, users can identify and select a specific location on a dynamic map on which all the nodes of the computational grid as well as the nodes of the 2D spectra coarser grid are plotted (see Figure \ref{fig:portal}, left plot). They can either click on the node to select it or enter its coordinates. They can also specify the start and end dates of the data subset to be extracted. The node selected by the user along with the period specified can be directly specified by an url^[https://resourcecode.ifremer.fr/explore?pointId=119949&startDateTime=1998-02-01T14%3A00%3A00.000Z&endDateTime=1998-02-01T23%3A00%3A00.000Z].
+For instance, users can identify and select a specific location on a dynamical map on which all the nodes of the computational grid as well as the nodes of the 2D spectra coarser grid are plotted (see Figure \ref{fig:portal}, left plot). They can either click on the node to select it or enter its coordinates. They can also specify the start and end dates of the data subset to be extracted. The node selected by the user along with the period specified can be directly specified by an url^[https://resourcecode.ifremer.fr/explore?pointId=119949&startDateTime=1998-02-01T14%3A00%3A00.000Z&endDateTime=1998-02-01T23%3A00%3A00.000Z].
 
 Once a node is selected, the user is offered several tools for analysing the data available at the selected location. These tools are developed on top of the python package and allow for several statistical characterization of the selected site: summary statistics; time series visualization; bivariate statistics; wind and wave roses plotting.
 
