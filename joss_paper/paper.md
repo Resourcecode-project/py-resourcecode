@@ -130,6 +130,10 @@ Once a node is selected, the user is offered several tools for analysing the dat
 
 The `resourcecode` package is offering to the met-ocean engineering community a tool to access seamlessly a large and comprehensive dataset that have been proven to be a reference for sea-states hindcasting. Along with the dataset, the functionalities offered by the toolbox permit to foster the development of OREs. For a complete list of available features, the reader can access to the package documentation at https://resourcecode.gitlab-pages.ifremer.fr/resourcecode/.
 
+# Authors contributions
+
+Extreme value analysis, environmental contours and data management modules: N.R.; Spectral data handling and model based weather window modules: C.M; Resource assessment and empirical weather windows modules: D.B; WEC energy production estimation module: G.P and L.P; Conversion of routines to python, writing tests, CI/CD configuration and packaging: S.C. N.R coordinated the development and wrote the paper. All authors approved the final submitted draft.
+
 # Acknowledgements
 
 The **ResourceCODE** project has received support under the framework of the OCEANERA-NET COFUND project, with funding provided by national/ regional sources and co-funding by the European Union's Horizon 2020 research and innovation program.
