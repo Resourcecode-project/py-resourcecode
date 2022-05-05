@@ -49,28 +49,6 @@ To test whether the install has been successful, you can run:
 
 which should print the current locally installed version of `resourcecode`.
 
-
-## Configuration
-
-The library needs a configuration file to work properly. This file contains in
-particular the URL of the Cassandra API to acess the hindcast data.
-
-The library will look for the configuration at the following location (in the
-order) :
-
-* in the file described by the `RESOURCECODE_CONFIG_FILEPATH` environment
-  variable.
-* in a file named `resourcecode.ini` in the current directory.
-* in a file located in `$HOME/.config/resourcecode.ini`.
-* in a file located in `/usr/local/etc/resourcecode/config.ini`
-
-The search stops at the first file found.
-
-The default configuration file can be found [here](./config/config.ini). You may
-download it and move it to this location: `$HOME/.config/resourcecode.ini`.
-
-You may need to update the Cassandra URL.
-
 ## Example of use
 
 Once the library is installed and the configuration is done, you can use the
@@ -128,6 +106,90 @@ which will generate the following plot:
 
 ![plot_hs_fp](https://gitlab.ifremer.fr/resourcecode/resourcecode/-/raw/branch/default/fp_hs.png)
 
+## Configuration
+
+The library needs a configuration file to work properly. This file contains in
+particular the URL of the Cassandra API to acess the hindcast data.
+
+The library will look for the configuration at the following location (in the
+order) :
+
+* in the file described by the `RESOURCECODE_CONFIG_FILEPATH` environment
+  variable.
+* in a file named `resourcecode.ini` in the current directory.
+* in a file located in `$HOME/.config/resourcecode.ini`.
+* in a file located in `/usr/local/etc/resourcecode/config.ini`
+
+The search stops at the first file found.
+
+The default configuration file can be found [here](./config/config.ini). You may
+download it and move it to this location: `$HOME/.config/resourcecode.ini`.
+
+You may need to update the Cassandra URL.
+
+## Documentation
+
+We recommend starting with the [official documentation](https://resourcecode.gitlab-pages.ifremer.fr/resourcecode/)
+of the toolbox.
+
+For examples of the functionalities offered by the toolbox, some Jupyter notebooks are proposed:
+
+ * [Exploratory DataAnalysis](https://nbviewer.org/urls/gitlab.ifremer.fr/resourcecode/tools/producible-estimation-showcase/-/raw/branch/default/index.ipynb)
+ * [Extreme Values Analysis](https://nbviewer.org/urls/gitlab.ifremer.fr/resourcecode/tools/extreme-values-analysis/-/raw/branch/default/index.ipynb)
+ * [Producible estimation](https://nbviewer.org/urls/gitlab.ifremer.fr/resourcecode/tools/producible-estimation-showcase/-/raw/branch/default/index.ipynb)
+
+# Web portal
+
+The `resourcecode`package goes along with a companion [Web Portal](https://resourcecode.ifremer.fr/resources) that allows to see some of its functionalities in action.
+
+Detailed information about the data availibily, tutorials, etc. can be found in the [resources](https://resourcecode.ifremer.fr/resources) page.
+
+Exploration of the hindcast database and some of data exploratory tools are in the [explore]
+https://resourcecode.ifremer.fr/explore) page.
+
+Both the Jupyter notebook mentioned above and more advanced applications are available as `Jupyter-flex` notebooks. They are
+listed on the [Tools](https://resourcecode.ifremer.fr/tools) page.
+
+# Contributing
+
+This package is under active development, and any contribution is welcomed. If you have something
+you would like to contribute, but you are not sure how, please don't hesitate to reach out by
+sending me an [email](mailto:nicolasDOTraillard[AT]ifremerDOTfr) or
+opening an [issue](https://gitlab.ifremer.fr/resourcecode/resourcecode/-/issues).
+
+## Citing
+
+Please cite it in your publications and do not hesitate to tell your friends and colleagues about it.
+
+```bibtex
+@manual{,
+  title = {Resourcecode Toolbox},
+  author = {Raillard, Nicolas and Chabot, Simon and Maisondieu, Christophe and Darbynian, David
+and Payne, Gregory and Papillon, Louis},
+  url = {https://gitlab.ifremer.fr/resourcecode/resourcecode},
+  year = {2022},
+  month = {2},
+}
+```
+## Reporting bugs
+
+If you think you found a bug in `resourcecode`, even if you are unsure, please let me know. The
+easiest way is to send [email](mailto:nicolasDOTraillard[AT]ifremerDOTfr).
+
+Please try to create a reproducible example with the minimal amount of code required to reproduce the bug you encountered.
+
+## Adding or requesting new functionalities
+
+Whenever possible, we will try to add new functionalities to  `resourcecode` package depending on user's needs and feedbacks. Proposed functionalities are tracked with issues, so please have a look to see what are the plans.
+
+If you plan to develop new functionalities, you can fork the repository on GitLab to work on the patch.
+Get in touch with the maintainer to refine and prioritize your issue.
+
+## Code of conduct
+
+Please note that `resourcecode` is released with a [Contributor Code of
+Conduct](https://ropensci.org/code-of-conduct/). By contributing to this project
+you agree to abide by its terms.
 
 # Acknowledgments
 
