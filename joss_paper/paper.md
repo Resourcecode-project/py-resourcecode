@@ -138,7 +138,7 @@ Extreme value analysis, environmental contours and data management modules: N.R.
 
 The **ResourceCODE** project has received support under the framework of the OCEANERA-NET COFUND project, with funding provided by national/ regional sources and co-funding by the European Union's Horizon 2020 research and innovation program.
 
-The authors also acknowledge the following people for their significant contribution to the toolbox, the web site and this paper: Frank Bessou, Olivier Giorgis, Noé Gaumon, Baptiste Garcia, Nicolas Chauvat and Arthur Lutz from LOGILAB, Mickael Accensi, Charlie Andre and Glenn Judeau from IFREMER, Matthew Storey from EMEC and the three reviewers of the JOSS paper for fruitful discussions.
+The authors also acknowledge the following people for their significant contribution to the toolbox, the web site and this paper: Frank Bessou, Olivier Giorgis, Noé Gaumont, Baptiste Garcia, Nicolas Chauvat and Arthur Lutz from LOGILAB, Mickael Accensi, Charlie Andre and Glenn Judeau from IFREMER, Matthew Storey from EMEC and the three reviewers of the JOSS paper for fruitful discussions.
 
 # References
 
