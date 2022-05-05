@@ -185,6 +185,10 @@ Whenever possible, we will try to add new functionalities to  `resourcecode` pac
 If you plan to develop new functionalities, you can fork the repository on GitLab to work on the patch.
 Get in touch with the maintainer to refine and prioritize your issue.
 
+## Licensing
+
+All contributed code will be licensed under a GPL-3 license with authorship attribution. If you did not write the code yourself, it is your responsibility to ensure that the existing license is compatible and included in the contributed files.
+
 ## Code of conduct
 
 Please note that `resourcecode` is released with a [Contributor Code of
