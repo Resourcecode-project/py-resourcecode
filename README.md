@@ -34,7 +34,7 @@ $ source env-resourcecode/bin/activate
 ```
 
 In this virtual environment, you can now install the library. The library  is
-available on PyPI, and installation is straightfoward, using the following
+available on PyPI, and installation is straightforward, using the following
 command :
 
 ```
@@ -57,7 +57,7 @@ Once the library is installed and the configuration is done, you can use the
 library.
 
 The first thing to do, is a create a `Client`. The client will query the
-cassandra database for you, and return a pandas dataframe of your selection.
+Cassandra database for you, and return a pandas dataframe of your selection.
 
 See the following example:
 
@@ -111,7 +111,7 @@ which will generate the following plot:
 ## Configuration
 
 The library needs a configuration file to work properly. This file contains in
-particular the URL of the Cassandra API to acess the hindcast data.
+particular the URL of the Cassandra API to access the hindcast data.
 
 The library will look for the configuration at the following location (in the
 order) :
@@ -144,7 +144,7 @@ For examples of the functionalities offered by the toolbox, some Jupyter noteboo
 
 The `resourcecode`package goes along with a companion [Web Portal](https://resourcecode.ifremer.fr/resources) that allows to see some of its functionalities in action.
 
-Detailed information about the data availibily, tutorials, etc. can be found in the [resources](https://resourcecode.ifremer.fr/resources) page.
+Detailed information about the data availability, tutorials, etc. can be found in the [resources](https://resourcecode.ifremer.fr/resources) page.
 
 Exploration of the hindcast database and some of data exploratory tools are in the [explore](https://resourcecode.ifremer.fr/explore) page.
 
@@ -155,8 +155,9 @@ listed on the [Tools](https://resourcecode.ifremer.fr/tools) page.
 
 This package is under active development, and any contribution is welcomed. If you have something
 you would like to contribute, but you are not sure how, please don't hesitate to reach out by
-sending me an [email](mailto:nicolas.raillard@ifremer.fr) or
-opening an [issue](https://gitlab.ifremer.fr/resourcecode/resourcecode/-/issues).
+sending me an [email](mailto:nicolas.raillard@ifremer.fr) or by
+opening an [issue](https://gitlab.ifremer.fr/resourcecode/resourcecode/-/issues). It currently
+depends on a registration on the IFREMER Gitlab, which can be done by sending me an email.
 
 ## Citing
 
@@ -174,7 +175,7 @@ Please cite it in your publications and do not hesitate to tell your friends and
 ## Reporting bugs
 
 If you think you found a bug in `resourcecode`, even if you are unsure, please let me know. The
-easiest way is to send me an [email](mailto:nicolas.raillard@ifremer.fr).
+easiest way is to send me an [email](mailto:nicolas.raillard@ifremer.fr) as for the moment submitting issues depends on a registration process mediated by email.
 
 Please try to create a reproducible example with the minimal amount of code required to reproduce the bug you encountered.
 
@@ -182,7 +183,7 @@ Please try to create a reproducible example with the minimal amount of code requ
 
 Whenever possible, we will try to add new functionalities to  `resourcecode` package depending on user's needs and feedbacks. Proposed functionalities are tracked with issues, so please have a look to see what are the plans.
 
-If you plan to develop new functionalities, you can fork the repository on GitLab to work on the patch.
+If you plan to develop new functionalities, you can clone the repository to work on the patch.
 Get in touch with the maintainer to refine and prioritize your issue.
 
 ## Licensing
@@ -202,7 +203,7 @@ has received support under the framework of the OCEANERA-NET COFUND project,
 with funding provided by national/ regional sources and co-funding by the
 European Union's Horizon 2020 research and innovation program.
 
-The partners of the projet (EMEC, IFREMER, CentraleNantes, Ocean Data Lab,
+The partners of the project (EMEC, IFREMER, CentraleNantes, Ocean Data Lab,
 Smart Bay Ireland, University College Dublin, INNOSEA and University of Edinburgh)
 contributed to this this toolbox and transfered the copyright to IFREMER. They all
 agreed to the published License (GPL v3).
