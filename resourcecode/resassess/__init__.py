@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# copyright 2021 IFREMER (Brest, FRANCE), all rights reserved.
+# Copyright 2020-2022 IFREMER (Brest, FRANCE), all rights reserved.
 # contact -- mailto:nicolas.raillard@ifremer.fr
 #
 # This file is part of Resourcecode.
@@ -33,6 +33,7 @@ IMPORTANT: read_data_temp - is a temporary method to be replaced by method to
 export the data directly from Casandra
 
 Created on Wed Dec  2 14:14:48 2020
+
 @author: david.darbinyan
 """
 from pathlib import Path
