@@ -5,13 +5,37 @@ cff-version: 1.2.0
 title: Resourcecode Toolbox
 message: 'If you use this software, please cite it as below.'
 type: software
-license: LGPL
+license: 'GPL-3.0-or-later'
 repository-code: "https://gitlab.ifremer.fr/resourcecode/resourcecode"
 url: "https://resourcecode.gitlab-pages.ifremer.fr/resourcecode/"
 version: 0.5.5
+date-released: '2022-02-22'
 authors:
   - given-names: Nicolas
     family-names: Raillard
     email: nicolas.raillard@ifremer.fr
     affiliation: IFREMER
     orcid: 'https://orcid.org/0000-0003-3385-5104'
+  - given-names: Simon
+    family-names: Chabot
+    email: simon.chabot@logilab.fr
+    affiliation: LOGILAB
+  - given-names: Christophe
+    family-names: Maisondieu
+    email: christophe.maisondieu@ifremer.fr
+    affiliation: IFREMER
+    orcid: 'https://orcid.org/0000-0001-9883-5257'
+  - given-names: David
+    family-names: Darbynian
+    email: David.Darbynian@emec.org.uk
+    affiliation: EMEC
+  - given-names: Gregory
+    family-names: Payne
+    email: gregory.payne@ec-nantes.fr
+    affiliation: Centrale Nantes
+    orcid: 'https://orcid.org/0000-0002-8527-8815'
+  - given-names: Louis
+    family-names: Papillon
+    email: louis.papillon@innosea.fr
+    affiliation: Innosea
+

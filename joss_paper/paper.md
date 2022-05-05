@@ -10,25 +10,29 @@ authors:
   - name: Nicolas Raillard^[corresponding author] # note this makes a footnote saying 'co-first author'
     orcid: 0000-0003-3385-5104
     affiliation: 1
+  - name: Simon Chabot
+    affiliation: 2
   - name: Christophe Maisondieu
     orcid: 0000-0001-9883-5257
     affiliation: 1
   - name: David Darbynian
-    affiliation: 2
+    affiliation: 3
   - name: Gregory Payne^[Present address&#58; Farwind Energy, 1 rue de la Noë, 44300, Nantes, France]
     orcid: 0000-0002-8527-8815
-    affiliation: 3
-  - name: Louis Papillon
     affiliation: 4
+  - name: Louis Papillon
+    affiliation: 5
 affiliations:
  - name: Ifremer, RDT, F-29280 Plouzané, France
    index: 1
- - name: EMEC, Orkney, UK
+ - name: Logilab, Paris, France
    index: 2
- - name: LHEEA, Ecole Centrale de Nantes and CNRS (UMR6598), 1 rue de la Noë, 44300 Nantes, France
+ - name: EMEC, Orkney, UK
    index: 3
- - name: Innosea, Nantes, France
+ - name: LHEEA, Ecole Centrale de Nantes and CNRS (UMR6598), 1 rue de la Noë, 44300 Nantes, France
    index: 4
+ - name: Innosea, Nantes, France
+   index: 5
 citation_author: N. Raillard et al.
 date: 30 November 2021
 year: 2021
@@ -79,7 +83,7 @@ data = client.get_dataframe_from_criteria(
 )
 ```
 
-In the example above, we used `resourcecode` to fetch data from node *134939*, for the entire time period, and for some parameters: significant wave height $H_s$, peak  wave frequency $f_p$, Mean direction at peak frequency $D_p$ and Wave Energy Flux $CgE$. The `resourcecode` package will automatically construct the proper Cassandra request and will process the data internally to output a **pandas** data frame  (@pandas2010) workable in-memory.   
+In the example above, we used `resourcecode` to fetch data from node *134939*, for the entire time period, and for some parameters: significant wave height $H_s$, peak  wave frequency $f_p$, Mean direction at peak frequency $D_p$ and Wave Energy Flux $CgE$. The `resourcecode` package will automatically construct the proper Cassandra request and will process the data internally to output a **pandas** data frame  (@pandas2010) workable in-memory.  
 
 The different tasks that can be handled via this package, both for data management and statistical modelling include :
 
@@ -90,7 +94,7 @@ The different tasks that can be handled via this package, both for data manageme
     - coastlines, islands ans mesh triangles;
     - bathymetry and bottom roughness;
     - List of output variables;
-  - Easy to use **pandas** data frame (filtering,aggregating,...);
+  - Easy to use **pandas** data frame (filtering, aggregating,...);
   - Data conversion: 
     - Directional spectra $\to$ Frequency spectra $\to$ Sea-state parameters;
     - Zonal/Meridional components to Intensity/Direction.
@@ -129,6 +133,8 @@ The `resourcecode` package is offering to the met-ocean engineering community a 
 # Acknowledgements
 
 The **ResourceCODE** project has received support under the framework of the OCEANERA-NET COFUND project, with funding provided by national/ regional sources and co-funding by the European Union's Horizon 2020 research and innovation program.
+
+The authors also acknowledge the following people for their significant contribution to the toolbox, the web site and this paper: Frank Bessou, Olivier Giorgis, Noé Gaumon, Baptiste Garcia, Nicolas Chauvat and Arthur Lutz from LOGILAB, Mickael Accensi, Charlie Andre and Glenn Judeau from IFREMER, Matthew Storey from EMEC and the three reviewers of the JOSS paper for fruitful discussions.
 
 # References
 
