@@ -134,7 +134,7 @@ of the toolbox.
 
 For examples of the functionalities offered by the toolbox, some Jupyter notebooks are proposed:
 
- * [Exploratory DataAnalysis](https://nbviewer.org/urls/gitlab.ifremer.fr/resourcecode/tools/producible-estimation-showcase/-/raw/branch/default/index.ipynb)
+ * [Exploratory Data Analysis](https://nbviewer.org/urls/gitlab.ifremer.fr/resourcecode/tools/producible-estimation-showcase/-/raw/branch/default/index.ipynb)
  * [Extreme Values Analysis](https://nbviewer.org/urls/gitlab.ifremer.fr/resourcecode/tools/extreme-values-analysis/-/raw/branch/default/index.ipynb)
  * [Producible estimation](https://nbviewer.org/urls/gitlab.ifremer.fr/resourcecode/tools/producible-estimation-showcase/-/raw/branch/default/index.ipynb)
 
@@ -144,8 +144,7 @@ The `resourcecode`package goes along with a companion [Web Portal](https://resou
 
 Detailed information about the data availibily, tutorials, etc. can be found in the [resources](https://resourcecode.ifremer.fr/resources) page.
 
-Exploration of the hindcast database and some of data exploratory tools are in the [explore]
-https://resourcecode.ifremer.fr/explore) page.
+Exploration of the hindcast database and some of data exploratory tools are in the [explore](https://resourcecode.ifremer.fr/explore) page.
 
 Both the Jupyter notebook mentioned above and more advanced applications are available as `Jupyter-flex` notebooks. They are
 listed on the [Tools](https://resourcecode.ifremer.fr/tools) page.
@@ -154,7 +153,7 @@ listed on the [Tools](https://resourcecode.ifremer.fr/tools) page.
 
 This package is under active development, and any contribution is welcomed. If you have something
 you would like to contribute, but you are not sure how, please don't hesitate to reach out by
-sending me an [email](mailto:nicolasDOTraillard[AT]ifremerDOTfr) or
+sending me an [email](mailto:nicolas.raillard@ifremer.fr) or
 opening an [issue](https://gitlab.ifremer.fr/resourcecode/resourcecode/-/issues).
 
 ## Citing
@@ -164,8 +163,7 @@ Please cite it in your publications and do not hesitate to tell your friends and
 ```bibtex
 @manual{,
   title = {Resourcecode Toolbox},
-  author = {Raillard, Nicolas and Chabot, Simon and Maisondieu, Christophe and Darbynian, David
-and Payne, Gregory and Papillon, Louis},
+  author = {Raillard, Nicolas and Chabot, Simon and Maisondieu, Christophe and Darbynian, David and Payne, Gregory and Papillon, Louis},
   url = {https://gitlab.ifremer.fr/resourcecode/resourcecode},
   year = {2022},
   month = {2},
@@ -174,7 +172,7 @@ and Payne, Gregory and Papillon, Louis},
 ## Reporting bugs
 
 If you think you found a bug in `resourcecode`, even if you are unsure, please let me know. The
-easiest way is to send [email](mailto:nicolasDOTraillard[AT]ifremerDOTfr).
+easiest way is to send me an [email](mailto:nicolas.raillard@ifremer.fr).
 
 Please try to create a reproducible example with the minimal amount of code required to reproduce the bug you encountered.
 
