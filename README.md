@@ -2,8 +2,10 @@
 
 ## Description
 
-The **ResourceCODE** Marine Data Toolbox is a python package to facilitate the access to recent hindcast database of sea-state,
-along with a set of state-of-the-art methods for data analysis. This toolbox provides developers with a set of standard functions
+The `resourcecode` Marine Data Toolbox is a python package  developed within the  **ResourceCODE** project,
+to facilitate the access to a recently developed Metocean hindcast
+[database](https://www.umr-lops.fr/Donnees/Vagues/sextant#/metadata/d089a801-c853-49bd-9064-dde5808ff8d8),
+and to a set of state-of-the-art methods for data analysis. This toolbox provides developers with a set of standard functions
 for resource assessment and operations planning.
 The advanced statistical modelling tools provided together with the embedded high resolution wave hindcast database allow the
 developers with a set of standard functions for resource assessment, extreme values modelling and operations planning.
@@ -191,8 +193,16 @@ you agree to abide by its terms.
 
 # Acknowledgments
 
-The ResourceCode Python module was developed by [Logilab](https://logilab.fr/)
-based on various scientific codes written by the partners of the ResourceCode
-Projet: EMEC, CentraleNantes, Ocean Data Lab, Smart Bay Ireland, University
-College Dublin, INNOSEA, Ifremer, University of Edinburgh. More information at
-https://resourcecode.ifremer.fr.
+The **ResourceCODE** project, under which this package have been developed,
+has received support under the framework of the OCEANERA-NET COFUND project,
+with funding provided by national/ regional sources and co-funding by the
+European Union's Horizon 2020 research and innovation program.
+
+The partners of the projet (EMEC, IFREMER, CentraleNantes, Ocean Data Lab,
+Smart Bay Ireland, University College Dublin, INNOSEA and University of Edinburgh)
+contributed to this this toolbox and transfered the copyright to IFREMER. They all
+agreed to the published License (GPL v3).
+
+The `resourcecode` Python module was developed by [Logilab](https://logilab.fr/)
+based on various scientific codes written by the partners of the **ResourceCODE**
+projet. The copyright have been transfered to IFREMER. More information at https://resourcecode.ifremer.fr.
