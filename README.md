@@ -175,6 +175,7 @@ Please cite it in your publications and do not hesitate to tell your friends and
   month = {2},
 }
 ```
+
 ## Reporting bugs
 
 If you think you found a bug in `resourcecode`, even if you are unsure, please let me know. The
