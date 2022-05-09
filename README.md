@@ -1,5 +1,8 @@
 # Resourcecode library
 
+[![PyPI version](https://badge.fury.io/py/resourcecode.svg)](https://badge.fury.io/py/resourcecode)
+[![Downloads](https://img.shields.io/badge/dynamic/json.svg?label=downloads&url=https%3A%2F%2Fpypistats.org%2Fapi%2Fpackages%2Fresourcecode%2Frecent&query=data.last_month&colorB=brightgreen&suffix=%2FMonth)](https://pypistats.org/packages/2Fresourcecode)
+
 ## Description
 
 The `resourcecode` Marine Data Toolbox is a python package  developed within the  **ResourceCODE** project,
