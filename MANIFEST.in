@@ -13,6 +13,7 @@ recursive-include resourcecode/data *.feather *.json
 recursive-include tests *.py
 recursive-include tests *.json *.csv
 recursive-include resourcecode *.csv
+recursive-include CLA *.pdf
 
 recursive-exclude joss_paper *
 exclude joss_paper
