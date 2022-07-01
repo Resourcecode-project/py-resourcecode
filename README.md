@@ -186,14 +186,21 @@ Please try to create a reproducible example with the minimal amount of code requ
 
 ## Adding or requesting new functionalities
 
-Whenever possible, we will try to add new functionalities to  `resourcecode` package depending on user's needs and feedbacks. Proposed functionalities are tracked with issues, so please have a look to see what are the plans.
+Whenever possible, we will try to add new functionalities to  `resourcecode` package depending on user's needs and feedbacks.
+Proposed functionalities are tracked with issues, so please have a look to see what are the plans.
 
 If you plan to develop new functionalities, you can clone the repository to work on the patch.
 Get in touch with the maintainer to refine and prioritize your issue.
 
+If you would like to contribute directly to `resourcecode`, you will have to sign a Contributor License Agreement (CLA).
+This CLA allows you to retain your copyright while at the same time it allows us to license `resourcecode` under approved open source license.
+
+CLA documents can be found in the `CLA` folder, both for individuals and entities contributions.
+
 ## Licensing
 
-All contributed code will be licensed under a GPL-3 license with authorship attribution. If you did not write the code yourself, it is your responsibility to ensure that the existing license is compatible and included in the contributed files.
+All contributed code will be licensed under a GPL-3 license with authorship attribution. If you did not write the code yourself, it is your responsibility
+to ensure that the existing license is compatible and included in the contributed files.
 
 ## Code of conduct
 
