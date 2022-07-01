@@ -38,7 +38,7 @@ def test_convert_spectrum_2D_to_1D():
     expected_1D_spectrum = np.loadtxt(DATA_DIR / "spectrum" / "Etfh.csv", delimiter=",")
     got_1D_spectrum = convert_spectrum_2Dto1D(spec, vdir)
 
-    assert got_1D_spectrum == pytest.approx(expected_1D_spectrum, abs=1e-3,rel=1e-3)
+    assert got_1D_spectrum == pytest.approx(expected_1D_spectrum)
 
 
 def test_compute_parameter_1D():
@@ -51,7 +51,7 @@ def test_compute_parameter_1D():
     )
     got_parameters = compute_parameters_from_1D_spectrum(etfh, freq, depth)
 
-    assert got_parameters == pytest.approx(expected_parameters, abs=1e-3,rel=1e-3)
+    assert got_parameters == pytest.approx(expected_parameters)
 
 
 def test_compute_parameter_2D():
@@ -65,4 +65,4 @@ def test_compute_parameter_2D():
     )
     got_parameters = compute_parameters_from_2D_spectrum(spec, freq, vdir, depth)
 
-    assert got_parameters == pytest.approx(expected_parameters, abs=1e-3,rel=1e-3)
+    assert got_parameters == pytest.approx(expected_parameters)
