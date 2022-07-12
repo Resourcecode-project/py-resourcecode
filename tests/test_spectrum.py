@@ -51,7 +51,7 @@ def test_compute_parameter_1D():
     )
     got_parameters = compute_parameters_from_1D_spectrum(etfh, freq, depth)
 
-    assert got_parameters == pytest.approx(expected_parameters)
+    assert got_parameters.approx(expected_parameters)
 
 
 def test_compute_parameter_2D():
@@ -65,4 +65,4 @@ def test_compute_parameter_2D():
     )
     got_parameters = compute_parameters_from_2D_spectrum(spec, freq, vdir, depth)
 
-    assert got_parameters == pytest.approx(expected_parameters)
+    assert got_parameters.approx(expected_parameters)
