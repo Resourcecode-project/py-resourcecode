@@ -99,7 +99,7 @@ class SeaStatesParameters:
 
     def __len__(self):
         return len(astuple(self))
-        
+
     def approx(self, other):
         return astuple(self) == pytest.approx(astuple(other), rel=1e-5, abs=1e-5)
 
