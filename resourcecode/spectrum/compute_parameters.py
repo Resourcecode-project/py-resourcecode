@@ -23,6 +23,7 @@ from dataclasses import dataclass, astuple
 
 import numpy as np
 import pandas as pd
+import pytest
 from scipy.interpolate import interp1d
 from scipy.constants import g
 
@@ -98,6 +99,9 @@ class SeaStatesParameters:
 
     def __len__(self):
         return len(astuple(self))
+        
+    def approx(self, other):
+        return astuple(self) == pytest.approx(astuple(other), rel=1e-5, abs=1e-5)
 
     def to_dataframe(self):
         """Convert the dataclass to a pandas DataFrame"""
