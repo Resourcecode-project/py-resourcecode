@@ -24,7 +24,7 @@ from resourcecode.spectrum.compute_parameters import (
     compute_parameters_from_1D_spectrum,
     compute_parameters_from_2D_spectrum,
 )
-from resourcecode.spectrum.download_data import get_2D_spec
+from resourcecode.spectrum.download_data import get_2D_spectrum
 
 
 __all__ = [
@@ -34,5 +34,5 @@ __all__ = [
     "compute_parameters_from_2D_spectrum",
     "convert_spectrum_2Dto1D",
     "dispersion",
-    "get_2D_spec",
+    "get_2D_spectrum",
 ]

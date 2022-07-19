@@ -85,7 +85,7 @@ def download_single_file(
     return X
 
 
-def get_2D_spec(
+def get_2D_spectrum(
     point: str,
     years: Iterable[str],
     months: Iterable[str],
