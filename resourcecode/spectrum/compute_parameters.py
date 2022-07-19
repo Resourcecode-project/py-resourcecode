@@ -241,7 +241,12 @@ def compute_parameters_from_2D_spectrum(
     # Energy flux
     k = dispersion(freq, depth, n_iter=200, tol=1e-6)
     kd = k * depth
-    c1 = 1 + 2 * kd / np.sinh(2 * kd)
+
+    if not np.isfinite(depth):
+        c1 = 1
+    else:
+        c1 = 1 + 2 * kd / np.sinh(2 * kd)
+
     c2 = np.sqrt(g * np.tanh(kd) / k)
     cg = 0.5 * c1 * c2
 
