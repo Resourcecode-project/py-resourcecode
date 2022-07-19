@@ -1,3 +1,20 @@
+## Version 0.6 (TDB)
+### 🎉 New features
+
+ - spectrum: it is now possible to download the 2D spectrum directly from IFREMER FTP
+
+### 📝 Documentation
+
+ - README now included a list of dependencies and is more precise for contributing.
+ - spectrum: the documention is updated with new features.
+ 
+
+### 👷 Bug fixes
+ 
+ - Tests were failing on masOS and windows due to small differences in constants values (scipy.constant.g).
+
+
+
 ## Version 0.5.5 (2022-02-25)
 ### 👷 Bug fixes
 
