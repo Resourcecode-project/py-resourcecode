@@ -31,7 +31,7 @@ def download_single_file(
     point: str,
     year: str,
     month: str,
-) -> xarray.DataSet:
+) -> xarray.Dataset:
     """
     Download the 2D spectrum data from IFREMER ftp
 
@@ -49,7 +49,7 @@ def download_single_file(
     ------
 
     res:
-        A dataSet object with the data read from the downloaded netCDF file.
+        A dataset object with the data read from the downloaded netCDF file.
     """
     base = "ftp://ftp.ifremer.fr/ifremer/dataref/ww3/resourcecode/HINDCAST/"
     url = (
@@ -89,7 +89,7 @@ def download_spec(
     point: str,
     years: Iterable[str],
     months: Iterable[str],
-) -> xarray.DataSet:
+) -> xarray.Dataset:
     """
     Download the 2D spectrum data from IFREMER ftp
 
@@ -107,7 +107,7 @@ def download_spec(
     ------
 
     res:
-        A dataSet object with the data read from the downloaded netCDF file.
+        A dataset object with the data read from the downloaded netCDF file.
     """
     datasets = []
     for yr in years:
