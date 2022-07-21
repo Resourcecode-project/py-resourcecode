@@ -72,7 +72,7 @@ def test_compute_parameter_2D():
 
 def test_download_file():
     expected_spectrum = xarray.open_dataset(
-        DATA_DIR / "spectrum" / "RSCD_WW3-RSCD-UG-W001933N55743_201605_spec.nc"
+        DATA_DIR / "spectrum" / "W001933N55743_201605.nc"
     )
     expected_spectrum = expected_spectrum.assign(
         Ef=pow(10, expected_spectrum["efth"]) - 1e-12
