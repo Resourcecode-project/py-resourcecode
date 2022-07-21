@@ -45,6 +45,7 @@ install_requires = [
     "plotly >= 4.12.0, < 5.0.0",
     "numexpr >= 2.7.0, < 3.0.0",
     "xarray >= 0.19.0, < 1.0.0",
+    "netCDF4 >= 1.6.0",
 ]
 
 classifiers = [

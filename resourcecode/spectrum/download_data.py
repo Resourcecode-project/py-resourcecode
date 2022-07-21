@@ -69,9 +69,8 @@ def download_single_file(
         raise ValueError(f"{point} is an unkown location")
 
     if (
-        int(year)
-        < get_covered_period()["start"].year | int(year)
-        >= get_covered_period()["end"].year
+        int(year) < get_covered_period()["start"].year
+        or int(year) >= get_covered_period()["end"].year
     ):
         raise ValueError(f"{year} is outsite the covered period")
 

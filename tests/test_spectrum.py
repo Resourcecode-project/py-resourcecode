@@ -18,12 +18,14 @@
 # with Resourcecode. If not, see <https://www.gnu.org/licenses/>.
 
 import numpy as np
+import xarray
 import pytest
 
 from resourcecode.spectrum import (
     convert_spectrum_2Dto1D,
     compute_parameters_from_1D_spectrum,
     compute_parameters_from_2D_spectrum,
+    get_2D_spectrum,
 )
 
 from resourcecode.spectrum.compute_parameters import SeaStatesParameters
@@ -66,3 +68,17 @@ def test_compute_parameter_2D():
     got_parameters = compute_parameters_from_2D_spectrum(spec, freq, vdir, depth)
 
     assert got_parameters.approx(expected_parameters)
+
+
+def test_download_file():
+    expected_spectrum = xarray.open_dataset(
+        DATA_DIR / "spectrum" / "RSCD_WW3-RSCD-UG-W001933N55743_201605_spec.nc"
+    )
+    expected_spectrum = expected_spectrum.assign(
+        Ef=pow(10, expected_spectrum["efth"]) - 1e-12
+    )
+    expected_spectrum = expected_spectrum.drop_vars("efth")
+
+    got_spectrum = get_2D_spectrum("W001933N55743", ["2016"], ["05"])
+
+    assert all(got_spectrum == expected_spectrum)
