@@ -82,6 +82,8 @@ def download_single_file(
         with tempfile.NamedTemporaryFile(delete=False, suffix=".nc") as tmp_file:
             shutil.copyfileobj(response, tmp_file)
     X = xarray.open_dataset(tmp_file.name).drop_dims("string40").squeeze()
+    X = X.assign(Ef=pow(10, X["efth"]) - 1e-12)
+    X = X.drop_vars("efth")
     return X
 
 
