@@ -80,10 +80,11 @@ def download_single_file(
     with urllib.request.urlopen(url) as response:
         with tempfile.NamedTemporaryFile(delete=False, suffix=".nc") as tmp_file:
             shutil.copyfileobj(response, tmp_file)
-    X = xarray.open_dataset(tmp_file.name).drop_dims("string40").squeeze()
-    X = X.assign(Ef=pow(10, X["efth"]) - 1e-12)
-    X = X.drop_vars("efth")
-    return X
+    with xarray.open_dataset(tmp_file.name) as ds:
+        ds = ds.drop_dims("string40").squeeze()
+        ds = ds.assign(Ef=pow(10, ds["efth"]) - 1e-12)
+        ds = ds.drop_vars("efth")
+    return ds
 
 
 def get_2D_spectrum(
