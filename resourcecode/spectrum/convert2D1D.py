@@ -47,7 +47,7 @@ def convert_spectrum_2Dto1D(spectrum_2D: np.ndarray, vdir: np.ndarray) -> np.nda
     return np.trapz(spectrum_2D[ivd, :], x=vd[ivd], axis=0)
 
 
-def convert_spectrum_xr_2Dto1D(spectrumDataSet: xarray.Dataset) -> xarray.DataArray:
+def convert_spectrum_xr_2Dto1D(spectrumDataSet: xarray.Dataset) -> xarray.Dataset:
     """
     Converts a 2D spectrum time series to a 1D spectrum
 
@@ -61,9 +61,12 @@ def convert_spectrum_xr_2Dto1D(spectrumDataSet: xarray.Dataset) -> xarray.DataAr
     -------
 
     spectrum_1D:
-        xarray.DataArray with 1D spectrum
+        xarray.Dataset with 1D spectrum
 
     """
+
+    out = spectrumDataSet.copy()
+
     sp1d_xr = xarray.apply_ufunc(
         convert_spectrum_2Dto1D,  # first the function
         spectrumDataSet.Ef,  # now arguments in the order expected by 'interp1_np'
@@ -76,4 +79,6 @@ def convert_spectrum_xr_2Dto1D(spectrumDataSet: xarray.Dataset) -> xarray.DataAr
         exclude_dims=set(("direction",)),
         vectorize=True,  # loop over non-core dims
     )
-    return sp1d_xr
+    out = out.drop_dims("direction")
+    out["Ef"] = sp1d_xr
+    return out

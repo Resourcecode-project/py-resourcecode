@@ -297,7 +297,7 @@ def compute_parameters_from_2D_spectrum(
 def compute_parameters_from_2D_spectrum_xr(
     spectrumDataSet: xarray.Dataset,
     use_depth: bool,
-) -> xarray.DataArray:
+) -> pd.DataFrame:
     """
     Compute Sea-States parameters from 2D spectrum time series
 
@@ -358,4 +358,16 @@ def compute_parameters_from_2D_spectrum_xr(
             ),
             vectorize=True,  # loop over non-core dims
         )
-    return param_xr
+    sea_state = []
+    for d in param_xr.to_dict()["data"]:
+        sea_state.append(d.to_dataframe())
+    out = pd.concat(sea_state)
+    out.insert(0, "time", param_xr.time.values)
+
+    out["dpt"] = spectrumDataSet.dpt.values
+    out["wnd"] = spectrumDataSet.wnd.values
+    out["wnddir"] = spectrumDataSet.wnddir.values
+    out["cur"] = spectrumDataSet.cur.values
+    out["curdir"] = spectrumDataSet.curdir.values
+
+    return out
