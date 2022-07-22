@@ -83,7 +83,7 @@ def download_single_file(
     with xarray.open_dataset(tmp_file.name) as ds:
         ds = ds.drop_dims("string40").squeeze()
         ds = ds.assign(Ef=pow(10, ds["efth"]) - 1e-12)
-        ds = ds.drop_vars("efth")
+        ds = ds.drop_vars(["efth", "station"])
     return ds
 
 
