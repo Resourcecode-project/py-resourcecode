@@ -82,3 +82,20 @@ def test_download_file():
     got_spectrum = get_2D_spectrum("W001933N55743", ["2016"], ["05"])
 
     assert all(got_spectrum == expected_spectrum)
+
+
+def test_get_fields():
+    got_spectrum = get_2D_spectrum("W001933N55743", ["2016"], ["05"])
+
+    assert list(got_spectrum.keys()) == [
+        "longitude",
+        "latitude",
+        "frequency1",
+        "frequency2",
+        "dpt",
+        "wnd",
+        "wnddir",
+        "cur",
+        "curdir",
+        "Ef",
+    ]

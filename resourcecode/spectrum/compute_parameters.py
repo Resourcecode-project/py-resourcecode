@@ -23,6 +23,7 @@ from dataclasses import dataclass, astuple
 
 import numpy as np
 import pandas as pd
+import xarray
 import pytest
 from scipy.interpolate import interp1d
 from scipy.constants import g
@@ -291,3 +292,70 @@ def compute_parameters_from_2D_spectrum(
     parameters.Qp = Qp
 
     return parameters
+
+
+def compute_parameters_from_2D_spectrum_xr(
+    spectrumDataSet: xarray.Dataset,
+    use_depth: bool,
+) -> xarray.DataArray:
+    """
+    Compute Sea-States parameters from 2D spectrum time series
+
+    Parameters
+    ----------
+
+    spectrumDataSet:
+        the spectrum data (as obtained from spec.get_2D_spectrum): a DataSet with time series of spectrum
+    use_depth: boolean
+        if True, the 'dpt' field is used to compute dispersion relation. Otherwise, infinite depth is assumed.
+
+    Returns
+    -------
+
+    res:
+        xarray.DataArray with Sea-States parameters
+
+    """
+    if use_depth:
+        param_xr = xarray.apply_ufunc(
+            compute_parameters_from_2D_spectrum,  # first the function
+            spectrumDataSet.Ef,  # now arguments in the order expected by 'compute_parameters_from_2D_spectrum'
+            spectrumDataSet.frequency,
+            spectrumDataSet.direction,
+            spectrumDataSet.dpt,
+            input_core_dims=[
+                ["direction", "frequency"],
+                ["frequency"],
+                ["direction"],
+                [],
+            ],  # list with one entry per arg
+            output_core_dims=[[]],  # list with one entry per arg
+            exclude_dims=set(
+                (
+                    "frequency",
+                    "direction",
+                )
+            ),
+            vectorize=True,  # loop over non-core dims
+        )
+    else:
+        param_xr = xarray.apply_ufunc(
+            compute_parameters_from_2D_spectrum,  # first the function
+            spectrumDataSet.Ef,  # now arguments in the order expected by 'compute_parameters_from_2D_spectrum'
+            spectrumDataSet.frequency,
+            spectrumDataSet.direction,
+            input_core_dims=[
+                ["direction", "frequency"],
+                ["frequency"],
+                [],
+            ],  # list with one entry per arg
+            output_core_dims=[[]],  # list with one entry per arg
+            exclude_dims=set(
+                (
+                    "frequency",
+                    "direction",
+                )
+            ),
+            vectorize=True,  # loop over non-core dims
+        )
+    return param_xr
