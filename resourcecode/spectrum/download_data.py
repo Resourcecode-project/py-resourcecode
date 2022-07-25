@@ -84,6 +84,7 @@ def download_single_file(
         ds = ds.drop_dims("string40").squeeze()
         ds = ds.assign(Ef=pow(10, ds["efth"]) - 1e-12)
         ds = ds.drop_vars(["efth", "station"])
+        ds = ds.sortby("direction")
     return ds
 
 
