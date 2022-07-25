@@ -117,5 +117,5 @@ def get_2D_spectrum(
         for mth in months:
             ds = download_single_file(point, yr, mth)
             datasets.append(ds)
-    result = xarray.concat(datasets, dim="time")
+    result = xarray.concat(datasets, dim="time", data_vars="minimal")
     return result
