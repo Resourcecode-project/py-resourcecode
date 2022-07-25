@@ -68,12 +68,12 @@ def plot_2D_spectrum(data, time):
             [np.pi / 3 - 0.1, 0.41],
             annotation_clip=False,
         )
-        title = '\n'.join(
+        title = "\n".join(
             [
-            "Wave directional spectrum at\n",
-            f"point {data.attrs['product_name'].split('_')[1].split('-')[3]}",
-            f"({data.longitude[time].data:.2f}°W,{data.latitude[time].data:.2f}°N)",
-            f"on {pd.to_datetime(data.time[time].data)}",
+                "Wave directional spectrum at\n",
+                f"point {data.attrs['product_name'].split('_')[1].split('-')[3]}",
+                f"({data.longitude[time].data:.2f}°W,{data.latitude[time].data:.2f}°N)",
+                f"on {pd.to_datetime(data.time[time].data)}",
             ]
         )
         plt.title(title)
