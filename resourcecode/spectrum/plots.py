@@ -54,23 +54,27 @@ def plot_2D_spectrum(data, time):
         ax.set_rlabel_position(0)
         ax.set_xlabel("f (Hs)")
         ax.grid(True)
-        sea_state = (
-            f"$H_s$: {params.Hm0:.2f}m\n",
-            f"$T_p$: {params.Tp:.2f}s\n",
-            f"Mean direction at $T_p$: {params.Thetapm:.2f}°\n",
-            f"Directionnal spreading: {params.Spr:.2f}°\n",
-            f"Wind speed: {float(data.wnd[time]):.2f}m/s",
+        sea_state = "\n".join(
+            [
+                f"Hs: {params.Hm0:.2f}m",
+                f"Tp: {params.Tp:.2f}s",
+                f"Mean direction at Tp: {params.Thetapm:.2f}°",
+                f"Directionnal spreading: {params.Spr:.2f}°",
+                f"Wind speed: {float(data.wnd[time]):.2f}m/s",
+            ]
         )
         plt.annotate(
             sea_state,
             [np.pi / 3 - 0.1, 0.41],
             annotation_clip=False,
         )
-        title = (
+        title = '\n'.join(
+            [
             "Wave directional spectrum at\n",
             f"point {data.attrs['product_name'].split('_')[1].split('-')[3]}",
             f"({data.longitude[time].data:.2f}°W,{data.latitude[time].data:.2f}°N)",
             f"on {pd.to_datetime(data.time[time].data)}",
+            ]
         )
         plt.title(title)
         plt.annotate(
