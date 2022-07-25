@@ -20,12 +20,14 @@
 import numpy as np
 import xarray
 import pytest
+from matplotlib import pyplot as plt
 
 from resourcecode.spectrum import (
     convert_spectrum_2Dto1D,
     compute_parameters_from_1D_spectrum,
     compute_parameters_from_2D_spectrum,
     get_2D_spectrum,
+    plot_2D_spectrum,
 )
 
 from resourcecode.spectrum.compute_parameters import SeaStatesParameters
@@ -99,3 +101,10 @@ def test_get_fields():
         "curdir",
         "Ef",
     ]
+
+
+def test_plot_spectrum():
+    got_spectrum = get_2D_spectrum("W001933N55743", ["2016"], ["05"])
+    plot_2D_spectrum(got_spectrum, 10)
+    plt.savefig("tests/output/2Dspec.png")
+    plt.close()

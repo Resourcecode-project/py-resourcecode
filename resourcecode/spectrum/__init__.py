@@ -25,7 +25,7 @@ from resourcecode.spectrum.compute_parameters import (
     compute_parameters_from_2D_spectrum,
 )
 from resourcecode.spectrum.download_data import get_2D_spectrum
-
+from resourcecode.spectrum.plots import plot_2D_spectrum
 
 __all__ = [
     "SeaStatesParameters",
@@ -35,4 +35,5 @@ __all__ = [
     "convert_spectrum_2Dto1D",
     "dispersion",
     "get_2D_spectrum",
+    "plot_2D_spectrum",
 ]
