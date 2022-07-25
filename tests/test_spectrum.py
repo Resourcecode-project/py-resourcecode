@@ -106,5 +106,5 @@ def test_get_fields():
 def test_plot_spectrum():
     got_spectrum = get_2D_spectrum("W001933N55743", ["2016"], ["05"])
     plot_2D_spectrum(got_spectrum, 10)
-    plt.savefig("tests/output/2Dspec.png")
+    plt.savefig("tests/output/2Dspec.png", bbox_inches="tight")
     plt.close()
