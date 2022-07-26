@@ -33,6 +33,7 @@ def plot_2D_spectrum(
     sea_state: bool = True,
     normalize: bool = True,
     cut_off: float = 0.4,
+    trim: float = 0.01,
 ) -> plt.Figure:
     """Plot the 2D spectrum at a specific time
 
@@ -49,6 +50,8 @@ def plot_2D_spectrum(
         Should the spectrum be normalized (at a max value of 1) ?
     cut_off:
         cut-off frequency above with the spectrum is not plotted
+    trim:
+        removes the values of the spectral density lower than this value
     Returns
     -------
 
@@ -88,6 +91,8 @@ def plot_2D_spectrum(
         # Normalize the wave spectrum to a max of one if needed
         if normalize:
             Ef = Ef / Ef.max()
+
+        Ef[Ef < trim] = np.nan
 
         ax.grid(False)  # Just to remove warning from 'pcolormesh', add it back latter
 
