@@ -32,7 +32,7 @@ def censgaussfit(data: np.ndarray, q: float) -> OptimizeResult:
     ----------
 
     data: a NxM nd-array
-    q: a float
+    q: a float above which the model is fitted. Should be above 0.5.
 
     Returns
     -------
