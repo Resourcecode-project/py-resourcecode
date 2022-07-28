@@ -81,9 +81,13 @@ def download_single_file(
         with tempfile.NamedTemporaryFile(delete=False, suffix=".nc") as tmp_file:
             shutil.copyfileobj(response, tmp_file)
     with xarray.open_dataset(tmp_file.name) as ds:
+        # Remove the 'string40' dimension which is not very indicative
         ds = ds.drop_dims("string40").squeeze()
+        # Convert the log-spectrum to the actual value
+        # the value is already scaled internally by xarray so we do not need the scale factor of 0.004
         ds = ds.assign(Ef=pow(10, ds["efth"]) - 1e-12)
         ds = ds.drop_vars(["efth", "station"])
+        # We sort the direction to start at 0
         ds = ds.sortby("direction")
     return ds
 
@@ -117,5 +121,6 @@ def get_2D_spectrum(
         for mth in months:
             ds = download_single_file(point, yr, mth)
             datasets.append(ds)
+    #  data_vars="minimal" is requested in order to avoid duplicating some variables that have different dimensions
     result = xarray.concat(datasets, dim="time", data_vars="minimal")
     return result
