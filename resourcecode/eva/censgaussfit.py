@@ -56,9 +56,13 @@ def censgaussfit(data: np.ndarray, q: float) -> OptimizeResult:
     th_norm = norm.ppf(q)
 
     def fitness(cov):
-        sigma = np.eye(len(cov))
-        set_trig(sigma, cov, "upper")
-        set_trig(sigma, cov, "lower")
+        # For the 2D case, we have only one parameter
+        if len(cov) > 1:
+            sigma = np.eye(len(cov))
+            set_trig(sigma, cov, "upper")
+            set_trig(sigma, cov, "lower")
+        else:
+            sigma = cov
 
         return (
             tail_dependency_obs

@@ -2,6 +2,7 @@
 ### 🎉 New features
 
  - spectrum: it is now possible to download the 2D spectrum directly from IFREMER FTP
+ - spectrum: new function to plot 2D spectrum along with sea-state parameters
 
 ### 📝 Documentation
 
@@ -12,7 +13,7 @@
 ### 👷 Bug fixes
  
  - Tests were failing on masOS and windows due to small differences in constants values (scipy.constant.g).
-
+ - 'eva' module: censgaussfit' and 'run_simulation' were not computing the right values for the 2D case
 
 
 ## Version 0.5.5 (2022-02-25)
