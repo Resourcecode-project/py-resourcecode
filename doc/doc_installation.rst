@@ -25,7 +25,7 @@ On windows:
 
 .. code-block:: shell
 
-   <Your_PATH>.\env-resourcecode\Script\activate
+   <Your_PATH>.\\env-resourcecode\\Scripts\\activate
    (env-resourcecode)<Your_PATH>
 
 Install the library
