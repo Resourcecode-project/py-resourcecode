@@ -49,7 +49,7 @@ def huseby(X: np.ndarray, prob: np.ndarray, ntheta: int):
     N, M = X.shape
 
     assert X.shape[1] in (2, 3), "Only 2d and 3d cases are handled"
-    #assert X.shape[1] == len(prob), "The probability levels must be the same size as X"
+    # assert X.shape[1] == len(prob), "The probability levels must be the same size as X"
     assert ntheta % 4 == 0, "ntheta must be a multiple of 4"
 
     # normalisation
