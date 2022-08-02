@@ -40,4 +40,5 @@ __all__ = [
     "get_2D_spectrum",
     "get_1D_spectrum",
     "plot_2D_spectrum",
+    "plot_1D_spectrum",
 ]
