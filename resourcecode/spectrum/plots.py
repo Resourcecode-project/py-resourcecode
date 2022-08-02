@@ -184,7 +184,7 @@ def plot_1D_spectrum(
         plt.xlabel(r"f ($Hz$)")
         plt.ylabel(r"Wave spectral density ($m^2 s$)")
         plt.ylim(bottom=0)
-        plt.xlim(left=0, right=max(dl.frequency.data))
+        plt.xlim(left=0, right=max(data.frequency.data))
         _, top = plt.ylim()
         if sea_state:
             sea_state_str = "\n".join(

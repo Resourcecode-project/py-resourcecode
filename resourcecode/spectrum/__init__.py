@@ -36,6 +36,7 @@ __all__ = [
     "compute_jonswap_wave_spectrum",
     "compute_parameters_from_1D_spectrum",
     "compute_parameters_from_2D_spectrum",
+    "compute_parameters_from_2D_spectrum_xr",
     "convert_spectrum_2Dto1D",
     "dispersion",
     "get_2D_spectrum",
