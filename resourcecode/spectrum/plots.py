@@ -213,7 +213,7 @@ def plot_1D_spectrum(
         )
         title = " ".join(
             [
-                "Wave directional spectrum at\n",
+                "Wave frequency spectrum at\n",
                 f"point {data.attrs['product_name'].split('_')[1].split('-')[3]}",
                 f"({data.longitude[time].data:.2f}°W,{data.latitude[time].data:.2f}°N)",
                 f"on {pd.to_datetime(data.time[time].data)}",
