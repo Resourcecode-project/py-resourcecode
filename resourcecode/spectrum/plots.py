@@ -108,7 +108,7 @@ def plot_2D_spectrum(
         ax.set_rlabel_position(0.8)  # Rotate a little bit the legend to avoid colliding
 
         # Add horizontal axis label
-        plt.annotate("f (Hs)", xy=(-0.1, cut_off / 2))
+        plt.annotate(r"f ($Hz$)", xy=(-0.1, cut_off / 2))
 
         ax.grid(True)  # Add back the grid
 
@@ -150,4 +150,73 @@ def plot_2D_spectrum(
             xy=(-np.pi / 3, 1.1 * cut_off),
             annotation_clip=False,
         )
+        return fig
+
+
+def plot_1D_spectrum(
+    data: xarray.Dataset,
+    time: int,
+    sea_state: bool = True,
+) -> plt.Figure:
+    """Plot the 1D spectrum at a specific time
+
+    Parameters
+    ----------
+
+    data:
+        Data with the time series of wave spectrum (xarray.Dataset)
+    time:
+        Time index to plot
+    sea_state:
+        Should the sea_state parameters included in the plot ?
+    Returns
+    -------
+
+    fig: figure containing the spectrum
+    """
+    if time > data.time.size:
+        raise IndexError(f"time is out the length of the Dataset: {data.time.size}")
+    else:
+        # Create the new figure
+        plt.clf()
+        fig = plt.figure(figsize=[8, 6], dpi=300)
+        plt.plot(data.frequency, data.ef[time, :].to_numpy())
+        plt.xlabel(r"f ($Hz$)")
+        plt.ylabel(r"Wave spectral density ($m^2 s$)")
+        plt.ylim(bottom=0)
+        _, top = plt.ylim()
+        if sea_state:
+            sea_state_str = "\n".join(
+                [
+                    f"Hs: {float(data.hs[time]):.2f}m",
+                    f"Tp: {float(pow(data.fp[time],-1)):.2f}s",
+                    f"Mean direction at Tp: {float(data.th1p[time]):.2f}°",
+                    f"Directionnal spreading: {float(data.sth1p[time]):.2f}°",
+                    f"Wind speed: {float(data.wnd[time]):.2f}m/s",
+                    f"Wind direction: {float(data.wnddir[time]):.2f}°",
+                    "\nSource: Resourcecode hindcast database",
+                    "resourcecode.ifremer.fr",
+                ]
+            )
+        else:
+            sea_state_str = "\n".join(
+                [
+                    "\nSource: Resourcecode hindcast database",
+                    "resourcecode.ifremer.fr",
+                ]
+            )
+        plt.annotate(
+            sea_state_str,
+            [0.5, top / 2],
+            annotation_clip=False,
+        )
+        title = " ".join(
+            [
+                "Wave directional spectrum at\n",
+                f"point {data.attrs['product_name'].split('_')[1].split('-')[3]}",
+                f"({data.longitude[time].data:.2f}°W,{data.latitude[time].data:.2f}°N)",
+                f"on {pd.to_datetime(data.time[time].data)}",
+            ]
+        )
+        plt.title(title)
         return fig
