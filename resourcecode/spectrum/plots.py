@@ -208,6 +208,7 @@ def plot_1D_spectrum(
         plt.annotate(
             sea_state_str,
             [0.5, top / 2],
+            [0.5, top / 2],
             annotation_clip=False,
         )
         title = " ".join(

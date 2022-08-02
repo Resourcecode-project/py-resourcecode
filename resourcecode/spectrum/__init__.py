@@ -28,6 +28,7 @@ from resourcecode.spectrum.download_data import get_2D_spectrum
 from resourcecode.spectrum.download_data import get_1D_spectrum
 
 from resourcecode.spectrum.plots import plot_2D_spectrum
+from resourcecode.spectrum.plots import plot_1D_spectrum
 
 __all__ = [
     "SeaStatesParameters",

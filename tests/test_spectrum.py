@@ -27,7 +27,9 @@ from resourcecode.spectrum import (
     compute_parameters_from_1D_spectrum,
     compute_parameters_from_2D_spectrum,
     get_2D_spectrum,
+    get_1D_spectrum,
     plot_2D_spectrum,
+    plot_1D_spectrum,
 )
 
 from resourcecode.spectrum.compute_parameters import SeaStatesParameters
@@ -72,7 +74,7 @@ def test_compute_parameter_2D():
     assert got_parameters.approx(expected_parameters)
 
 
-def test_download_file():
+def test_download_2D_file():
     expected_spectrum = xarray.open_dataset(
         DATA_DIR / "spectrum" / "W001933N55743_201605.nc"
     )
@@ -86,7 +88,19 @@ def test_download_file():
     assert all(got_spectrum == expected_spectrum)
 
 
-def test_get_fields():
+def test_download_1D_file():
+    expected_spectrum = xarray.open_dataset(
+        DATA_DIR / "spectrum" / "RSCD_WW3-RSCD-UG-W001933N55743_201605_freq.nc"
+    )
+    expected_spectrum = expected_spectrum.drop_dims("string40").squeeze()
+    expected_spectrum = expected_spectrum.drop_vars(["station"])
+
+    got_spectrum = get_1D_spectrum("W001933N55743", ["2016"], ["05"])
+
+    assert all(got_spectrum == expected_spectrum)
+
+
+def test_get_fields_2D():
     got_spectrum = get_2D_spectrum("W001933N55743", ["2016"], ["05"])
 
     assert list(got_spectrum.keys()) == [
@@ -103,8 +117,44 @@ def test_get_fields():
     ]
 
 
-def test_plot_spectrum():
+def test_get_fields_1D():
+    got_spectrum = get_1D_spectrum("W001933N55743", ["2016"], ["05"])
+
+    assert list(got_spectrum.keys()) == [
+        "longitude",
+        "latitude",
+        "frequency1",
+        "frequency2",
+        "ef",
+        "th1m",
+        "th2m",
+        "sth1m",
+        "sth2m",
+        "dpt",
+        "wnd",
+        "wnddir",
+        "cur",
+        "curdir",
+        "hs",
+        "fp",
+        "f02",
+        "f0m1",
+        "th1p",
+        "sth1p",
+        "dir",
+        "spr",
+    ]
+
+
+def test_plot_2D_spectrum():
     got_spectrum = get_2D_spectrum("W001933N55743", ["2016"], ["05"])
     plot_2D_spectrum(got_spectrum, 10)
     plt.savefig("tests/output/2Dspec.png", bbox_inches="tight")
+    plt.close()
+
+
+def test_plot_1D_spectrum():
+    got_spectrum = get_1D_spectrum("W001933N55743", ["2016"], ["05"])
+    plot_1D_spectrum(got_spectrum, 10)
+    plt.savefig("tests/output/1Dspec.png", bbox_inches="tight")
     plt.close()
