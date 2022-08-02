@@ -23,7 +23,7 @@ from resourcecode.spectrum.dispersion import dispersion
 from resourcecode.spectrum.compute_parameters import (
     compute_parameters_from_1D_spectrum,
     compute_parameters_from_2D_spectrum,
-    compute_parameters_from_2D_spectrum_xr
+    compute_parameters_from_2D_spectrum_xr,
 )
 from resourcecode.spectrum.download_data import get_2D_spectrum
 from resourcecode.spectrum.download_data import get_1D_spectrum
