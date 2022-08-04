@@ -113,7 +113,7 @@ def compute_parameters_from_1D_spectrum(
     Ef: np.ndarray,
     freq: np.ndarray,
     depth: float = float("inf"),
-    water_density: float = 1025,
+    water_density: float = 1026,
 ) -> SeaStatesParameters:
     """
     Compute Sea-States global parameters from 1D (frequency) spectra
