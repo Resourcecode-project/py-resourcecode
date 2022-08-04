@@ -203,7 +203,7 @@ def compute_parameters_from_2D_spectrum(
     freq: np.ndarray,
     vdir: np.ndarray,
     depth: float = float("inf"),
-    water_density: float = 1025,
+    water_density: float = 1026,
 ) -> SeaStatesParameters:
     """
     Compute Sea-States global parameters from 2D (frequency) spectra
@@ -220,7 +220,7 @@ def compute_parameters_from_2D_spectrum(
     depth: m
         the water depth, default to float("inf")
     water_density: kg/m³
-        the water density, default to 1025 kg/m³
+        the water density, default to 1026 kg/m³
 
     Return
     ------
