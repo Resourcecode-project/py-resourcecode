@@ -24,6 +24,7 @@ import matplotlib.pyplot as plt
 
 from resourcecode.spectrum import (
     compute_parameters_from_2D_spectrum,
+    compute_parameters_from_1D_spectrum,
 )
 
 
@@ -65,7 +66,7 @@ def plot_2D_spectrum(
         direction = np.append(data.sortby("direction").direction.to_numpy(), 360.0)
         # Create the new figure
         plt.clf()
-        fig = plt.figure(figsize=[12, 12])
+        fig = plt.figure(figsize=[10, 10])
         # Switch to polar coordinates
         ax = fig.add_axes([0, 0, 1.1, 1.1], polar=True)
 
@@ -75,7 +76,10 @@ def plot_2D_spectrum(
         # Compute the sea_state parameters if requested
         if sea_state:
             params = compute_parameters_from_2D_spectrum(
-                Ef, vdir=direction[:-1], freq=freq[:-1], depth=float(data.dpt[time])
+                Ef.transpose(),
+                vdir=direction[:-1],
+                freq=freq[:-1],
+                depth=float(data.dpt[time]),
             )
             sea_state_str = "\n".join(
                 [
@@ -84,7 +88,7 @@ def plot_2D_spectrum(
                     f"Mean direction at Tp: {params.Thetapm:.2f}°",
                     f"Directionnal spreading: {params.Spr:.2f}°",
                     f"Wind speed: {float(data.wnd[time]):.2f}m/s",
-                    "\u27F6: wind direction",
+                    f"\u27F6, wind direction: {float(data.wnddir[time]):.2f}°",
                 ]
             )
 
@@ -180,17 +184,26 @@ def plot_1D_spectrum(
         # Create the new figure
         plt.clf()
         fig = plt.figure(figsize=[8, 6], dpi=300)
-        plt.plot(data.frequency, data.ef[time, :].to_numpy())
+        plt.plot(data.frequency.to_numpy(), data.ef[time, :].to_numpy())
         plt.xlabel(r"f ($Hz$)")
         plt.ylabel(r"Wave spectral density ($m^2 s$)")
         plt.ylim(bottom=0)
         plt.xlim(left=0, right=max(data.frequency.data))
         _, top = plt.ylim()
+
+        # Compute the sea-state parameters from the 1D spectrum to be consistent
+        # with the 2D case
+        params = compute_parameters_from_1D_spectrum(
+            data.ef[time, :].to_numpy(),
+            freq=data.frequency.to_numpy(),
+            depth=data.dpt[time].data,
+        )
+
         if sea_state:
             sea_state_str = "\n".join(
                 [
-                    f"Hs: {float(data.hs[time]):.2f}m",
-                    f"Tp: {float(pow(data.fp[time],-1)):.2f}s",
+                    f"Hs: {params.Hm0:.2f}m",
+                    f"Tp: {params.Tp:.2f}s",
                     f"Mean direction at Tp: {float(data.th1p[time]):.2f}°",
                     f"Directionnal spreading: {float(data.sth1p[time]):.2f}°",
                     f"Wind speed: {float(data.wnd[time]):.2f}m/s",
