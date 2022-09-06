@@ -50,7 +50,9 @@ The `resourcecode` Marine Data Toolbox is a python package developed within the 
 
 # Statement of Need
 
-The `resourcecode` python package allows to retrieve and analyse time series of Metocean parameters and spectra extracted from the companion hindcast database. This database consists in a high-resolution unstructured grid with more than 300 000 nodes, spanning from the South of Spain to the Faeroe Islands and from the Western Irish continental shelf to the Baltic Sea. At each node, 39 wave parameters and frequency spectra are available with a hourly time-step. Directional spectra are also available, on a coarser grid over the area covered. This data has been extensively validated against both in-situ and satellite remote sensing data [@Accensi_2021]. However, this database is very large (more than 50Tb) and can not easily be downloaded by the end users. The `resourcecode` python package objectives are twofold: preparing data harvesting from the database, which is often one of the most time-consuming steps, and providing the user with unified, state-of-the-art methods for analysing the data extracted. The analysis tools offer different capabilities, such as resource assessment, optimisation of the design of ORE devices and the planning of Operation and Maintenance (O&M) tasks.
+The `resourcecode` python package allows to retrieve and analyse time series of Metocean parameters and spectra extracted from the companion hindcast database. This database consists in a high-resolution unstructured grid with more than 300 000 nodes, spanning from the South of Spain to the Faeroe Islands and from the Western Irish continental shelf to the Baltic Sea. At each node, 39 wave parameters and frequency spectra are available with a hourly time-step. Directional spectra are also available, on a coarser grid over the area covered. This data has been extensively validated against both in-situ and satellite remote sensing data [@Accensi_2021]. However, this database is very large (more than 50Tb) and can not easily be downloaded by the end users. The `resourcecode` python package objectives are twofold: preparing data harvesting from the database, which is often one of the most time-consuming steps, and providing the user with unified, state-of-the-art methods for analysing the data extracted. The analysis tools offer different capabilities, such as resource assessment, optimisation of the design of ORE devices and the planning of Operation and Maintenance (O&M) tasks. Because this toolbox is designed to work with the **ResourceCODE** database, it cannot be compared to existing software.
+
+
 
 <!--
 For non-expert users of the **ResourceCODE** dataset:
@@ -83,7 +85,7 @@ data = client.get_dataframe_from_criteria(
 )
 ```
 
-In the example above, we used `resourcecode` to fetch data from node *134939*, for the entire time period, and for some parameters: significant wave height $H_s$, peak  wave frequency $f_p$, Mean direction at peak frequency $D_p$ and Wave Energy Flux $CgE$. The `resourcecode` package will automatically construct the proper Cassandra request and will process the data internally to output a **pandas** data frame  (@pandas2010) workable in-memory.  
+In the example above, we used `resourcecode` to fetch data from node *134939*, for the entire time period, and for some parameters: significant wave height $H_s$, peak  wave frequency $f_p$, Mean direction at peak frequency $D_p$ and Wave Energy Flux $CgE$. The `resourcecode` package will automatically construct the proper Cassandra request and will process the data internally to output a **pandas** data frame (@pandas2010) workable in-memory.  
 
 The different tasks that can be handled via this package, both for data management and statistical modelling include :
 
@@ -100,7 +102,7 @@ The different tasks that can be handled via this package, both for data manageme
     - Zonal/Meridional components to Intensity/Direction.
 - Statistical modelling:
   - Environmental conditions assessment;
-  - Extreme values modelling;
+  - Extreme values modelling (using **pyextremes**^[https://github.com/georgebv/pyextremes]);
   - 2D and 3D environmental contours (as in @Raillard_2019).
 - Weather windows for O&M:
   - Model based (as in @Walker_2013);
