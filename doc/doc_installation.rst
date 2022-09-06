@@ -56,7 +56,7 @@ Requirements
 At this time, `python >= 3.10` is not supported.
 
 The library depends on the following python packages that
-are automaticilly installed using `pip`:
+are automatically installed using `pip`:
 
   - pandas (>= 1.0.0),
   - requests (>= 2.23.0),
