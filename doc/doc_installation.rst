@@ -23,10 +23,10 @@ On Unix-based OS:
 
 On windows:
 
-.. code-block:: shell
+.. code-block:: batch
 
    <Your_PATH>.\\env-resourcecode\\Scripts\\activate
-   (env-resourcecode)<Your_PATH>
+   (env-resourcecode) Your_PATH:\> 
 
 Install the library
 -------------------
