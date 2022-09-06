@@ -22,7 +22,25 @@ in expected environmental conditions,and de-risk investment in future technology
 
 ## Installation
 
-To install the library, you may first of all, create a dedicated virtual
+### Dependencies
+
+To install the toolbox, the following packages are necessary:
+
+- python (== 3.9)
+- pandas (>= 1.0.0)
+- requests (>= 2.23.0)
+- numpy (>= 1.20.1, < 2.0.0)
+- scipy (>= 1.6.1, < 2.0.0)
+- pyextremes (>= 2.0.0)
+- pyarrow (>= 4.0.0, < 8.0.0)
+- plotly (>= 4.12.0, < 5.0.0)
+- numexpr (>= 2.7.0, < 3.0.0)
+- xarray (>= 0.19.0, < 1.0.0)
+
+
+### Using an environment
+
+Maybe the easiest way to install the toolbox is to create a dedicated virtual
 environment:
 
 ```shell
