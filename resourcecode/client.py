@@ -233,7 +233,7 @@ class Client:
             # responses.
 
             # tp is not a real parameter. it is equal to 1/fp.
-            single_parameter = parameter
+            single_parameter = parameter.lower()
             if parameter == "tp":
                 single_parameter = "fp"
             single_parameter_criteria = {
