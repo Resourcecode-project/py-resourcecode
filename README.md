@@ -89,7 +89,7 @@ See the following example:
 >>> data = client.get_dataframe_from_criteria(
 """
 {
-    "node": 0,
+    "node": 42,
     "start": 1483228400,
     "end": 1489903600,
     "parameter": ["fp", "hs"]
