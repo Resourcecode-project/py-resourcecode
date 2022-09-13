@@ -68,6 +68,7 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 cover/
+tests/output/*.png
 
 # Translations
 *.mo
@@ -175,3 +176,10 @@ cython_debug/
 #.idea/
 
 # End of https://www.toptal.com/developers/gitignore/api/python,jupyternotebooks
+
+#Additional stuff
+joss_paper/paper.log
+joss_paper/paper.Rmd
+joss_paper/paper.html
+joss_paper/paper.bib.bak
+joss_paper/paper.pdf
