@@ -23,8 +23,8 @@ import xarray
 import matplotlib.pyplot as plt
 
 from resourcecode.spectrum import (
-    compute_parameters_from_2D_spectrum,
-    compute_parameters_from_1D_spectrum,
+    raw_compute_parameters_from_2D_spectrum,
+    raw_compute_parameters_from_1D_spectrum,
 )
 
 
@@ -75,7 +75,7 @@ def plot_2D_spectrum(
 
         # Compute the sea_state parameters if requested
         if sea_state:
-            params = compute_parameters_from_2D_spectrum(
+            params = raw_compute_parameters_from_2D_spectrum(
                 Ef.transpose(),
                 vdir=direction[:-1],
                 freq=freq[:-1],
@@ -193,7 +193,7 @@ def plot_1D_spectrum(
 
         # Compute the sea-state parameters from the 1D spectrum to be consistent
         # with the 2D case
-        params = compute_parameters_from_1D_spectrum(
+        params = raw_compute_parameters_from_1D_spectrum(
             data.ef[time, :].to_numpy(),
             freq=data.frequency.to_numpy(),
             depth=data.dpt[time].data,

@@ -24,8 +24,8 @@ from matplotlib import pyplot as plt
 
 from resourcecode.spectrum import (
     convert_spectrum_2Dto1D,
-    compute_parameters_from_1D_spectrum,
-    compute_parameters_from_2D_spectrum,
+    raw_compute_parameters_from_1D_spectrum,
+    raw_compute_parameters_from_2D_spectrum,
     get_2D_spectrum,
     get_1D_spectrum,
     plot_2D_spectrum,
@@ -55,7 +55,7 @@ def test_compute_parameter_1D():
     expected_parameters = SeaStatesParameters(
         *np.loadtxt(DATA_DIR / "spectrum" / "parameters_1D.csv", delimiter=",")
     )
-    got_parameters = compute_parameters_from_1D_spectrum(etfh, freq, depth)
+    got_parameters = raw_compute_parameters_from_1D_spectrum(etfh, freq, depth)
 
     assert got_parameters.approx(expected_parameters)
 
@@ -69,7 +69,7 @@ def test_compute_parameter_2D():
     expected_parameters = SeaStatesParameters(
         *np.loadtxt(DATA_DIR / "spectrum" / "parameters_2D.csv", delimiter=",")
     )
-    got_parameters = compute_parameters_from_2D_spectrum(spec, freq, vdir, depth)
+    got_parameters = raw_compute_parameters_from_2D_spectrum(spec, freq, vdir, depth)
 
     assert got_parameters.approx(expected_parameters)
 
