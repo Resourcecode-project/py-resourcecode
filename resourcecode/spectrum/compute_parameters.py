@@ -365,7 +365,7 @@ def compute_parameters_from_2D_spectrum(
     out = pd.concat(sea_state)
     out.insert(0, "time", param_xr.time.values)
 
-    out["dpt"] = spectrumDataSet.dpt.values
+    out["depth"] = spectrumDataSet.dpt.values
     out["wnd"] = spectrumDataSet.wnd.values
     out["wnddir"] = spectrumDataSet.wnddir.values
     out["cur"] = spectrumDataSet.cur.values
@@ -416,7 +416,6 @@ def compute_parameters_from_1D_spectrum(
             raw_compute_parameters_from_2D_spectrum,  # first the function
             spectrumDataSet.Ef,  # now arguments in the order expected by 'compute_parameters_from_2D_spectrum'
             spectrumDataSet.frequency,
-            spectrumDataSet.direction,
             input_core_dims=[
                 ["frequency"],
                 ["frequency"],
@@ -432,7 +431,7 @@ def compute_parameters_from_1D_spectrum(
     out = pd.concat(sea_state)
     out.insert(0, "time", param_xr.time.values)
 
-    out["dpt"] = spectrumDataSet.dpt.values
+    out["depth"] = spectrumDataSet.dpt.values
     out["wnd"] = spectrumDataSet.wnd.values
     out["wnddir"] = spectrumDataSet.wnddir.values
     out["cur"] = spectrumDataSet.cur.values
