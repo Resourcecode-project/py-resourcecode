@@ -185,6 +185,7 @@ def get_2D_spectrum(
             datasets.append(ds)
     #  data_vars="minimal" is requested in order to avoid duplicating some variables that have different dimensions
     result = xarray.concat(datasets, dim="time", data_vars="minimal")
+    result = result.transpose("time", "direction", "frequency")
     return result
 
 
