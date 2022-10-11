@@ -26,7 +26,7 @@ in expected environmental conditions,and de-risk investment in future technology
 
 To install the toolbox, the following packages are necessary:
 
-- python (== 3.9)
+- python (>= 3.6, <3.11)
 - pandas (>= 1.0.0)
 - requests (>= 2.23.0)
 - numpy (>= 1.20.1, < 2.0.0)
