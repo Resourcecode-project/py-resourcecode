@@ -1,6 +1,7 @@
 ## Version 0.6 (TDB)
 ### 🎉 New features
 
+ - Python 3.10 is now supported
  - 'spectrum' module: it is now possible to download both 2D and 1D spectral data of the coarse 'SPEC' grid directly from IFREMER FTP;
  - 'spectrum' module: add functions to compute sea-state parameters from 1D or 2D data;
  - 'spectrum' module: new function to plot 2D and 1D spectrum;
