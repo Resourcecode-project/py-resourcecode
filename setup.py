@@ -48,21 +48,52 @@ install_requires = [
 ]
 
 classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
     "Programming Language :: Python",
-    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3 :: Only",
+    "Operating System :: OS Independent",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Topic :: Scientific/Engineering :: Physics",
+]
+
+keywords = [
+    "statistics",
+    "extreme",
+    "extreme value analysis",
+    "eva",
+    "coastal",
+    "ocean",
+    "marine",
+    "environmental",
+    "engineering",
+    "renewable",
+    "MRE",
+    "offshore",
+    "data",
+    "hindcast",
 ]
 
 setup(
     name="resourcecode",
     version=__version__,
     license=license,
+    python_requires=">=3.6,<=3.10",
     description=description,
     author=author,
     author_email=author_email,
     long_description=open("README.md", "r").read(),
     long_description_content_type="text/markdown",
     install_requires=install_requires,
+    classifiers=classifiers,
+    keywords=keywords,
     url=url,
     packages=find_packages(exclude=["test"]),
     data_files=[("etc/resourcecode", ["config/config.ini"])],
