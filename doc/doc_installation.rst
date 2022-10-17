@@ -32,7 +32,7 @@ Install the library
 -------------------
 
 In this virtual environment, you can now install the library. The library is 
-available on PyPI, and installation is straightfoward, using the following
+available on PyPI, and installation is straightforward, using the following
 command :
 
 

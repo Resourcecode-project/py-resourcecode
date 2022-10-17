@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# copyright 2021 IFREMER (Brest, FRANCE), all rights reserved.
+# Copyright 2020-2022 IFREMER (Brest, FRANCE), all rights reserved.
 # contact -- mailto:nicolas.raillard@ifremer.fr
 #
 # This file is part of Resourcecode.
@@ -49,7 +49,7 @@ def huseby(X: np.ndarray, prob: np.ndarray, ntheta: int):
     N, M = X.shape
 
     assert X.shape[1] in (2, 3), "Only 2d and 3d cases are handled"
-    assert X.shape[1] == len(prob), "The probability levels must be the same size as X"
+    # assert X.shape[1] == len(prob), "The probability levels must be the same size as X"
     assert ntheta % 4 == 0, "ntheta must be a multiple of 4"
 
     # normalisation

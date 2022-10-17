@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# copyright 2021 IFREMER (Brest, FRANCE), all rights reserved.
+# Copyright 2020-2022 IFREMER (Brest, FRANCE), all rights reserved.
 # contact -- mailto:nicolas.raillard@ifremer.fr
 #
 # This file is part of Resourcecode.
@@ -18,12 +18,18 @@
 # with Resourcecode. If not, see <https://www.gnu.org/licenses/>.
 
 import numpy as np
+import xarray
 import pytest
+from matplotlib import pyplot as plt
 
 from resourcecode.spectrum import (
     convert_spectrum_2Dto1D,
-    compute_parameters_from_1D_spectrum,
-    compute_parameters_from_2D_spectrum,
+    raw_compute_parameters_from_1D_spectrum,
+    raw_compute_parameters_from_2D_spectrum,
+    get_2D_spectrum,
+    get_1D_spectrum,
+    plot_2D_spectrum,
+    plot_1D_spectrum,
 )
 
 from resourcecode.spectrum.compute_parameters import SeaStatesParameters
@@ -49,9 +55,9 @@ def test_compute_parameter_1D():
     expected_parameters = SeaStatesParameters(
         *np.loadtxt(DATA_DIR / "spectrum" / "parameters_1D.csv", delimiter=",")
     )
-    got_parameters = compute_parameters_from_1D_spectrum(etfh, freq, depth)
+    got_parameters = raw_compute_parameters_from_1D_spectrum(etfh, freq, depth)
 
-    assert got_parameters == pytest.approx(expected_parameters)
+    assert got_parameters.approx(expected_parameters)
 
 
 def test_compute_parameter_2D():
@@ -63,6 +69,92 @@ def test_compute_parameter_2D():
     expected_parameters = SeaStatesParameters(
         *np.loadtxt(DATA_DIR / "spectrum" / "parameters_2D.csv", delimiter=",")
     )
-    got_parameters = compute_parameters_from_2D_spectrum(spec, freq, vdir, depth)
+    got_parameters = raw_compute_parameters_from_2D_spectrum(spec, freq, vdir, depth)
 
-    assert got_parameters == pytest.approx(expected_parameters)
+    assert got_parameters.approx(expected_parameters)
+
+
+def test_download_2D_file():
+    expected_spectrum = xarray.open_dataset(
+        DATA_DIR / "spectrum" / "W001933N55743_201605.nc"
+    )
+    expected_spectrum = expected_spectrum.assign(
+        Ef=pow(10, expected_spectrum["efth"]) - 1e-12
+    )
+    expected_spectrum = expected_spectrum.drop_vars("efth")
+
+    got_spectrum = get_2D_spectrum("W001933N55743", ["2016"], ["05"])
+
+    assert all(got_spectrum == expected_spectrum)
+
+
+def test_download_1D_file():
+    expected_spectrum = xarray.open_dataset(
+        DATA_DIR / "spectrum" / "RSCD_WW3-RSCD-UG-W001933N55743_201605_freq.nc"
+    )
+    expected_spectrum = expected_spectrum.drop_dims("string40").squeeze()
+    expected_spectrum = expected_spectrum.drop_vars(["station"])
+
+    got_spectrum = get_1D_spectrum("W001933N55743", ["2016"], ["05"])
+
+    assert all(got_spectrum == expected_spectrum)
+
+
+def test_get_fields_2D():
+    got_spectrum = get_2D_spectrum("W001933N55743", ["2016"], ["05"])
+
+    assert list(got_spectrum.keys()) == [
+        "longitude",
+        "latitude",
+        "frequency1",
+        "frequency2",
+        "dpt",
+        "wnd",
+        "wnddir",
+        "cur",
+        "curdir",
+        "Ef",
+    ]
+
+
+def test_get_fields_1D():
+    got_spectrum = get_1D_spectrum("W001933N55743", ["2016"], ["05"])
+
+    assert list(got_spectrum.keys()) == [
+        "longitude",
+        "latitude",
+        "frequency1",
+        "frequency2",
+        "ef",
+        "th1m",
+        "th2m",
+        "sth1m",
+        "sth2m",
+        "dpt",
+        "wnd",
+        "wnddir",
+        "cur",
+        "curdir",
+        "hs",
+        "fp",
+        "f02",
+        "f0m1",
+        "th1p",
+        "sth1p",
+        "dir",
+        "spr",
+    ]
+
+
+def test_plot_2D_spectrum():
+    got_spectrum = get_2D_spectrum("W001933N55743", ["2016"], ["05"])
+    plot_2D_spectrum(got_spectrum, 10)
+    plt.savefig("tests/output/2Dspec.png", bbox_inches="tight")
+    plt.close()
+
+
+def test_plot_1D_spectrum():
+    got_spectrum = get_1D_spectrum("W001933N55743", ["2016"], ["05"])
+    plot_1D_spectrum(got_spectrum, 10)
+    plt.savefig("tests/output/1Dspec.png", bbox_inches="tight")
+    plt.close()

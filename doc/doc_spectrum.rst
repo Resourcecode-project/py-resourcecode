@@ -1,6 +1,8 @@
 Spectra tool-kit
 ================
 
+This module offers several facilities for extracting, manipulating and visualizing the spectral data contained in the RESOURCECODE database.
+
 .. automodule:: resourcecode.spectrum
     :members:
 

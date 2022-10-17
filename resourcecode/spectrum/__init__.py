@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# copyright 2021 IFREMER (Brest, FRANCE), all rights reserved.
+# Copyright 2020-2022 IFREMER (Brest, FRANCE), all rights reserved.
 # contact -- mailto:nicolas.raillard@ifremer.fr
 #
 # This file is part of Resourcecode.
@@ -21,15 +21,28 @@ from resourcecode.spectrum.jonswap import compute_jonswap_wave_spectrum
 from resourcecode.spectrum.convert2D1D import convert_spectrum_2Dto1D
 from resourcecode.spectrum.dispersion import dispersion
 from resourcecode.spectrum.compute_parameters import (
+    raw_compute_parameters_from_1D_spectrum,
+    raw_compute_parameters_from_2D_spectrum,
     compute_parameters_from_1D_spectrum,
     compute_parameters_from_2D_spectrum,
 )
+from resourcecode.spectrum.download_data import get_2D_spectrum
+from resourcecode.spectrum.download_data import get_1D_spectrum
+
+from resourcecode.spectrum.plots import plot_2D_spectrum
+from resourcecode.spectrum.plots import plot_1D_spectrum
 
 __all__ = [
     "SeaStatesParameters",
     "compute_jonswap_wave_spectrum",
+    "raw_compute_parameters_from_1D_spectrum",
+    "raw_compute_parameters_from_2D_spectrum",
     "compute_parameters_from_1D_spectrum",
     "compute_parameters_from_2D_spectrum",
     "convert_spectrum_2Dto1D",
     "dispersion",
+    "get_2D_spectrum",
+    "get_1D_spectrum",
+    "plot_2D_spectrum",
+    "plot_1D_spectrum",
 ]

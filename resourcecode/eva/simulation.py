@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# copyright 2021 IFREMER (Brest, FRANCE), all rights reserved.
+# Copyright 2020-2022 IFREMER (Brest, FRANCE), all rights reserved.
 # contact -- mailto:nicolas.raillard@ifremer.fr
 #
 # This file is part of Resourcecode.
@@ -19,8 +19,9 @@
 # with Resourcecode. If not, see <https://www.gnu.org/licenses/>.
 
 import numpy as np
-from numpy.random import multivariate_normal
-from scipy.stats import norm, genpareto
+
+# from numpy.random import multivariate_normal
+from scipy.stats import norm, genpareto, multivariate_normal
 
 from resourcecode.utils import set_trig
 
@@ -55,13 +56,17 @@ def run_simulation(
 
     """
 
-    sigma = np.eye(len(rho))
-    set_trig(sigma, rho, "upper")
-    set_trig(sigma, rho, "lower")
+    # For the 2D case, we have only one parameter
+    if len(rho) > 1:
+        sigma = np.eye(len(rho))
+        set_trig(sigma, rho, "upper")
+        set_trig(sigma, rho, "lower")
+    else:
+        sigma = rho
 
     result = None
     while result is None or len(result) < n_simulations:
-        simul = multivariate_normal(
+        simul = multivariate_normal.rvs(
             mean=np.full(len(rho), 0),
             cov=sigma,
             size=n_simulations,

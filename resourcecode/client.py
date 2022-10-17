@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# copyright 2021 IFREMER (Brest, FRANCE), all rights reserved.
+# Copyright 2020-2022 IFREMER (Brest, FRANCE), all rights reserved.
 # contact -- mailto:nicolas.raillard@ifremer.fr
 #
 # This file is part of Resourcecode.
@@ -233,7 +233,7 @@ class Client:
             # responses.
 
             # tp is not a real parameter. it is equal to 1/fp.
-            single_parameter = parameter
+            single_parameter = parameter.lower()
             if parameter == "tp":
                 single_parameter = "fp"
             single_parameter_criteria = {

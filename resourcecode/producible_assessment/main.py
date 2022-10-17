@@ -1,10 +1,11 @@
 # coding: utf-8
 
-# copyright 2021 IFREMER (Brest, FRANCE), all rights reserved.
+# Copyright 2020-2022 IFREMER (Brest, FRANCE), all rights reserved.
 # contact -- mailto:nicolas.raillard@ifremer.fr
 #
 # This file is part of Resourcecode.
-# Base a code written by Louis Papillon (louis.papillon@innosea.fr)
+# Based on a code written by Louis Papillon (louis.papillon@innosea.fr) and
+# Gregory Payne (gregory.payne@ec-nantes.fr)
 #
 # Resourcecode is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free

@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# copyright 2021 IFREMER (Brest, FRANCE), all rights reserved.
+# Copyright 2020-2022 IFREMER (Brest, FRANCE), all rights reserved.
 # contact -- mailto:nicolas.raillard@ifremer.fr
 #
 # This file is part of Resourcecode.
@@ -32,7 +32,7 @@ def censgaussfit(data: np.ndarray, q: float) -> OptimizeResult:
     ----------
 
     data: a NxM nd-array
-    q: a float
+    q: a float above which the model is fitted. Should be above 0.5.
 
     Returns
     -------
@@ -56,9 +56,13 @@ def censgaussfit(data: np.ndarray, q: float) -> OptimizeResult:
     th_norm = norm.ppf(q)
 
     def fitness(cov):
-        sigma = np.eye(len(cov))
-        set_trig(sigma, cov, "upper")
-        set_trig(sigma, cov, "lower")
+        # For the 2D case, we have only one parameter
+        if len(cov) > 1:
+            sigma = np.eye(len(cov))
+            set_trig(sigma, cov, "upper")
+            set_trig(sigma, cov, "lower")
+        else:
+            sigma = cov
 
         return (
             tail_dependency_obs

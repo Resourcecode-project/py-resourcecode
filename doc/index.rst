@@ -25,16 +25,38 @@ barriers and promote growth in renewable energy.
 
 
 Indices and tables
-==================
+------------------
 
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
 
+Citing
+------
+
+If you use the package in your publications or project, please cite accordingly::
+
+   @manual{,
+     title = {Resourcecode Toolbox},
+     author = {Raillard, Nicolas and Chabot, Simon and Maisondieu, Christophe and Darbynian, David and Payne, Gregory and Papillon, Louis},
+     url = {https://gitlab.ifremer.fr/resourcecode/resourcecode},
+     year = {2022},
+     month = {2},
+   }
+
+
+Reporting bugs
+---------------
+
+If you think you found a bug in `resourcecode`, even if you are unsure, please let me know. The
+easiest way is to send me an `email <mailto:nicolas.raillard@ifremer.fr>`.
+
+Please try to create a reproducible example with the minimal amount of code required to reproduce the bug you encountered.
+
 Acknowledgements
 ----------------
 
-The ResourceCode Python module was developed by `Logilab <https://logilab.fr/>`_
+The ResourceCode Python package was developed by `Logilab <https://logilab.fr/>`_
 based on various scientific codes written by the partners of the ResourceCode
 Projet: EMEC, CentraleNantes, Ocean Data Lab, Smart Bay Ireland, University
 College Dublin, INNOSEA, Ifremer, University of Edinburgh. More information at

@@ -1,3 +1,24 @@
+## Version 0.6 (TDB)
+### 🎉 New features
+
+ - Python 3.10 is now supported
+ - 'spectrum' module: it is now possible to download both 2D and 1D spectral data of the coarse 'SPEC' grid directly from IFREMER FTP;
+ - 'spectrum' module: add functions to compute sea-state parameters from 1D or 2D data;
+ - 'spectrum' module: new function to plot 2D and 1D spectrum;
+
+### 📝 Documentation
+
+ - README now contains a list of dependencies and is more precise for contributing;
+ - spectrum: the documentation is updated to describe the new features;
+ - minor adjustments (typos, precisions...);
+
+### 👷 Bug fixes
+ 
+ - Tests were failing on masOS and windows due to small differences in constants values (scipy.constant.g);
+ - 'eva' module: 'censgaussfit' and 'run_simulation' were not computing the right values for the 2D case;
+ - The dispersion relation was not calculated correctly, raising issues in some cases. 
+
+
 ## Version 0.5.5 (2022-02-25)
 ### 👷 Bug fixes
 

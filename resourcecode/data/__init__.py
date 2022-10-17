@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# copyright 2021 IFREMER (Brest, FRANCE), all rights reserved.
+# Copyright 2020-2022 IFREMER (Brest, FRANCE), all rights reserved.
 # contact -- mailto:nicolas.raillard@ifremer.fr
 #
 # This file is part of Resourcecode.
@@ -21,6 +21,7 @@ from typing import Tuple, Any
 from functools import partial
 from pathlib import Path
 
+import datetime
 import pandas as pd
 
 from resourcecode.utils import haversine
@@ -157,6 +158,22 @@ def get_closest_station(latitude: float, longitude: float) -> Tuple[str, float]:
     return _get_closest(get_grid_spec(), latitude, longitude, "name")
 
 
+def get_covered_period() -> dict:
+    """Get the closest station name from the given position
+    Parameters
+    ----------
+
+    Return
+    ------
+    (start, end)
+       a datetime dict with the starting and ending dates covered by the hindcast
+    """
+    return {
+        "start": datetime.datetime(1990, 1, 1, 0, 0, 0),
+        "end": datetime.datetime(2020, 12, 31, 23, 0, 0),
+    }
+
+
 __all__ = [
     "get_coastline",
     "get_grid_field",
@@ -166,4 +183,5 @@ __all__ = [
     "get_variables",
     "get_closest_point",
     "get_closest_station",
+    "get_covered_period",
 ]
