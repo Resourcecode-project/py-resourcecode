@@ -296,7 +296,7 @@ def raw_compute_parameters_from_2D_spectrum(
 
 def compute_parameters_from_2D_spectrum(
     spectrumDataSet: xarray.Dataset,
-    use_depth: bool,
+    use_depth: bool = True,
 ) -> pd.DataFrame:
     """
     Compute Sea-States parameters from 2D spectrum time series
@@ -375,7 +375,7 @@ def compute_parameters_from_2D_spectrum(
 
 def compute_parameters_from_1D_spectrum(
     spectrumDataSet: xarray.Dataset,
-    use_depth: bool,
+    use_depth: bool = True,
 ) -> pd.DataFrame:
     """
     Compute Sea-States parameters from 1D spectrum time series
