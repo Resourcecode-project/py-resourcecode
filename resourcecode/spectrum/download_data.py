@@ -45,8 +45,8 @@ def download_single_2D_file(
     month:
         the month number, as a string, with a leading zero
 
-    Return
-    ------
+    Returns
+    -------
 
     res:
         A dataset object with the data read from the downloaded netCDF file.
@@ -103,15 +103,14 @@ def download_single_1D_file(
     Parameters
     ----------
 
-    point:
-        the location name (string) requested. The consistency is checked internally.
-    year:
-        the year (as a string) requested. The consistency is checked internally.
-    month:
-        the month number, as a string, with a leading zero if needed
+    point: the location name (string) requested.
+       The consistency is checked internally.
+    year: the year (as a string) requested.
+       The consistency is checked internally.
+    month: month number, as a string with a leading zero if needed
 
-    Return
-    ------
+    Returns
+    -------
 
     res:
         A dataset object with the data read from the downloaded netCDF file.
@@ -165,18 +164,16 @@ def get_2D_spectrum(
     Parameters
     ----------
 
-    point:
-        the location name (string) requested. The consistency is checked internally.
-    years:
-        the years (list of string) requested. The consistency is checked internally.
-    months:
-        the month number (list of string), with a trailing zero.
+    point: location name (string) requested.
+       The consistency is checked internally.
+    years: years (list of string) requested.
+       The consistency is checked internally.
+    months: the month numbers (list of string), with trailing zeros.
 
-    Return
-    ------
+    Returns
+    -------
 
-    res:
-        A dataset object with the data read from the downloaded netCDF file.
+    result: A dataset object with the data read from the downloaded netCDF file.
     """
     datasets = []
     for yr in years:
@@ -195,23 +192,21 @@ def get_1D_spectrum(
     months: Iterable[str],
 ) -> xarray.Dataset:
     """
-    Download the 1D spectrum time series and sea-state parameters from IFREMER ftp
+    Download the 2D spectrum times-series data from IFREMER ftp
 
     Parameters
     ----------
 
-    point:
-        the location name (string) requested. The consistency is checked internally.
-    years:
-        the years (list of string) requested. The consistency is checked internally.
-    months:
-        the month number (list of string), with a trailing zero.
+    point: location name (string) requested.
+       The consistency is checked internally.
+    years: years (list of string) requested.
+       The consistency is checked internally.
+    months: the month numbers (list of string), with trailing zeros.
 
-    Return
-    ------
+    Returns
+    -------
 
-    res:
-        A dataset object with the data read from the downloaded netCDF file.
+    result: A dataset object with the data read from the downloaded netCDF file.
     """
     datasets = []
     for yr in years:
