@@ -55,7 +55,7 @@ doctest:
   needs: []
   before_script:
     - pip install .
-    - pip install sphinx
+    - pip install sphinx pytest
   script:
     - sphinx-build -b doctest doc .
 
@@ -108,7 +108,7 @@ pages:
     - if: '$CI_COMMIT_REF_NAME == "branch/default"'
   before_script:
     - pip install .
-    - pip install sphinx sphinx-book-theme
+    - pip install sphinx sphinx-book-theme pytest
   script:
     - sphinx-build -b html doc public
   artifacts:
