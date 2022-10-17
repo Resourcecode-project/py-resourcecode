@@ -68,5 +68,3 @@ you simply have to update `pip` to it latest version:
    (env-resourcecode)$ python -m pip install --upgrade pip
 
 and re-run the install step which should be fine.
-
-At this time, `python >= 3.10` is not supported.
