@@ -23,7 +23,7 @@ import pytest
 from matplotlib import pyplot as plt
 
 from resourcecode.spectrum import (
-    convert_spectrum_2Dto1D,
+    raw_convert_spectrum_2Dto1D,
     raw_compute_parameters_from_1D_spectrum,
     raw_compute_parameters_from_2D_spectrum,
     get_2D_spectrum,
@@ -42,7 +42,7 @@ def test_convert_spectrum_2D_to_1D():
     vdir = np.loadtxt(DATA_DIR / "spectrum" / "dir.csv", delimiter=",")
 
     expected_1D_spectrum = np.loadtxt(DATA_DIR / "spectrum" / "Etfh.csv", delimiter=",")
-    got_1D_spectrum = convert_spectrum_2Dto1D(spec, vdir)
+    got_1D_spectrum = raw_convert_spectrum_2Dto1D(spec, vdir)
 
     assert got_1D_spectrum == pytest.approx(expected_1D_spectrum)
 

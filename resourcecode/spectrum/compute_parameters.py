@@ -29,7 +29,7 @@ from scipy.interpolate import interp1d
 from scipy.constants import g
 
 from resourcecode.spectrum.dispersion import dispersion
-from resourcecode.spectrum.convert2D1D import convert_spectrum_2Dto1D
+from resourcecode.spectrum.convert2D1D import raw_convert_spectrum_2Dto1D
 
 
 @dataclass
@@ -228,7 +228,7 @@ def raw_compute_parameters_from_2D_spectrum(
     res: SeaStatesParameters
     """
 
-    Ef = convert_spectrum_2Dto1D(E, vdir)
+    Ef = raw_convert_spectrum_2Dto1D(E, vdir)
     parameters = raw_compute_parameters_from_1D_spectrum(Ef, freq, depth, water_density)
 
     # need to convert to radian and order for the remaining calculations
@@ -312,9 +312,8 @@ def compute_parameters_from_2D_spectrum(
     Returns
     -------
 
-    res:
-        xarray.DataArray with Sea-States parameters
-
+    xarray.DataArray
+         A DataArray with Sea-States parameters
     """
     if use_depth:
         param_xr = xarray.apply_ufunc(
@@ -392,8 +391,8 @@ def compute_parameters_from_1D_spectrum(
     Returns
     -------
 
-    res:
-        xarray.DataArray with Sea-States parameters
+    xarray.DataArray
+         A DataArray with Sea-States parameters
 
     """
     if use_depth:

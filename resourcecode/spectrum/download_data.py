@@ -173,7 +173,8 @@ def get_2D_spectrum(
     Returns
     -------
 
-    result: A dataset object with the data read from the downloaded netCDF file.
+    xarray.DataArray
+       A dataset object with the spectral data read from the downloaded netCDF file.
     """
     datasets = []
     for yr in years:
@@ -192,7 +193,7 @@ def get_1D_spectrum(
     months: Iterable[str],
 ) -> xarray.Dataset:
     """
-    Download the 2D spectrum times-series data from IFREMER ftp
+    Download the 1D spectrum times-series data from IFREMER ftp
 
     Parameters
     ----------
@@ -206,7 +207,8 @@ def get_1D_spectrum(
     Returns
     -------
 
-    result: A dataset object with the data read from the downloaded netCDF file.
+    xarray.DataArray
+       A dataset object with the spectral data read from the downloaded netCDF file.
     """
     datasets = []
     for yr in years:
