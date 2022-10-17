@@ -70,7 +70,7 @@ def convert_spectrum_2Dto1D(spectrumDataSet: xarray.Dataset) -> xarray.Dataset:
     out = spectrumDataSet.copy()
 
     sp1d_xr = xarray.apply_ufunc(
-        convert_spectrum_2Dto1D,  # first the function
+        raw_convert_spectrum_2Dto1D,  # first the function
         spectrumDataSet.Ef,  # now arguments in the order expected by 'interp1_np'
         spectrumDataSet.direction,
         input_core_dims=[
