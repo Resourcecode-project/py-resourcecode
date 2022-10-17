@@ -82,5 +82,5 @@ def convert_spectrum_2Dto1D(spectrumDataSet: xarray.Dataset) -> xarray.Dataset:
         vectorize=True,  # loop over non-core dims
     )
     out = out.drop_dims("direction")
-    out["Ef"] = sp1d_xr
+    out["ef"] = sp1d_xr
     return out
