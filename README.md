@@ -32,6 +32,7 @@ To install the toolbox, the following packages are necessary:
 - numpy (>= 1.20.1, < 2.0.0)
 - scipy (>= 1.6.1, < 2.0.0)
 - pyextremes (>= 2.0.0)
+- pytest (>7.0.0)
 - pyarrow (>= 6.0.0, < 8.0.0)
 - plotly (>= 4.12.0, < 5.0.0)
 - numexpr (>= 2.7.0, < 3.0.0)
