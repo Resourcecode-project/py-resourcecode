@@ -240,9 +240,9 @@ European Union's Horizon 2020 research and innovation program.
 
 The partners of the project (EMEC, IFREMER, CentraleNantes, Ocean Data Lab,
 Smart Bay Ireland, University College Dublin, INNOSEA and University of Edinburgh)
-contributed to this this toolbox and transfered the copyright to IFREMER. They all
+contributed to this this toolbox and transferred the copyright to IFREMER. They all
 agreed to the published License (GPL v3).
 
 The `resourcecode` Python module was developed by [Logilab](https://logilab.fr/)
 based on various scientific codes written by the partners of the **ResourceCODE**
-projet. The copyright have been transfered to IFREMER. More information at https://resourcecode.ifremer.fr.
+project. The copyright have been transferred to IFREMER. More information at https://resourcecode.ifremer.fr.
