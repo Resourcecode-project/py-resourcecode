@@ -1,4 +1,4 @@
-## Version 0.6 (TDB)
+## Version 0.6 (18/10/2022)
 ### 🎉 New features
 
  - Python 3.10 is now supported

@@ -46,7 +46,7 @@ To test whether the install has been successful, you can run:
 .. code-block:: shell
 
    (env-resourcecode)$ python -c "import resourcecode ; print(resourcecode.__version__)"
-   0.5.5
+   0.6.0
 
 which should print the current locally installed version of `resourcecode`.
 
