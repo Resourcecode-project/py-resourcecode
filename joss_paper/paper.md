@@ -34,8 +34,8 @@ affiliations:
  - name: Innosea, Nantes, France
    index: 5
 citation_author: N. Raillard et al.
-date: 30 November 2021
-year: 2021
+date: 20 October 2022
+year: 2022
 bibliography: paper.bib
 output: rticles::joss_article
 csl: apa.csl
