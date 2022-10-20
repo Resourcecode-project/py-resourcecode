@@ -19,7 +19,6 @@
 # with Resourcecode. If not, see <https://www.gnu.org/licenses/>.
 
 from scipy.constants import g
-from scipy.optimize import minimize
 import numpy as np
 
 
@@ -75,16 +74,27 @@ def dispersion(
     if not np.isfinite(depth):
         return infinite_depth_dispersion
 
-    def to_minimize(k):
-        return sum(((2 * np.pi * frequencies) ** 2 - g * k * np.tanh(k * depth)) ** 2)
+    result = np.zeros(len(frequencies))
+    for i in range(len(frequencies)):
+        if frequencies[i] == 0:
+            result[i] = 0
+        else:
+            c0 = (2 * np.pi * frequencies[i]) ** 2
+            k0 = 4.0243 * frequencies[i] ** 2
+            xk = k0
+            ftest = 99
+            for ii in range(n_iter):
+                z = xk * depth
+                y = np.tanh(z)
+                ff = c0 - g * xk * y
+                dff = g * (z * (y**2 - 1) - y)
+                xk_old = xk
+                xk = xk_old - ff / dff
+                ftest = abs((xk - xk_old) / xk_old)
+                if ftest <= tol:
+                    break
 
-    result = minimize(
-        to_minimize,
-        x0=infinite_depth_dispersion,
-        tol=tol,
-        options={"maxiter": n_iter},
-    )
-    if result.success:
-        return result.x
+            ff = c0 - g * xk * y
+            result[i] = xk
 
-    raise ValueError(result.message)
+    return result

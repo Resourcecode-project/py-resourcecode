@@ -32,7 +32,7 @@ Install the library
 -------------------
 
 In this virtual environment, you can now install the library. The library is 
-available on PyPI, and installation is straightfoward, using the following
+available on PyPI, and installation is straightforward, using the following
 command :
 
 
@@ -46,7 +46,7 @@ To test whether the install has been successful, you can run:
 .. code-block:: shell
 
    (env-resourcecode)$ python -c "import resourcecode ; print(resourcecode.__version__)"
-   0.5.5
+   0.6.0
 
 which should print the current locally installed version of `resourcecode`.
 
@@ -68,5 +68,3 @@ you simply have to update `pip` to it latest version:
    (env-resourcecode)$ python -m pip install --upgrade pip
 
 and re-run the install step which should be fine.
-
-At this time, `python >= 3.10` is not supported.

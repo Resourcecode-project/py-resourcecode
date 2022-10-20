@@ -26,13 +26,14 @@ in expected environmental conditions,and de-risk investment in future technology
 
 To install the toolbox, the following packages are necessary:
 
-- python (== 3.9)
+- python (>= 3.6, <3.11)
 - pandas (>= 1.0.0)
 - requests (>= 2.23.0)
 - numpy (>= 1.20.1, < 2.0.0)
 - scipy (>= 1.6.1, < 2.0.0)
 - pyextremes (>= 2.0.0)
-- pyarrow (>= 4.0.0, < 8.0.0)
+- pytest (>7.0.0)
+- pyarrow (>= 6.0.0, < 8.0.0)
 - plotly (>= 4.12.0, < 5.0.0)
 - numexpr (>= 2.7.0, < 3.0.0)
 - xarray (>= 0.19.0, < 1.0.0)
@@ -68,7 +69,7 @@ To test whether the install has been successful, you can run:
 
 ```bash
 (env-resourcecode)$ python -c "import resourcecode ; print(resourcecode.__version__)"
-0.5.5
+0.6.0
 ```
 
 which should print the current locally installed version of `resourcecode`.
@@ -240,9 +241,9 @@ European Union's Horizon 2020 research and innovation program.
 
 The partners of the project (EMEC, IFREMER, CentraleNantes, Ocean Data Lab,
 Smart Bay Ireland, University College Dublin, INNOSEA and University of Edinburgh)
-contributed to this this toolbox and transfered the copyright to IFREMER. They all
+contributed to this this toolbox and transferred the copyright to IFREMER. They all
 agreed to the published License (GPL v3).
 
 The `resourcecode` Python module was developed by [Logilab](https://logilab.fr/)
 based on various scientific codes written by the partners of the **ResourceCODE**
-projet. The copyright have been transfered to IFREMER. More information at https://resourcecode.ifremer.fr.
+project. The copyright have been transferred to IFREMER. More information at https://resourcecode.ifremer.fr.

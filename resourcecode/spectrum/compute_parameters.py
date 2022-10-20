@@ -23,12 +23,13 @@ from dataclasses import dataclass, astuple
 
 import numpy as np
 import pandas as pd
+import xarray
 import pytest
 from scipy.interpolate import interp1d
 from scipy.constants import g
 
 from resourcecode.spectrum.dispersion import dispersion
-from resourcecode.spectrum.convert2D1D import convert_spectrum_2Dto1D
+from resourcecode.spectrum.convert2D1D import raw_convert_spectrum_2Dto1D
 
 
 @dataclass
@@ -108,11 +109,11 @@ class SeaStatesParameters:
         return pd.DataFrame.from_dict({k: [v] for k, v in self.__dict__.items()})
 
 
-def compute_parameters_from_1D_spectrum(
+def raw_compute_parameters_from_1D_spectrum(
     Ef: np.ndarray,
     freq: np.ndarray,
     depth: float = float("inf"),
-    water_density: float = 1025,
+    water_density: float = 1026,
 ) -> SeaStatesParameters:
     """
     Compute Sea-States global parameters from 1D (frequency) spectra
@@ -197,12 +198,12 @@ def compute_parameters_from_1D_spectrum(
     )
 
 
-def compute_parameters_from_2D_spectrum(
+def raw_compute_parameters_from_2D_spectrum(
     E: np.ndarray,
     freq: np.ndarray,
     vdir: np.ndarray,
     depth: float = float("inf"),
-    water_density: float = 1025,
+    water_density: float = 1026,
 ) -> SeaStatesParameters:
     """
     Compute Sea-States global parameters from 2D (frequency) spectra
@@ -219,7 +220,7 @@ def compute_parameters_from_2D_spectrum(
     depth: m
         the water depth, default to float("inf")
     water_density: kg/m³
-        the water density, default to 1025 kg/m³
+        the water density, default to 1026 kg/m³
 
     Return
     ------
@@ -227,10 +228,10 @@ def compute_parameters_from_2D_spectrum(
     res: SeaStatesParameters
     """
 
-    Ef = convert_spectrum_2Dto1D(E, vdir)
-    parameters = compute_parameters_from_1D_spectrum(Ef, freq, depth, water_density)
+    Ef = raw_convert_spectrum_2Dto1D(E, vdir)
+    parameters = raw_compute_parameters_from_1D_spectrum(Ef, freq, depth, water_density)
 
-    # need to convert to radian and order for the remains calculations
+    # need to convert to radian and order for the remaining calculations
     vd = ((vdir + 180) % 360 * np.pi) / 180
     ivd = vd.argsort()
     E = E[ivd, :]
@@ -241,7 +242,12 @@ def compute_parameters_from_2D_spectrum(
     # Energy flux
     k = dispersion(freq, depth, n_iter=200, tol=1e-6)
     kd = k * depth
-    c1 = 1 + 2 * kd / np.sinh(2 * kd)
+
+    if not np.isfinite(depth):
+        c1 = 1
+    else:
+        c1 = 1 + 2 * kd / np.sinh(2 * kd)
+
     c2 = np.sqrt(g * np.tanh(kd) / k)
     cg = 0.5 * c1 * c2
 
@@ -286,3 +292,148 @@ def compute_parameters_from_2D_spectrum(
     parameters.Qp = Qp
 
     return parameters
+
+
+def compute_parameters_from_2D_spectrum(
+    spectrumDataSet: xarray.Dataset,
+    use_depth: bool = True,
+) -> pd.DataFrame:
+    """
+    Compute Sea-States parameters from 2D spectrum time series
+
+    Parameters
+    ----------
+
+    spectrumDataSet:
+        the spectrum data (as obtained from spec.get_2D_spectrum): a DataSet with time series of spectrum
+    use_depth: boolean
+        if True, the 'dpt' field is used to compute dispersion relation. Otherwise, infinite depth is assumed.
+
+    Returns
+    -------
+
+    xarray.DataArray
+         A DataArray with Sea-States parameters
+    """
+    if use_depth:
+        param_xr = xarray.apply_ufunc(
+            raw_compute_parameters_from_2D_spectrum,  # first the function
+            spectrumDataSet.Ef,  # now arguments in the order expected by 'compute_parameters_from_2D_spectrum'
+            spectrumDataSet.frequency,
+            spectrumDataSet.direction,
+            spectrumDataSet.dpt,
+            input_core_dims=[
+                ["direction", "frequency"],
+                ["frequency"],
+                ["direction"],
+                [],
+            ],  # list with one entry per arg
+            output_core_dims=[[]],  # list with one entry per arg
+            exclude_dims=set(
+                (
+                    "frequency",
+                    "direction",
+                )
+            ),
+            vectorize=True,  # loop over non-core dims
+        )
+    else:
+        param_xr = xarray.apply_ufunc(
+            raw_compute_parameters_from_2D_spectrum,  # first the function
+            spectrumDataSet.Ef,  # now arguments in the order expected by 'compute_parameters_from_2D_spectrum'
+            spectrumDataSet.frequency,
+            spectrumDataSet.direction,
+            input_core_dims=[
+                ["direction", "frequency"],
+                ["frequency"],
+                ["direction"],
+                [],
+            ],  # list with one entry per arg
+            output_core_dims=[[]],  # list with one entry per arg
+            exclude_dims=set(
+                (
+                    "frequency",
+                    "direction",
+                )
+            ),
+            vectorize=True,  # loop over non-core dims
+        )
+    sea_state = []
+    for d in param_xr.to_dict()["data"]:
+        sea_state.append(d.to_dataframe())
+    out = pd.concat(sea_state)
+    out.insert(0, "time", param_xr.time.values)
+
+    out["depth"] = spectrumDataSet.dpt.values
+    out["wnd"] = spectrumDataSet.wnd.values
+    out["wnddir"] = spectrumDataSet.wnddir.values
+    out["cur"] = spectrumDataSet.cur.values
+    out["curdir"] = spectrumDataSet.curdir.values
+
+    return out
+
+
+def compute_parameters_from_1D_spectrum(
+    spectrumDataSet: xarray.Dataset,
+    use_depth: bool = True,
+) -> pd.DataFrame:
+    """
+    Compute Sea-States parameters from 1D spectrum time series
+
+    Parameters
+    ----------
+
+    spectrumDataSet:
+        the spectrum data (as obtained from spec.get_1D_spectrum): a DataSet with time series of spectrum
+    use_depth: boolean
+        if True, the 'dpt' field is used to compute dispersion relation. Otherwise, infinite depth is assumed.
+
+    Returns
+    -------
+
+    xarray.DataArray
+         A DataArray with Sea-States parameters
+
+    """
+    if use_depth:
+        param_xr = xarray.apply_ufunc(
+            raw_compute_parameters_from_1D_spectrum,  # first the function
+            spectrumDataSet.ef,  # now arguments in the order expected by 'compute_parameters_from_2D_spectrum'
+            spectrumDataSet.frequency,
+            spectrumDataSet.dpt,
+            input_core_dims=[
+                ["frequency"],
+                ["frequency"],
+                [],
+            ],  # list with one entry per arg
+            output_core_dims=[[]],  # list with one entry per arg
+            exclude_dims=set(("frequency",)),
+            vectorize=True,  # loop over non-core dims
+        )
+    else:
+        param_xr = xarray.apply_ufunc(
+            raw_compute_parameters_from_2D_spectrum,  # first the function
+            spectrumDataSet.Ef,  # now arguments in the order expected by 'compute_parameters_from_2D_spectrum'
+            spectrumDataSet.frequency,
+            input_core_dims=[
+                ["frequency"],
+                ["frequency"],
+                [],
+            ],  # list with one entry per arg
+            output_core_dims=[[]],  # list with one entry per arg
+            exclude_dims=set(("frequency",)),
+            vectorize=True,  # loop over non-core dims
+        )
+    sea_state = []
+    for d in param_xr.to_dict()["data"]:
+        sea_state.append(d.to_dataframe())
+    out = pd.concat(sea_state)
+    out.insert(0, "time", param_xr.time.values)
+
+    out["depth"] = spectrumDataSet.dpt.values
+    out["wnd"] = spectrumDataSet.wnd.values
+    out["wnddir"] = spectrumDataSet.wnddir.values
+    out["cur"] = spectrumDataSet.cur.values
+    out["curdir"] = spectrumDataSet.curdir.values
+
+    return out
