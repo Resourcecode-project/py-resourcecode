@@ -91,12 +91,14 @@ The different tasks that can be handled via this package, both for data manageme
 
 - Data management:
   - Extraction of sea-state parameters from Cassandra web-service;
+  - Extraction of both 2D and 1D spectral data; 
   - Accessing database configuration:
     - nodes location and spectral data availability;
     - coastlines, islands ans mesh triangles;
     - bathymetry and bottom roughness;
     - List of output variables;
   - Easy to use **pandas** data frame (filtering, aggregating,...);
+  - Facilities to plot 2D and 1D spectral data;
   - Data conversion: 
     - Directional spectra $\to$ Frequency spectra $\to$ Sea-state parameters;
     - Zonal/Meridional components to Intensity/Direction.
