@@ -99,6 +99,8 @@ def plot_2D_spectrum(
         Ef[Ef < trim] = np.nan
 
         ax.grid(False)  # Just to remove warning from 'pcolormesh', add it back latter
+        ax.set_theta_direction(-1)  # Rotate clockwise
+        ax.set_theta_offset(np.pi / 2.0)  # Origins to the North
 
         # Actual plot of the image
         pt = ax.pcolormesh(
