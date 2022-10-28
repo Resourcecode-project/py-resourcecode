@@ -22,6 +22,7 @@ barriers and promote growth in renewable energy.
    doc_produciple_assessment
    doc_opsplanning_resassess
    doc_spectrum
+   auto_examples/index
 
 
 Indices and tables
@@ -43,6 +44,9 @@ If you use the package in your publications or project, please cite accordingly:
      year = {2022},
      month = {2},
    }
+
+RESOURCECODE use-cases: :ref:`examples-index`
+---------------------------------------------
 
 
 Reporting bugs

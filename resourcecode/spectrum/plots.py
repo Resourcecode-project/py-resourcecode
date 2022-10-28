@@ -154,6 +154,7 @@ def plot_2D_spectrum(
             xy=(-np.pi / 3, 1.1 * cut_off),
             annotation_clip=False,
         )
+        plt.close()
         return fig
 
 
@@ -234,4 +235,5 @@ def plot_1D_spectrum(
             ]
         )
         plt.title(title)
+        plt.close()
         return fig
