@@ -4,10 +4,15 @@ Use-case example of the Operational Planning module
 ===================================================
 """
 import calendar
+import matplotlib.pyplot as plt
 import plotly.graph_objects as go
 
 from resourcecode import Client
 from resourcecode.opsplanning import ww_calc, wwmonstats, olmonstats, oplen_calc
+
+import locale
+
+locale.setlocale(locale.LC_ALL, "en_GB")
 
 # %%
 # Introduction to Operational Planning module
@@ -67,13 +72,30 @@ data_matching_criteria = data.query(criteria)
 
 windetect = ww_calc(data_matching_criteria, winlen=winlen, concurrent_windows=False)
 results = wwmonstats(windetect)
-stats = results.describe(percentiles=percentiles).drop(["count", "std"]).transpose()
+stats = (
+    results.describe(percentiles=percentiles)
+    .drop(["count", "std"])
+    .transpose()
+    .sort_index()
+)
 
 # %%
 # Plotting the monthly statistics
 # -------------------------------
 #
-# Lastly, we can produce some plots of the `stats` matrix.
+# Lastly, we can produce some plots of the `stats` matrix. First of all, a static plot with some quantiles.
+
+plt.figure(figsize=(8, 5), layout="constrained")
+plt.plot(MONTH_NAMES[1:], stats["mean"], "-o", label="mean")
+plt.plot(MONTH_NAMES[1:], stats["25%"], "-o", label="25% quantile")
+plt.plot(MONTH_NAMES[1:], stats["75%"], "-o", label="75% quantile")
+plt.xticks(rotation=45)
+plt.ylabel("Number of weather windows by month")
+plt.legend()
+plt.show()
+
+# %%
+# We can also produce interactive plots to facilitate the visualisation.
 
 fig = go.Figure()
 for colname in stats.columns:
@@ -123,7 +145,12 @@ critical_operation = False
 
 oplendetect = oplen_calc(data_matching_criteria, oplen, critical_operation)
 results = olmonstats(oplendetect)
-stats = results.describe(percentiles=percentiles).drop(["count", "std"]).transpose()
+stats = (
+    results.describe(percentiles=percentiles)
+    .drop(["count", "std"])
+    .transpose()
+    .sort_index()
+)
 
 fig = go.Figure()
 for colname in stats.columns:
