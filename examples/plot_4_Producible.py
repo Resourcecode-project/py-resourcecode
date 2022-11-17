@@ -3,9 +3,15 @@
 Estimation of producible energy
 ===============================
 
-This notebook shows how the toolbox can be used to estimate the energy producible
-by a classical WEC device on any point of the covered area.
+In this example, we will estimate WEC energy production using the ResourceCode hindcast
+data as an input and capture width data of a standard WEC to simulate the behaviour and estimate
+energy that can be harvested with this device from the slected location.
 """
+# %%
+# .. seealso::
+#    In addition, a demonstration tool based on this module can be accessed on
+#    the Resourcecode Tools `web page <https://resourcecode.ifremer.fr/tools>`_.
+
 import pandas as pd
 import numpy as np
 from pathlib import Path
@@ -20,6 +26,7 @@ plt.rcParams["figure.dpi"] = 400
 # sphinx_gallery_thumbnail_number = 2
 
 # %%
+#
 # Load WEC characteristics: PTO, capture width and corresponding frequencies
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 # Default characteristics are provided with the package, but the user is free to change it to use a specific device.
@@ -44,15 +51,24 @@ fig.colorbar(img, fraction=0.08, pad=0.03)
 plt.title("Capture width")
 plt.show()
 
+# %%
 # We then extract the time series of 1D wave spectra from the
-# RESOURCECODE database. For this example, we used the data from the SEMREVO location.
-
-spec1D = resourcecode.spectrum.get_1D_spectrum("SEMREVO", ["2014"], ["02"])
+# RESOURCECODE database, using the :func:`resourcecode.spectrum.download_data.get_1D_spectrum` function.
+# For this example, we used the data from the SEMREVO location.
 # We only need the frequency spectrum in this case, so we convert it to a pandas DataFrame.
+
+spec1D = resourcecode.spectrum.download_data.get_1D_spectrum(
+    "SEMREVO", ["2014"], ["02"]
+)
 spec = spec1D.ef.to_pandas()
+
 # The frequency has been truncated, so here we reconcile both
 spec.columns = capture_width.index
-# We want to compare with the PTO estimated using a JONWSAP approximation so we need the sea-state parameters data
+
+# %%
+# We propose here to compare with the PTO estimated using a JONSWAP approximation,
+# so we need the sea-state parameters data to compute the JONSWAP spectrum.
+
 client = resourcecode.Client()
 wave_data = client.get_dataframe(
     pointId=119947,

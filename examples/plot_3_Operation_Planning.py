@@ -3,20 +3,7 @@
 Use-case example of the Operational Planning module
 ===================================================
 """
-import calendar
-import matplotlib.pyplot as plt
-import plotly.graph_objects as go
-
-from resourcecode import Client
-from resourcecode.opsplanning import ww_calc, wwmonstats, olmonstats, oplen_calc
-
-import locale
-
-locale.setlocale(locale.LC_ALL, "en_GB")
-
 # %%
-# Introduction to Operational Planning module
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 #
 # In this page, we will present some of the functionalities offered by the toolbox
 # for operational planning and weather windows computations.
@@ -24,10 +11,21 @@ locale.setlocale(locale.LC_ALL, "en_GB")
 # The examples are given using the Resourcecode data,
 # but of course any other data source can be used, e.g. in-situ data.
 #
-# In addition, a demonstration tool based on this module can be accessed on
-# the Resourcode Tools `web page <https://resourcecode.ifremer.fr/tools>`_.
+# .. seealso::
+#     In addition, a demonstration tool based on this module can be accessed on
+#     the Resourcecode Tools `web page <https://resourcecode.ifremer.fr/tools>`_.
 
-client = Client()
+import calendar
+import matplotlib.pyplot as plt
+import plotly.graph_objects as go
+import locale
+
+import resourcecode
+from resourcecode.opsplanning import ww_calc, wwmonstats, olmonstats, oplen_calc
+
+locale.setlocale(locale.LC_ALL, "en_GB.utf8")
+client = resourcecode.Client()
+
 percentiles = [0.01, 0.05, 0.25, 0.5, 0.75, 0.95, 0.99]
 MONTH_NAMES = list(calendar.month_name)
 
