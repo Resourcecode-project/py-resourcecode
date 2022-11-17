@@ -41,6 +41,7 @@ from resourcecode.eva import (
 # We also define here the tuning parameters for fitting the models to the data:
 #    - quantile above which the model is fitted;
 #    - de-clustering parameter, specified in hours.
+#
 # Then, we fit the **POT** model to the data.
 
 client = resourcecode.Client()
