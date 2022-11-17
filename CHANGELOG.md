@@ -2,6 +2,7 @@
 ### 👷 Bug fixes
 
  - fix a bug in plotting functions of 2D spectrum
+ - 'eva' module: 'censgaussfit' and 'run_simulation' did not work in 2D case 
 
 ## Version 0.6.0 (18/10/2022)
 ### 🎉 New features
