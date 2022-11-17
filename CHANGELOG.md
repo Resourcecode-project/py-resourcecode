@@ -1,4 +1,9 @@
-## Version 0.6 (18/10/2022)
+## Version 0.6.1 (24/10/2022)
+### 👷 Bug fixes
+
+ - fix a bug in plotting functions of 2D spectrum
+
+## Version 0.6.0 (18/10/2022)
 ### 🎉 New features
 
  - Python 3.10 is now supported

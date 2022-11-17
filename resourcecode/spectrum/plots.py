@@ -69,6 +69,8 @@ def plot_2D_spectrum(
         fig = plt.figure(figsize=[10, 10])
         # Switch to polar coordinates
         ax = fig.add_axes([0, 0, 1.1, 1.1], polar=True)
+        ax.set_theta_direction(-1)  # Rotate clockwize
+        ax.set_theta_offset(np.pi / 2.0)  # origion to the North
 
         # Gather the table of wave spectrum
         Ef = data.sortby("direction").Ef[time, :, :].to_numpy()
@@ -109,10 +111,10 @@ def plot_2D_spectrum(
             cmap="PuBu",
         )
         ax.set_ylim([0, cut_off])  # Zoom in the area where there are interesting things
-        ax.set_rlabel_position(0.8)  # Rotate a little bit the legend to avoid colliding
+        ax.set_rlabel_position(89)  # Rotate a little bit the legend to avoid colliding
 
         # Add horizontal axis label
-        plt.annotate(r"f ($Hz$)", xy=(-0.1, cut_off / 2))
+        plt.annotate(r"f ($Hz$)", xy=(np.pi / 2 + 0.1, cut_off / 2))
 
         ax.grid(True)  # Add back the grid
 
@@ -151,18 +153,17 @@ def plot_2D_spectrum(
         # Add the resourcecode caption
         plt.annotate(
             "\nSource: Resourcecode hindcast database\nresourcecode.ifremer.fr",
-            xy=(-np.pi / 3, 1.1 * cut_off),
+            xy=(7 / 8 * np.pi, 1.1 * cut_off),
             annotation_clip=False,
         )
-        plt.close()
-        return fig
+        return ax
 
 
 def plot_1D_spectrum(
     data: xarray.Dataset,
     time: int,
     sea_state: bool = True,
-) -> plt.Figure:
+) -> plt.axis:
     """Plot the 1D spectrum at a specific time
 
     Parameters
@@ -235,5 +236,4 @@ def plot_1D_spectrum(
             ]
         )
         plt.title(title)
-        plt.close()
         return fig

@@ -19,7 +19,7 @@
 # with Resourcecode. If not, see <https://www.gnu.org/licenses/>.
 
 import json
-from typing import TYPE_CHECKING, BinaryIO, Union
+from typing import Optional, TYPE_CHECKING, BinaryIO, Union
 from pathlib import Path
 
 import xarray
@@ -38,7 +38,7 @@ with open(DATA_DIR / "netcdf_description.json") as fobj:
 
 
 def to_netcdf(
-    dataframe: pd.DataFrame, path: Union[str, Path] = None
+    dataframe: pd.DataFrame, path: Optional[Union[str, Path]] = None
 ) -> Union[bytes, "Delayed", None]:
     """Write dataframe contents to a netCFD file.
 
