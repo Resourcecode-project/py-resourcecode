@@ -18,6 +18,9 @@ from resourcecode.opsplanning import ww_calc, wwmonstats, olmonstats, oplen_calc
 # Here, we will deal with the computation of empirical weather windows only, directly from the time series.
 # The examples are given using the Resourcecode data,
 # but of course any other data source can be used, e.g. in-situ data.
+#
+# In addition, a demonstration tool based on this module can be accessed on
+# the Resourcode Tools `web page <https://resourcecode.ifremer.fr/tools>`_.
 
 client = Client()
 percentiles = [0.01, 0.05, 0.25, 0.5, 0.75, 0.95, 0.99]
@@ -44,7 +47,7 @@ data = client.get_dataframe_from_url(
 # (next window is considered after the end of pervious window)
 # or for any timestamp - every timestamp is considered as potential start of a weather window.
 #
-# operational criteria
+# Operational criteria
 # --------------------
 #
 # We assume here that the constraints are in terms of :math:`H_s` and :math:`T_p`, although
@@ -56,6 +59,9 @@ winlen = 3
 data_matching_criteria = data.query(criteria)
 
 # %%
+# Computation of weather windows
+# ------------------------------
+#
 # Next, takes place the most important part of the module:
 # computing the effective weather windows, and then compute monthly statistics.
 
@@ -64,6 +70,9 @@ results = wwmonstats(windetect)
 stats = results.describe(percentiles=percentiles).drop(["count", "std"]).transpose()
 
 # %%
+# Plotting the monthly statistics
+# -------------------------------
+#
 # Lastly, we can produce some plots of the `stats` matrix.
 
 fig = go.Figure()
@@ -87,6 +96,9 @@ fig.update_layout(
 
 # %%
 # Operational planning
+# ^^^^^^^^^^^^^^^^^^^^
+#
+#
 # The operational length is how long will it take to carry out the operation of given nominal length,
 # when taking into account weather downtime.
 # Operational length is provided in units of time. When calculating the length,
@@ -94,12 +106,18 @@ fig.update_layout(
 # With critical operations, the full operations have to restart if criteria is exceeded.
 # With non-critical operations, they can be paused for the bad weather
 # and continued once the conditions meet the criteria.
+#
+# Operational criteria
+# --------------------
 
 criteria = "hs < 1.8 and tp < 9"
 oplen = 12
 critical_operation = False
 
 # %%
+# Computation of operation durations
+# ----------------------------------
+#
 # Once the criteria are defined, we can proceed to the estimation,
 # and finally produce visual exploration of the durations.
 
