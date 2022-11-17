@@ -24,10 +24,11 @@ from resourcecode.eva import (
 #
 # Extreme value modelling is a central topic in the design of offshore structures.
 #
-# In this package, we rely on the Peaks Over Threshold (POT) approach:
+# In this package, we used the Peaks Over Threshold (POT) approach:
 # the data above a defined threshold is kept, independent exceedances are identified based
 # on a time-separation criterion and a GPD distribution is fitted to the set of clusters maxima.
 # The particular case of Exponential distribution is selected using an AIC criterion.
+# This procedure is based on the excellent package `pyextremes <https://georgebv.github.io/pyextremes/>`.
 #
 # We also propose in this package to compute multivariate extremes using the methodology described in
 # `Raillard et al (2019) <https://archimer.ifremer.fr/doc/00498/60948/>`_.
