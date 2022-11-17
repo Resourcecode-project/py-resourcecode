@@ -55,25 +55,28 @@ def run_simulation(
     simulations: A [NxM] numpy matrix with the result of the N simulations
 
     """
+    nvar = len(gpd_parameters)
 
     # For the 2D case, we have only one parameter
     if len(rho) > 1:
-        sigma = np.eye(len(rho))
+        sigma = np.eye(nvar)
         set_trig(sigma, rho, "upper")
         set_trig(sigma, rho, "lower")
     else:
-        sigma = rho
+        sigma = np.eye(2)
+        sigma[1, 0] = rho
+        sigma[0, 1] = rho
 
     result = None
     while result is None or len(result) < n_simulations:
         simul = multivariate_normal.rvs(
-            mean=np.full(len(rho), 0),
+            mean=np.full(nvar, 0),
             cov=sigma,
             size=n_simulations,
         )
 
         mask = simul[:, 0] > norm.ppf(quantile)
-        for i in range(1, len(rho)):
+        for i in range(1, nvar):
             mask = mask & (simul[:, i] > norm.ppf(quantile))
 
         simul = simul[mask]
