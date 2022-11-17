@@ -18,14 +18,10 @@ Use-case example of the Operational Planning module
 import calendar
 import matplotlib.pyplot as plt
 import plotly.graph_objects as go
-import locale
-
 import resourcecode
 from resourcecode.opsplanning import ww_calc, wwmonstats, olmonstats, oplen_calc
 
-locale.setlocale(locale.LC_ALL, "en_GB.utf8")
 client = resourcecode.Client()
-
 percentiles = [0.01, 0.05, 0.25, 0.5, 0.75, 0.95, 0.99]
 MONTH_NAMES = list(calendar.month_name)
 
