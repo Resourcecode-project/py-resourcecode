@@ -8,8 +8,8 @@ type: software
 license: 'GPL-3.0-or-later'
 repository-code: "https://gitlab.ifremer.fr/resourcecode/resourcecode"
 url: "https://resourcecode.gitlab-pages.ifremer.fr/resourcecode/"
-version: 0.6.1
-date-released: '2022-10-24'
+version: 0.6.2
+date-released: '2022-11-17'
 authors:
   - given-names: Nicolas
     family-names: Raillard

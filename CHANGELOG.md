@@ -1,8 +1,14 @@
+## version 0.6.2 (17/11/2022)
+### 📝 Documentation
+ - Add examples in the documentation using 'sphinx-gallery'
+### 👷 Bug fixes
+ - Fix 'PEP 484'
+ - 'eva' module: 'censgaussfit' and 'run_simulation' did not work in 2D case 
+
 ## Version 0.6.1 (24/10/2022)
 ### 👷 Bug fixes
 
  - fix a bug in plotting functions of 2D spectrum
- - 'eva' module: 'censgaussfit' and 'run_simulation' did not work in 2D case 
 
 ## Version 0.6.0 (18/10/2022)
 ### 🎉 New features
