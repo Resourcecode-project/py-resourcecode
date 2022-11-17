@@ -20,6 +20,9 @@ import matplotlib.pyplot as plt
 import plotly.graph_objects as go
 import resourcecode
 from resourcecode.opsplanning import ww_calc, wwmonstats, olmonstats, oplen_calc
+import plotly.io as pio
+
+pio.renderers.default = "sphinx_gallery"
 
 client = resourcecode.Client()
 percentiles = [0.01, 0.05, 0.25, 0.5, 0.75, 0.95, 0.99]
@@ -109,6 +112,7 @@ fig.update_layout(
     legend_tracegroupgap=130,
     title="Monthly statistics of number of weather window (Concurrent)",
 )
+fig
 
 # %%
 # Operational planning
@@ -134,8 +138,7 @@ critical_operation = False
 # Computation of operation durations
 # ----------------------------------
 #
-# Once the criteria are defined, we can proceed to the estimation,
-# and finally produce visual exploration of the durations.
+# Once the criteria are defined, we can proceed to the estimation
 
 oplendetect = oplen_calc(data_matching_criteria, oplen, critical_operation)
 results = olmonstats(oplendetect)
@@ -145,6 +148,9 @@ stats = (
     .transpose()
     .sort_index()
 )
+
+# %%
+# And finally produce visual exploration of the durations.
 
 fig = go.Figure()
 for colname in stats.columns:
@@ -164,3 +170,4 @@ fig.update_layout(
     legend_tracegroupgap=130,
     title="Monthly statistics of length of operations (non-critical operations)",
 )
+fig
