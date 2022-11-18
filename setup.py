@@ -101,4 +101,9 @@ setup(
     data_files=[("etc/resourcecode", ["config/config.ini"])],
     include_package_data=True,
     zip_safe=False,
+    project_urls={
+        "GitLab": "https://gitlab.ifremer.fr/resourcecode/resourcecode",
+        "Web Portal": "https://resourcecode.ifremer.fr",
+        "PyPI": "https://pypi.org/project/resourcecode",
+    },
 )
