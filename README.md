@@ -26,17 +26,17 @@ in expected environmental conditions,and de-risk investment in future technology
 
 To install the toolbox, the following packages are necessary:
 
-- python (>= 3.6, <3.11)
+- python (>= 3.6, <3.12)
 - pandas (>= 1.0.0)
 - requests (>= 2.23.0)
-- numpy (>= 1.20.1, < 2.0.0)
-- scipy (>= 1.6.1, < 2.0.0)
+- numpy (>= 1.20.1)
+- scipy (>= 1.6.1)
 - pyextremes (>= 2.0.0)
 - pytest (>7.0.0)
-- pyarrow (>= 6.0.0, < 8.0.0)
-- plotly (>= 4.12.0, < 5.0.0)
-- numexpr (>= 2.7.0, < 3.0.0)
-- xarray (>= 0.19.0, < 1.0.0)
+- pyarrow (>= 6.0.0)
+- plotly (>= 4.12.0)
+- numexpr (>= 2.7.0)
+- xarray (>= 0.19.0)
 
 
 ### Using an environment
@@ -197,7 +197,7 @@ Please cite it in your publications and do not hesitate to tell your friends and
   author = {Raillard, Nicolas and Chabot, Simon and Maisondieu, Christophe and Darbynian, David and Payne, Gregory and Papillon, Louis},
   url = {https://gitlab.ifremer.fr/resourcecode/resourcecode},
   year = {2022},
-  month = {2},
+  month = {12},
 }
 ```
 
