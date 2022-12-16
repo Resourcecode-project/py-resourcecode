@@ -85,6 +85,7 @@ spec = resourcecode.spectrum.get_2D_spectrum(
 # And we offers function to represent the spectral data (for 2D and 1D, even if only the 2D is shown here)
 
 resourcecode.spectrum.plot_2D_spectrum(spec, 1)
+plot.show()
 
 # %%
 # Among the functionalities of the toolbox, it is possible to compute the sea-state parameters from spectral data. Small
