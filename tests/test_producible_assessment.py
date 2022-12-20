@@ -26,7 +26,6 @@ from resourcecode.spectrum import compute_jonswap_wave_spectrum
 
 
 def test_producible_assessment():
-
     INNOSEA_DATA_DIR = Path(producible_assessment.__file__).parent / "Inputs"
     capture_width_path = INNOSEA_DATA_DIR / "capture_width.csv"
     freq_path = INNOSEA_DATA_DIR / "Frequencies.csv"
