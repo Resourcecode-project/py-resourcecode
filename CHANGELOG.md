@@ -1,3 +1,10 @@
+## version 0.6.3 (TBA)
+### 🎉 New features
+ - Python 3.11 is now supported
+
+### 👷 Bug fixes
+ - Compatible with upstream release of black Python code formatter
+
 ## version 0.6.2 (17/11/2022)
 ### 📝 Documentation
  - Add examples in the documentation using 'sphinx-gallery'
