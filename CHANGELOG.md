@@ -3,7 +3,8 @@
  - Python 3.11 is now supported
 
 ### 👷 Bug fixes
- - Compatible with upstream release of black Python code formatter
+ - Fix a bung in 'get_2D_spectrum' that was preventing from downloading year 2020;
+ - Compatible with upstream release of black Python code formatter.
 
 ## version 0.6.2 (17/11/2022)
 ### 📝 Documentation

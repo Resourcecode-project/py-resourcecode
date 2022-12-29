@@ -70,7 +70,7 @@ def download_single_2D_file(
 
     if (
         int(year) < get_covered_period()["start"].year
-        or int(year) >= get_covered_period()["end"].year
+        or int(year) > get_covered_period()["end"].year
     ):
         raise ValueError(f"{year} is outsite the covered period")
 
@@ -132,11 +132,11 @@ def download_single_1D_file(
     if point not in set(get_grid_spec().name):
         raise ValueError(f"{point} is an unkown location")
 
-    # if (
-    #    int(year) < get_covered_period()["start"].year
-    #    or int(year) >= get_covered_period()["end"].year
-    # ):
-    #    raise ValueError(f"{year} is outsite the covered period")
+    if (
+        int(year) < get_covered_period()["start"].year
+        or int(year) > get_covered_period()["end"].year
+    ):
+        raise ValueError(f"{year} is outsite the covered period")
 
     if int(month) < 1 or int(month) > 12:
         raise ValueError(
