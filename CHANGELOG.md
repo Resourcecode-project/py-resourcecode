@@ -1,4 +1,4 @@
-## version 0.6.3 (TBA)
+## version 0.6.3 (29/12/2022)
 ### 🎉 New features
  - Python 3.11 is now supported
 
