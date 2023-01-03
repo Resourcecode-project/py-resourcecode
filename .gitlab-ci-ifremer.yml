@@ -55,7 +55,7 @@ doctest:
   needs: []
   before_script:
     - pip install .
-    - pip install sphinx sphinx-book-theme pytest sphinx_gallery
+    - pip install -U sphinx>=4.5 sphinx-book-theme pytest sphinx_gallery plotly
   script:
     - sphinx-build -b doctest doc .
 
@@ -108,7 +108,7 @@ pages:
     - if: '$CI_COMMIT_REF_NAME == "branch/default"'
   before_script:
     - pip install .
-    - pip install sphinx sphinx-book-theme pytest sphinx_gallery plotly
+    - pip install -U sphinx>=4.5 sphinx-book-theme pytest sphinx_gallery plotly
   script:
     - sphinx-build -b html doc public
   artifacts:
