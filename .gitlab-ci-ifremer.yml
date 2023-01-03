@@ -55,7 +55,7 @@ doctest:
   needs: []
   before_script:
     - pip install .
-    - pip install sphinx pytest sphinx_gallery
+    - pip install sphinx sphinx-book-theme pytest sphinx_gallery
   script:
     - sphinx-build -b doctest doc .
 
