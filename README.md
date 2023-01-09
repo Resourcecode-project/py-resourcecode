@@ -3,6 +3,7 @@
 [![PyPI version](https://badge.fury.io/py/resourcecode.svg)](https://badge.fury.io/py/resourcecode)
 [![Status](https://joss.theoj.org/papers/e43574f4a0b6782ee6a112180912dae0/status.svg)](https://joss.theoj.org/papers/e43574f4a0b6782ee6a112180912dae0)
 [![Downloads](https://img.shields.io/badge/dynamic/json.svg?label=downloads&url=https%3A%2F%2Fpypistats.org%2Fapi%2Fpackages%2Fresourcecode%2Frecent&query=data.last_month&colorB=brightgreen&suffix=%2FMonth)](https://pypistats.org/packages/2Fresourcecode)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 ## Description
 
