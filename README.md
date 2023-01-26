@@ -27,7 +27,7 @@ in expected environmental conditions,and de-risk investment in future technology
 
 To install the toolbox, the following packages are necessary:
 
-- python (>= 3.6, <3.12)
+- python (>= 3.9, <3.12)
 - pandas (>= 1.0.0)
 - requests (>= 2.23.0)
 - numpy (>= 1.20.1)
@@ -70,7 +70,7 @@ To test whether the install has been successful, you can run:
 
 ```bash
 (env-resourcecode)$ python -c "import resourcecode ; print(resourcecode.__version__)"
-0.6.0
+0.6.4
 ```
 
 which should print the current locally installed version of `resourcecode`.

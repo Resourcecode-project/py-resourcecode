@@ -5,7 +5,7 @@ Create a dedicated virtual environment
 --------------------------------------
 
 To install the library, you may first of all, create a dedicated virtual
-environment:
+environment with a python version at least `3.9`:
 
 .. code-block:: shell
 
