@@ -17,5 +17,5 @@
 # You should have received a copy of the GNU General Public License along
 # with Resourcecode. If not, see <https://www.gnu.org/licenses/>.
 
-numversion = (0, 6, 4)
+numversion = (1, 0, 0)
 __version__ = ".".join(str(num) for num in numversion)
