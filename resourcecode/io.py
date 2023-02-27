@@ -19,10 +19,13 @@
 # with Resourcecode. If not, see <https://www.gnu.org/licenses/>.
 
 import json
-from typing import Optional, TYPE_CHECKING, BinaryIO, Union
+from typing import Optional, TYPE_CHECKING, Union, Any
+from os import PathLike
+from io import BufferedIOBase
 from pathlib import Path
 
 import xarray
+from xarray.backends.common import AbstractDataStore
 import pandas as pd
 
 from resourcecode.data import DATA_DIR
@@ -66,7 +69,9 @@ def to_netcdf(
     return xr.to_netcdf(path)
 
 
-def read_netcdf(filename_or_obj: Union[str, Path, BinaryIO]) -> pd.DataFrame:
+def read_netcdf(
+    filename_or_obj: Union[str, PathLike[Any], BufferedIOBase, AbstractDataStore]
+) -> pd.DataFrame:
     """Open and decode a dataframe from a file or file-like object.
 
     Parameters

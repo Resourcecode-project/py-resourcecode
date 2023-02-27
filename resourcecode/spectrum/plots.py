@@ -21,6 +21,7 @@ import numpy as np
 import pandas as pd
 import xarray
 import matplotlib.pyplot as plt
+from matplotlib.projections.polar import PolarAxes
 
 from resourcecode.spectrum import (
     raw_compute_parameters_from_2D_spectrum,
@@ -65,10 +66,17 @@ def plot_2D_spectrum(
         freq = np.append(data.frequency1.to_numpy(), data.frequency2[-1].to_numpy())
         direction = np.append(data.sortby("direction").direction.to_numpy(), 360.0)
         # Create the new figure
-        plt.clf()
-        fig = plt.figure(figsize=[10, 10])
+        fig = plt.figure(
+            figsize=(10, 10),
+            dpi=400,
+            facecolor="w",
+            edgecolor="w",
+        )
+        rect = [0.1, 0.1, 0.8, 0.8]
+
         # Switch to polar coordinates
-        ax = fig.add_axes([0, 0, 1.1, 1.1], polar=True)
+        ax = PolarAxes(fig, rect)
+        fig.add_axes(ax)
         ax.set_theta_direction(-1)  # Rotate clockwize
         ax.set_theta_offset(np.pi / 2.0)  # origion to the North
 
@@ -156,7 +164,8 @@ def plot_2D_spectrum(
             xy=(7 / 8 * np.pi, 1.1 * cut_off),
             annotation_clip=False,
         )
-        return ax
+
+    return ax
 
 
 def plot_1D_spectrum(
@@ -184,8 +193,17 @@ def plot_1D_spectrum(
         raise IndexError(f"time is out the length of the Dataset: {data.time.size}")
     else:
         # Create the new figure
-        plt.clf()
-        fig = plt.figure(figsize=[8, 6], dpi=300)
+        fig = plt.figure(
+            figsize=(8, 6),
+            dpi=400,
+            facecolor="w",
+            edgecolor="w",
+        )
+        rect = [0.1, 0.1, 0.8, 0.8]
+
+        # Switch to polar coordinates
+        ax = PolarAxes(fig, rect)
+        fig.add_axes(ax)
         plt.plot(data.frequency.to_numpy(), data.ef[time, :].to_numpy())
         plt.xlabel(r"f ($Hz$)")
         plt.ylabel(r"Wave spectral density ($m^2 s$)")

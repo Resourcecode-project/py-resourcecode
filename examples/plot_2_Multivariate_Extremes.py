@@ -23,8 +23,6 @@ import warnings
 
 import numpy as np
 import matplotlib.pyplot as plot
-import plotly.graph_objects as go
-
 import resourcecode
 from resourcecode.eva import (
     censgaussfit,
@@ -33,6 +31,10 @@ from resourcecode.eva import (
     run_simulation,
     huseby,
 )
+import plotly.graph_objects as go
+import plotly.io as pio
+
+pio.renderers.default = "sphinx_gallery"
 
 # %%
 # Data extraction and univariate models
@@ -155,3 +157,4 @@ fig.update_layout(
     ),
     height=1200,
 )
+fig
