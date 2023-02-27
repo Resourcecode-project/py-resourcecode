@@ -69,7 +69,7 @@ For experts met-ocean analysts:
 
 # Key Features of the `resourcecode` python package
 
-`resourcecode` provides a wrapper for easy fetching of data from the **ResourceCODE** database, by calling the Cassandra API. The database itself represents more than 50Tb of data, preventing standard user to download it as a whole. Hence, this toolbox is intended to provide access to time series of sea-state parameters, as simply as the following code snippet:
+The `resourcecode` python package provides a wrapper for easy fetching of data from the **ResourceCODE** database, by calling the Cassandra API. The database itself represents more than 50Tb of data, preventing standard user to download it as a whole. Hence, this toolbox is intended to provide access to time series of sea-state parameters, as simply as the following code snippet:
 
 
 ```python
