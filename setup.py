@@ -36,7 +36,7 @@ url = "https://gitlab.ifremer.fr/resourcecode/resourcecode"
 license = "GPL-v3.0"
 
 install_requires = [
-    "pandas >= 1.0.0",
+    "pandas >= 1.0.0, < 2.0.0",
     "requests >= 2.23.0",
     "numpy >= 1.20.1",
     "scipy >= 1.6.1",
