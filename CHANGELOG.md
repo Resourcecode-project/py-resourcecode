@@ -1,3 +1,8 @@
+## Version 1.1 (TDB)
+###🎉 New Features
+  - New `.to_mat()` method to export the data downloaded to a MATLAB file, with the computation of the correct MATLAB time format.
+
+
 ## Version 1.0.0 (27/02/2023)
 ### 📝 Documentation
  - Switch to version 1.0.0 with the final reviews of the JOSS paper

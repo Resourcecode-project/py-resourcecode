@@ -19,7 +19,7 @@
 # with Resourcecode. If not, see <https://www.gnu.org/licenses/>.
 
 import json
-from typing import TYPE_CHECKING, BinaryIO, Union
+from typing import TYPE_CHECKING, Union
 from pathlib import Path
 
 import xarray
@@ -95,7 +95,7 @@ def to_mat(
     return df.to_mat(path)
 
 
-def read_netcdf(filename_or_obj: Union[str, Path, BinaryIO]) -> pd.DataFrame:
+def read_netcdf(filename_or_obj: Union[str, Path]) -> pd.DataFrame:
     """Open and decode a dataframe from a file or file-like object.
 
     Parameters
@@ -106,7 +106,6 @@ def read_netcdf(filename_or_obj: Union[str, Path, BinaryIO]) -> pd.DataFrame:
         ends with .gz, in which case the file is gunzipped and opened with
         scipy.io.netcdf (only netCDF3 supported). Byte-strings or file-like
         objects are opened by scipy.io.netcdf (netCDF3) or h5py (netCDF4/HDF).
-
     Returns
     -------
     dataframe: pd.DataFrame
