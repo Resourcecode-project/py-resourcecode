@@ -51,7 +51,7 @@ def plot_2D_spectrum(
     normalize:
         Should the spectrum be normalized (at a max value of 1) ?
     cut_off:
-        cut-off frequency above with the spectrum is not plotted
+        cut-off frequency above which the spectrum is not plotted
     trim:
         removes the values of the spectral density lower than this value
     Returns
