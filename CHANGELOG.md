@@ -2,6 +2,9 @@
 ###🎉 New Features
   - New `.to_mat()` method to export the data downloaded to a MATLAB file, with the computation of the correct MATLAB time format.
 
+### 👷 Bug fixes
+ - in 'raw_compute_parameters_from_1D_spectrum' the CgE was not computed correctly and convert to kW/m
+ - in 'raw_compute_parameters_from_2D_spectrum': convert CgE to kW/m
 
 ## Version 1.0.0 (27/02/2023)
 ### 📝 Documentation

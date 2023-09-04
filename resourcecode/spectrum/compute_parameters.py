@@ -180,8 +180,8 @@ def raw_compute_parameters_from_1D_spectrum(
     cg = 0.5 * c1 * c2
 
     # Energy flux
-    cgef = np.trapz(cg * Ef, x=freq) / M0
-    CgE = water_density * g * cgef
+    cgef = np.trapz(cg * Ef, x=freq)
+    CgE = water_density * g * cgef / 1000 
 
     return SeaStatesParameters(
         Hm0,
@@ -253,7 +253,7 @@ def raw_compute_parameters_from_2D_spectrum(
 
     # Energy flux
     cgef = np.trapz(cg[:, np.newaxis] * E.T, x=vdir, axis=1)
-    parameters.CgE = water_density * g * np.trapz(cgef, x=freq)
+    parameters.CgE = water_density * g * np.trapz(cgef, x=freq) / 1000
 
     # compute direction from (°)
     aa = (E.T * np.cos(vdir)).T
