@@ -181,7 +181,7 @@ def raw_compute_parameters_from_1D_spectrum(
 
     # Energy flux
     cgef = np.trapz(cg * Ef, x=freq)
-    CgE = water_density * g * cgef / 1000 
+    CgE = water_density * g * cgef / 1000
 
     return SeaStatesParameters(
         Hm0,
