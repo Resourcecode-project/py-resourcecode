@@ -40,7 +40,6 @@ install_requires = [
     "requests >= 2.23.0",
     "numpy >= 1.20.1",
     "scipy >= 1.6.1",
-    "matplotlib >= 3.6, < 3.8",
     "pyextremes >= 2.0.0",
     "pytest >= 7.0.0",
     "pyarrow >= 6.0.0",
