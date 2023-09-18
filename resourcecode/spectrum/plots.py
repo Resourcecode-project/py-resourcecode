@@ -118,7 +118,7 @@ def plot_2D_spectrum(
             edgecolors="face",  # for a better output
             cmap="PuBu",
         )
-        ax.set_ylim([0, cut_off])  # Zoom in the area where there are interesting things
+        ax.set_ylim(0, cut_off)  # Zoom in the area where there are interesting things
         ax.set_rlabel_position(89)  # Rotate a little bit the legend to avoid colliding
 
         # Add horizontal axis label
@@ -130,7 +130,7 @@ def plot_2D_spectrum(
         if sea_state:
             plt.annotate(
                 sea_state_str,
-                [np.pi / 3 - 0.1, cut_off * 1.05],
+                (np.pi / 3 - 0.1, cut_off * 1.05),
                 annotation_clip=False,
             )
         # Construct the title from the attributes of the Dataset
@@ -164,15 +164,14 @@ def plot_2D_spectrum(
             xy=(7 / 8 * np.pi, 1.1 * cut_off),
             annotation_clip=False,
         )
-
-    return ax
+    return fig
 
 
 def plot_1D_spectrum(
     data: xarray.Dataset,
     time: int,
     sea_state: bool = True,
-) -> plt.axis:
+) -> plt.Figure:
     """Plot the 1D spectrum at a specific time
 
     Parameters
@@ -241,8 +240,8 @@ def plot_1D_spectrum(
             )
         plt.annotate(
             sea_state_str,
-            [0.5, top / 2],
-            [0.5, top / 2],
+            (0.5, top / 2),
+            (0.5, top / 2),
             annotation_clip=False,
         )
         title = " ".join(
@@ -254,4 +253,4 @@ def plot_1D_spectrum(
             ]
         )
         plt.title(title)
-        return fig
+    return fig
