@@ -148,13 +148,12 @@ def test_get_fields_1D():
 
 def test_plot_2D_spectrum():
     got_spectrum = get_2D_spectrum("W001933N55743", ["2016"], ["05"])
-    plot_2D_spectrum(got_spectrum, 10)
-    plt.savefig("tests/output/2Dspec.png", bbox_inches="tight")
-    plt.close()
+    fig = plot_2D_spectrum(got_spectrum, 10)
+    fig.savefig("tests/output/2Dspec.png", bbox_inches="tight")
 
 
 def test_plot_1D_spectrum():
     got_spectrum = get_1D_spectrum("W001933N55743", ["2016"], ["05"])
-    plot_1D_spectrum(got_spectrum, 10)
-    plt.savefig("tests/output/1Dspec.png", bbox_inches="tight")
-    plt.close()
+    fig = plot_1D_spectrum(got_spectrum, 10)
+    fig.savefig("tests/output/1Dspec.png", bbox_inches="tight")
+
