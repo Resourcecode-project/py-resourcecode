@@ -3,6 +3,8 @@
   - New `.to_mat()` method to export the data downloaded to a MATLAB file, with the computation of the correct MATLAB time format.
 
 ### 👷 Bug fixes
+ - `spectrum.plot_1D_spectrum` no more plot the spectrum in polar coordinates;
+ - reduce default flot size in `spectrum.plot_2D_spectrum` and `spectrum.plot_1D_spectrum` and supress unwanted outpout
  - in 'raw_compute_parameters_from_1D_spectrum' the CgE was not computed correctly and convert to kW/m
  - in 'raw_compute_parameters_from_2D_spectrum': convert CgE to kW/m
 

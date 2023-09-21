@@ -67,8 +67,8 @@ def plot_2D_spectrum(
         direction = np.append(data.sortby("direction").direction.to_numpy(), 360.0)
         # Create the new figure
         fig = plt.figure(
-            figsize=(10, 10),
-            dpi=400,
+            figsize=(9, 9),
+            dpi=100,
             facecolor="w",
             edgecolor="w",
         )
@@ -161,7 +161,7 @@ def plot_2D_spectrum(
         # Add the resourcecode caption
         plt.annotate(
             "\nSource: Resourcecode hindcast database\nresourcecode.ifremer.fr",
-            xy=(7 / 8 * np.pi, 1.1 * cut_off),
+            xy=(7 / 8 * np.pi, 1.15 * cut_off),
             annotation_clip=False,
         )
     return fig
@@ -193,58 +193,60 @@ def plot_1D_spectrum(
     else:
         # Create the new figure
         fig = plt.figure(
-            figsize=(8, 6),
-            dpi=400,
+            figsize=(7, 5),
+            dpi=100,
             facecolor="w",
             edgecolor="w",
         )
         rect = [0.1, 0.1, 0.8, 0.8]
 
-        # Switch to polar coordinates
-        ax = PolarAxes(fig, rect)
-        fig.add_axes(ax)
-        plt.plot(data.frequency.to_numpy(), data.ef[time, :].to_numpy())
+        plt.plot(data.frequency, data.ef[time, :])
         plt.xlabel(r"f ($Hz$)")
         plt.ylabel(r"Wave spectral density ($m^2 s$)")
         plt.ylim(bottom=0)
         plt.xlim(left=0, right=max(data.frequency.data))
         _, top = plt.ylim()
 
-        # Compute the sea-state parameters from the 1D spectrum to be consistent
-        # with the 2D case
-        params = raw_compute_parameters_from_1D_spectrum(
-            data.ef[time, :].to_numpy(),
-            freq=data.frequency.to_numpy(),
-            depth=data.dpt[time].data,
-        )
-
         if sea_state:
+            # Compute the sea-state parameters from the 1D spectrum to be consistent
+            # with the 2D case
+            params = raw_compute_parameters_from_1D_spectrum(
+                data.ef[time, :].to_numpy(),
+                freq=data.frequency.to_numpy(),
+                depth=data.dpt[time].data,
+            )
             sea_state_str = "\n".join(
                 [
                     f"Hs: {params.Hm0:.2f}m",
                     f"Tp: {params.Tp:.2f}s",
-                    f"Mean direction at Tp: {float(data.th1p[time]):.2f}°",
-                    f"Directionnal spreading: {float(data.sth1p[time]):.2f}°",
+                    #f"Mean direction at Tp: {float(data.th1p[time]):.2f}°",
+                    #f"Directionnal spreading: {float(data.sth1p[time]):.2f}°",
                     f"Wind speed: {float(data.wnd[time]):.2f}m/s",
                     f"Wind direction: {float(data.wnddir[time]):.2f}°",
-                    "\nSource: Resourcecode hindcast database",
+                    "\nSource: Resourcecode database",
                     "resourcecode.ifremer.fr",
                 ]
+            )
+            plt.annotate(
+                sea_state_str,
+                xy=(0.55, 0.55),
+                xycoords='figure fraction',
+                annotation_clip=False,
             )
         else:
-            sea_state_str = "\n".join(
+            sea_state_str = " ".join(
                 [
-                    "\nSource: Resourcecode hindcast database",
-                    "resourcecode.ifremer.fr",
+                    "Source: Resourcecode database",
+                    "\nresourcecode.ifremer.fr",
                 ]
             )
-        plt.annotate(
-            sea_state_str,
-            (0.5, top / 2),
-            (0.5, top / 2),
-            annotation_clip=False,
-        )
-        title = " ".join(
+            plt.annotate(
+                sea_state_str,
+                xy=(0.55, 0.01),
+                xycoords='figure fraction',
+                annotation_clip=False,
+            )
+        title_str = " ".join(
             [
                 "Wave frequency spectrum at\n",
                 f"point {data.attrs['product_name'].split('_')[1].split('-')[3]}",
@@ -252,5 +254,7 @@ def plot_1D_spectrum(
                 f"on {pd.to_datetime(data.time[time].data)}",
             ]
         )
-        plt.title(title)
+         
+        plt.title(title_str)
+        plt.close()
     return fig
