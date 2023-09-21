@@ -198,7 +198,6 @@ def plot_1D_spectrum(
             facecolor="w",
             edgecolor="w",
         )
-        rect = [0.1, 0.1, 0.8, 0.8]
 
         plt.plot(data.frequency, data.ef[time, :])
         plt.xlabel(r"f ($Hz$)")
@@ -219,8 +218,8 @@ def plot_1D_spectrum(
                 [
                     f"Hs: {params.Hm0:.2f}m",
                     f"Tp: {params.Tp:.2f}s",
-                    #f"Mean direction at Tp: {float(data.th1p[time]):.2f}°",
-                    #f"Directionnal spreading: {float(data.sth1p[time]):.2f}°",
+                    # f"Mean direction at Tp: {float(data.th1p[time]):.2f}°",
+                    # f"Directional spreading: {float(data.sth1p[time]):.2f}°",
                     f"Wind speed: {float(data.wnd[time]):.2f}m/s",
                     f"Wind direction: {float(data.wnddir[time]):.2f}°",
                     "\nSource: Resourcecode database",
@@ -230,7 +229,7 @@ def plot_1D_spectrum(
             plt.annotate(
                 sea_state_str,
                 xy=(0.55, 0.55),
-                xycoords='figure fraction',
+                xycoords="figure fraction",
                 annotation_clip=False,
             )
         else:
@@ -243,7 +242,7 @@ def plot_1D_spectrum(
             plt.annotate(
                 sea_state_str,
                 xy=(0.55, 0.01),
-                xycoords='figure fraction',
+                xycoords="figure fraction",
                 annotation_clip=False,
             )
         title_str = " ".join(
@@ -254,7 +253,7 @@ def plot_1D_spectrum(
                 f"on {pd.to_datetime(data.time[time].data)}",
             ]
         )
-         
+
         plt.title(title_str)
         plt.close()
     return fig
