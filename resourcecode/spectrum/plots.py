@@ -37,7 +37,8 @@ def plot_2D_spectrum(
     cut_off: float = 0.4,
     trim: float = 0.01,
 ) -> plt.Figure:
-    """Plot the 2D spectrum at a specific time
+    """
+    Plot the 2D spectrum at a specific time
 
     Parameters
     ----------
@@ -58,6 +59,7 @@ def plot_2D_spectrum(
     -------
 
     fig: figure containing the spectrum
+    
     """
     if time > data.time.size:
         raise IndexError(f"time is out the length of the Dataset: {data.time.size}")
@@ -172,7 +174,8 @@ def plot_1D_spectrum(
     time: int,
     sea_state: bool = True,
 ) -> plt.Figure:
-    """Plot the 1D spectrum at a specific time
+    """
+    Plot the 1D spectrum at a specific time
 
     Parameters
     ----------
@@ -187,6 +190,7 @@ def plot_1D_spectrum(
     -------
 
     fig: figure containing the spectrum
+    
     """
     if time > data.time.size:
         raise IndexError(f"time is out the length of the Dataset: {data.time.size}")
