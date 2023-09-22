@@ -59,7 +59,7 @@ def plot_2D_spectrum(
     -------
 
     fig: figure containing the spectrum
-    
+
     """
     if time > data.time.size:
         raise IndexError(f"time is out the length of the Dataset: {data.time.size}")
@@ -190,7 +190,7 @@ def plot_1D_spectrum(
     -------
 
     fig: figure containing the spectrum
-    
+
     """
     if time > data.time.size:
         raise IndexError(f"time is out the length of the Dataset: {data.time.size}")
