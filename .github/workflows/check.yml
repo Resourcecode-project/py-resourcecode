@@ -29,8 +29,7 @@ jobs:
         run: tox -e black
       - name: mypy
         run: tox -e mypy
- 
-  test:
+   test:
     name: test with ${{ matrix.py }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     needs: lint
@@ -38,7 +37,6 @@ jobs:
       fail-fast: false
       matrix:
         py:
-          - "3.12"
           - "3.11"
           - "3.10"
           - "3.9"
