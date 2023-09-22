@@ -2,8 +2,6 @@ name: check
 on:
   push:
   pull_request:
-  schedule:
-    - cron: "27 3 * * 1"
 
 concurrency:
   group: check-${{ github.ref }}
@@ -13,8 +11,6 @@ jobs:
   doctest:
     name: Test if documentation can be rendered
     runs-on: ubuntu-latest
-    if: ${{github.ref == 'refs/heads/main'}}
-    needs: lint
     steps:
       - uses: actions/checkout@v4
       - name: Setup Python
@@ -30,7 +26,7 @@ jobs:
     name: Render the documentation and push it to gh-pages
     runs-on: ubuntu-latest
     needs: doctest
-	if: github.ref == 'refs/heads/main'
+    if: ${{github.ref == 'refs/heads/main'}}
     steps:
       - uses: actions/checkout@v4
       - name: Setup Python
