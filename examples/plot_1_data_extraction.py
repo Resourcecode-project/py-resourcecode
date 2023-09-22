@@ -91,7 +91,7 @@ plot.show()
 # There is also function to compute the 1D spectrum from the 2D.
 
 spec1D = resourcecode.spectrum.convert_spectrum_2Dto1D(spec)
-resourcecode.spectrum.plot_2D_spectrum(spec1D, 1)
+resourcecode.spectrum.plot_1D_spectrum(spec1D, 1,sea_state=False)
 
 # %%
 # Among the functionalities of the toolbox, it is possible to compute the sea-state parameters from spectral data. Small
