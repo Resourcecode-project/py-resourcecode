@@ -29,6 +29,7 @@ jobs:
         run: tox -e black
       - name: mypy
         run: tox -e mypy
+ 
   test:
     name: test with ${{ matrix.py }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
