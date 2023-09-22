@@ -29,7 +29,8 @@ jobs:
         run: tox -e black
       - name: mypy
         run: tox -e mypy
-   test:
+
+  test:
     name: test with ${{ matrix.py }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     needs: lint
@@ -40,7 +41,6 @@ jobs:
           - "3.11"
           - "3.10"
           - "3.9"
-          - "3.8"
         os:
           - ubuntu-latest
           - macos-latest
@@ -59,6 +59,7 @@ jobs:
         run: tox -vv --notest
       - name: Run test suite
         run: tox --skip-pkg-install
+
   doctest:
     name: Test if documentation can be rendered
     runs-on: ubuntu-latest
