@@ -13,7 +13,7 @@ jobs:
   doctest:
     name: Test if documentation can be rendered
     runs-on: ubuntu-latest
-	if: ${{github.ref == 'refs/heads/main'}}
+    if: ${{github.ref == 'refs/heads/main'}}
     needs: lint
     steps:
       - uses: actions/checkout@v4
