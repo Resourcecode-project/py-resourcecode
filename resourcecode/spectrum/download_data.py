@@ -23,6 +23,7 @@ import tempfile
 import urllib.request
 import xarray
 from typing import Iterable
+import contextlib
 
 from resourcecode.data import get_grid_spec, get_covered_period
 
@@ -77,7 +78,7 @@ def download_single_2D_file(
     if int(month) < 1 or int(month) > 12:
         raise ValueError(f"{month} must by between 1 and 12 with a leading zero")
 
-    with urllib.request.urlopen(url) as response:
+    with contextlib.closing(urllib.request.urlopen(url)) as response:
         with tempfile.NamedTemporaryFile(delete=False, suffix=".nc") as tmp_file:
             shutil.copyfileobj(response, tmp_file)
     with xarray.open_dataset(tmp_file.name) as ds:
@@ -143,7 +144,7 @@ def download_single_1D_file(
             f"{month} must by between 1 and 12 with a leading zero if needed."
         )
 
-    with urllib.request.urlopen(url) as response:
+    with contextlib.closing(urllib.request.urlopen(url)) as response:
         with tempfile.NamedTemporaryFile(delete=False, suffix=".nc") as tmp_file:
             shutil.copyfileobj(response, tmp_file)
     with xarray.open_dataset(tmp_file.name) as ds:
