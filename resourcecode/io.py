@@ -19,14 +19,12 @@
 # with Resourcecode. If not, see <https://www.gnu.org/licenses/>.
 
 import json
-from typing import Optional, TYPE_CHECKING, Union, Any
-from os import PathLike
-from io import BufferedIOBase
+from typing import TYPE_CHECKING, Union
 from pathlib import Path
 
 import xarray
-from xarray.backends.common import AbstractDataStore
 import pandas as pd
+import scipy
 
 from resourcecode.data import DATA_DIR
 
@@ -41,7 +39,7 @@ with open(DATA_DIR / "netcdf_description.json") as fobj:
 
 
 def to_netcdf(
-    dataframe: pd.DataFrame, path: Optional[Union[str, Path]] = None
+    dataframe: pd.DataFrame, path: Union[str, Path, None] = None
 ) -> Union[bytes, "Delayed", None]:
     """Write dataframe contents to a netCFD file.
 
@@ -69,9 +67,35 @@ def to_netcdf(
     return xr.to_netcdf(path)
 
 
-def read_netcdf(
-    filename_or_obj: Union[str, PathLike[Any], BufferedIOBase, AbstractDataStore]
-) -> pd.DataFrame:
+def to_mat(
+    dataframe: pd.DataFrame,
+    path: Union[str, Path] = "data.mat",
+    name: Union[str, None] = "rscd",
+) -> Union[bytes, "Delayed", None]:
+    """Write dataframe contents to a MATLAB file.
+
+    Parameters
+    ----------
+    path: str, Path or file-like, optional
+        Path to which to save this dataset. File-like objects are only supported
+        by the scipy engine.
+    name: str
+        The name of the structure containing the data in the MATLAB file.
+
+    """
+
+    df = dataframe.reset_index(
+        names="time"
+    )  # convert the pandas index to a proper variable
+    df.time = 719529 + pd.to_numeric(df.time) / (
+        3600 * 1e9 * 24
+    )  # 1970-01-01 + time in fractional days from nanoseconds
+    scipy.io.savemat(path, {name: df.to_dict("list")})
+
+    return df.to_mat(path)
+
+
+def read_netcdf(filename_or_obj: Union[str, Path]) -> pd.DataFrame:
     """Open and decode a dataframe from a file or file-like object.
 
     Parameters
@@ -82,7 +106,6 @@ def read_netcdf(
         ends with .gz, in which case the file is gunzipped and opened with
         scipy.io.netcdf (only netCDF3 supported). Byte-strings or file-like
         objects are opened by scipy.io.netcdf (netCDF3) or h5py (netCDF4/HDF).
-
     Returns
     -------
     dataframe: pd.DataFrame
