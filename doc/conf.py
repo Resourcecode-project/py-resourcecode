@@ -70,7 +70,9 @@ extensions = [
 sphinx_gallery_conf = {
     "examples_dirs": "../examples",  # path to your example scripts
     "gallery_dirs": "auto_examples",  # path to where to save gallery generated output
-    "within_subsection_order": sphinx_gallery.sorting.FileNameSortKey,  # to sort gallery examples by file name
+    "within_subsection_order": (
+        sphinx_gallery.sorting.FileNameSortKey
+    ),  # to sort gallery examples by file name
 }
 
 # Add any paths that contain templates here, relative to this directory.
