@@ -57,6 +57,7 @@ classifiers = [
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3 :: Only",
     "Operating System :: OS Independent",
     "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
@@ -101,7 +102,7 @@ setup(
     include_package_data=True,
     zip_safe=False,
     project_urls={
-        "GitLab": "https://gitlab.ifremer.fr/resourcecode/resourcecode",
+        "GitHub": "https://github.com/Resourcecode-project/py-resourcecode",
         "Web Portal": "https://resourcecode.ifremer.fr",
         "PyPI": "https://pypi.org/project/resourcecode",
     },

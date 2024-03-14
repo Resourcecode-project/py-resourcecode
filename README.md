@@ -28,7 +28,7 @@ in expected environmental conditions,and de-risk investment in future technology
 
 To install the toolbox, the following packages are necessary:
 
-- python (>= 3.9, <3.12)
+- python (>= 3.9, <3.13)
 - pandas (>= 1.0.0)
 - requests (>= 2.23.0)
 - numpy (>= 1.20.1)
@@ -60,7 +60,7 @@ $ source env-resourcecode/bin/activate
 
 In this virtual environment, you can now install the library. The library  is
 available on PyPI, and installation is straightforward, using the following
-command :
+command:
 
 ```
 (env-resourcecode)$ python -m pip install resourcecode
@@ -71,7 +71,7 @@ To test whether the install has been successful, you can run:
 
 ```bash
 (env-resourcecode)$ python -c "import resourcecode ; print(resourcecode.__version__)"
-0.6.4
+1.1.1
 ```
 
 which should print the current locally installed version of `resourcecode`.
@@ -161,7 +161,7 @@ You may need to update the Cassandra URL.
 
 ## Documentation
 
-We recommend starting with the [official documentation](https://resourcecode.gitlab-pages.ifremer.fr/resourcecode/)
+We recommend starting with the [official documentation](https://resourcecode-project.github.io/py-resourcecode/)
 of the toolbox.
 
 For examples of the functionalities offered by the toolbox, some Jupyter notebooks are proposed:
@@ -186,8 +186,7 @@ listed on the [Tools](https://resourcecode.ifremer.fr/tools) page.
 This package is under active development, and any contribution is welcomed. If you have something
 you would like to contribute, but you are not sure how, please don't hesitate to reach out by
 sending me an [email](mailto:nicolas.raillard@ifremer.fr) or by
-opening an [issue](https://gitlab.ifremer.fr/resourcecode/resourcecode/-/issues). It currently
-depends on a registration on the IFREMER Gitlab, which can be done by sending me an email.
+opening an [issue](https://github.com/Resourcecode-project/py-resourcecode/issues).
 
 ## Citing
 
@@ -198,15 +197,15 @@ Please cite it in your publications and do not hesitate to tell your friends and
   title = {Resourcecode Toolbox},
   author = {Raillard, Nicolas and Chabot, Simon and Maisondieu, Christophe and Darbynian, David and Payne, Gregory and Papillon, Louis},
   url = {https://gitlab.ifremer.fr/resourcecode/resourcecode},
-  year = {2022},
-  month = {12},
+  year = {2024},
+  month = {03},
 }
 ```
 
 ## Reporting bugs
 
 If you think you found a bug in `resourcecode`, even if you are unsure, please let me know. The
-easiest way is to send me an [email](mailto:nicolas.raillard@ifremer.fr) as for the moment submitting issues depends on a registration process mediated by email.
+easiest way is to open an [issue](https://github.com/Resourcecode-project/py-resourcecode/issues) on GitHub or to send me an [email](mailto:nicolas.raillard@ifremer.fr).
 
 Please try to create a reproducible example with the minimal amount of code required to reproduce the bug you encountered.
 
