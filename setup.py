@@ -87,7 +87,7 @@ setup(
     name="resourcecode",
     version=__version__,
     license=license,
-    python_requires=">=3.9,<3.13",
+    python_requires=">=3.9, <3.13",
     description=description,
     author=author,
     author_email=author_email,
