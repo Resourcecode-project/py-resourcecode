@@ -51,7 +51,7 @@ jobs:
 
   github-release:
     name: >-
-      Sign theResourcecode 📦 with Sigstore
+      Sign the Resourcecode 📦 with Sigstore
       and upload them to GitHub Release
     needs:
     - publish-to-pypi
