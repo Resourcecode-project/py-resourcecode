@@ -102,7 +102,7 @@ setup(
     include_package_data=True,
     zip_safe=False,
     project_urls={
-        "GitLab": "https://gitlab.ifremer.fr/resourcecode/resourcecode",
+        "GitHub": "https://github.com/Resourcecode-project/py-resourcecode",
         "Web Portal": "https://resourcecode.ifremer.fr",
         "PyPI": "https://pypi.org/project/resourcecode",
     },
