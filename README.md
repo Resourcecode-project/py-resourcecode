@@ -28,7 +28,7 @@ in expected environmental conditions,and de-risk investment in future technology
 
 To install the toolbox, the following packages are necessary:
 
-- python (>= 3.9, <3.12)
+- python (>= 3.9, <3.13)
 - pandas (>= 1.0.0)
 - requests (>= 2.23.0)
 - numpy (>= 1.20.1)
@@ -60,7 +60,7 @@ $ source env-resourcecode/bin/activate
 
 In this virtual environment, you can now install the library. The library  is
 available on PyPI, and installation is straightforward, using the following
-command :
+command:
 
 ```
 (env-resourcecode)$ python -m pip install resourcecode
@@ -71,7 +71,7 @@ To test whether the install has been successful, you can run:
 
 ```bash
 (env-resourcecode)$ python -c "import resourcecode ; print(resourcecode.__version__)"
-0.6.4
+1.1.0
 ```
 
 which should print the current locally installed version of `resourcecode`.

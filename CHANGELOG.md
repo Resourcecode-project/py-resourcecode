@@ -1,13 +1,13 @@
-## Version 1.1 (TDB)
-###🎉 New Features
+## Version 1.1 (14/03/2024)
+### 🎉 New Features
   - New `.to_mat()` method to export the data downloaded to a MATLAB file, with the computation of the correct MATLAB time format.
 
 ### 👷 Bug fixes
   - `spectrum.plot_1D_spectrum` no more plot the spectrum in polar coordinates;
-  - reduce default flot size in `spectrum.plot_2D_spectrum` and `spectrum.plot_1D_spectrum` and supress unwanted outpout
+  - reduce default plot size in `spectrum.plot_2D_spectrum` and `spectrum.plot_1D_spectrum` and supress unwanted output
   - in 'raw_compute_parameters_from_1D_spectrum' the CgE was not computed correctly and convert to kW/m
   - in 'raw_compute_parameters_from_2D_spectrum': convert CgE to kW/m
-  - in 'spectrum/download_data': properly close the connection
+  - in 'spectrum/download_data': properly closes the connection
 
 ## Version 1.0.0 (27/02/2023)
 ### 📝 Documentation
