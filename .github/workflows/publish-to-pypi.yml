@@ -1,6 +1,7 @@
 name: Publish Resourcecode 📦 to PyPI and TestPypi (for providing test builds to alpha users)
 
 on:
+  pull_request:
   push:
     branches:
       - main
