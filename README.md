@@ -71,7 +71,7 @@ To test whether the install has been successful, you can run:
 
 ```bash
 (env-resourcecode)$ python -c "import resourcecode ; print(resourcecode.__version__)"
-1.1.1
+1.1.2
 ```
 
 which should print the current locally installed version of `resourcecode`.
