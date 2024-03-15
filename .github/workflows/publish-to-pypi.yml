@@ -3,8 +3,6 @@ name: Publish Resourcecode 📦 to PyPI and TestPypi (for providing test builds 
 on:
   pull_request:
   push:
-    branches:
-      - main
 
 jobs:
   build:
@@ -28,7 +26,7 @@ jobs:
     - name: Store the distribution packages
       uses: actions/upload-artifact@v4
       with:
-        name: python-package-distributions
+        name: resourcecode
         path: dist/
 
   publish-to-pypi:
@@ -48,7 +46,7 @@ jobs:
     - name: Download all the dists
       uses: actions/download-artifact@v4
       with:
-        name: python-package-distributions
+        name: resourcecode
         path: dist/
     - name: Publish Resourcecode 📦 to PyPI
       uses: pypa/gh-action-pypi-publish@release/v1
@@ -69,7 +67,7 @@ jobs:
     - name: Download all the dists
       uses: actions/download-artifact@v4
       with:
-        name: python-package-distributions
+        name: resourcecode
         path: dist/
     - name: Sign the dists with Sigstore
       uses: sigstore/gh-action-sigstore-python@v1.2.3
@@ -113,7 +111,7 @@ jobs:
     - name: Download all the dists
       uses: actions/download-artifact@v4
       with:
-        name: python-package-distributions
+        name: resourcecode
         path: dist/
     - name: Publish Resourcecode 📦 to TestPyPI
       uses: pypa/gh-action-pypi-publish@release/v1
