@@ -53,7 +53,7 @@ Reporting bugs
 ---------------
 
 If you think you found a bug in `resourcecode`, even if you are unsure, please let us know. The
-easiest way is to open an `issue <https://github.com/Resourcecode-project/py-resourcecode/issues>`. Alternatively, you can send me an `email <mailto:nicolas.raillard@ifremer.fr>`.
+easiest way is to open an `issue <https://github.com/Resourcecode-project/py-resourcecode/issues>`_. Alternatively, you can send me an `email <mailto:nicolas.raillard@ifremer.fr>`_.
 
 Please try to create a reproducible example with the minimal amount of code required to reproduce the bug you encountered.
 
