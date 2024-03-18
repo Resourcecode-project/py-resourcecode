@@ -1,3 +1,11 @@
+## Version 1.3 (18/03/2024)
+### 🎉 New Features
+  - Add support for pandas 2.X branch
+
+## Version 1.2 (15/3/2024)
+### 🎉 New Features
+  - Add support for python 3.12
+
 ## Version 1.1 (14/03/2024)
 ### 🎉 New Features
   - New `.to_mat()` method to export the data downloaded to a MATLAB file, with the computation of the correct MATLAB time format.

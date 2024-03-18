@@ -96,6 +96,7 @@ jobs:
   
   publish-to-testpypi:
     name: Publish Resourcecode 📦 to TestPyPI
+    if: "!startsWith(github.ref, 'refs/tags/')"  # only publish to testPyPI for non-tagged pushes
     needs:
     - build
     runs-on: ubuntu-latest
