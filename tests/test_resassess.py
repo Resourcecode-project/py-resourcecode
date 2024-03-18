@@ -86,7 +86,10 @@ def test_univar_monstats(data):
     for result, expected_result_path in zip((dtm, dty), stored_results):
         path = DATA_DIR / "resassess" / expected_result_path
         expected_result = pd.read_csv(path, index_col=0)
-        # count is the first column return by describe
+        expected_result = expected_result.astype(
+            {col: "int32" for col in expected_result.select_dtypes("int64").columns}
+        )
+        # count is the first column returned by 'describe()'
         count_index = result.columns.get_loc("count")
 
         # Check the first columns that could either be int (month_index, year) or

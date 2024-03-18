@@ -107,6 +107,7 @@ def univar_monstats(
         )
     # sort rows according to the variable selected
     sorted_df = df[[varnm]].sort_values(by=varnm)
+    sorted_df.index = pd.to_datetime(df.index, format="%d/%m/%Y %H:%M")
 
     # Extract some time information
     sorted_df["month_index"] = sorted_df.index.month
