@@ -1,10 +1,12 @@
+## Version 1.3.1 (TBD)
+ ### 👷 Bug fixes
+  - Pin version of Numpy to be < 2.0.0 because `trapz` is renamed in higher versions
+  - Pin version of Scipy to be < 1.14.0 because `mvnun` is deprecated in higher versions
+  
 ## Version 1.3 (18/03/2024)
 ### 🎉 New Features
   - Add support for pandas 2.X branch
  
-### 👷 Bug fixes
-  - Pin version of Numpy to be < 2.0.0 because `trapz` is renamed in higher versions
-
 ## Version 1.2 (15/3/2024)
 ### 🎉 New Features
   - Add support for python 3.12
