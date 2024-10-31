@@ -31,7 +31,7 @@ To install the toolbox, the following packages are necessary:
 - python (>= 3.9, <3.13)
 - pandas (>= 1.0.0)
 - requests (>= 2.23.0)
-- numpy (>= 1.20.1)
+- numpy (>= 1.20.1,  < 2.0.0)
 - scipy (>= 1.6.1)
 - pyextremes (>= 2.0.0)
 - pytest (>7.0.0)
