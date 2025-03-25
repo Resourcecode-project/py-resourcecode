@@ -32,7 +32,7 @@ __version__ = version_context["__version__"]
 
 description = "The ResourceCODE Marine Data Toolbox is a python package to facilitate the\
  access to recent hindcast database of sea-state , along with a set of state-of-the-art methods for data analysis."
-url = "https://gitlab.ifremer.fr/resourcecode/resourcecode"
+url = "https://resourcecode-project.github.io/py-resourcecode/"
 license = "GPL-v3.0"
 
 install_requires = [
