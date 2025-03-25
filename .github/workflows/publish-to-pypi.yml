@@ -3,8 +3,6 @@ name: Publish Resourcecode 📦 to PyPI and TestPypi (for providing test builds 
 on:
   pull_request:
   push:
-    tags:
-      - 'v*'  # Explicitly trigger on version tags
 
 jobs:
   build:
