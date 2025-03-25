@@ -1,0 +1,661 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Use-case example of the Operational Planning module &#8212; Resourcecode 1.3.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9c221496"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'auto_examples/plot_3_Operation_Planning';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Estimation of producible energy" href="plot_4_Producible.html" />
+    <link rel="prev" title="Modelling multivariate extremes" href="plot_2_Multivariate_Extremes.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/resourcecode-logo.jpg" class="logo__image only-light" alt="Resourcecode 1.3.1 documentation - Home"/>
+    <script>document.write(`<img src="../_static/resourcecode-logo.jpg" class="logo__image only-dark" alt="Resourcecode 1.3.1 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../doc_installation.html">How to install the library ?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../doc_client.html">Query data using the client</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../doc_data.html">Helpers to get embedded data</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../doc_nataf.html">Extreme Values Modelling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../doc_weatherwindow.html">Estimate of Weather Window for marine operations, based on significant wave height</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../doc_produciple_assessment.html">Producible Assessment</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../doc_opsplanning_resassess.html">Operational planning and Resource assessment code</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../opsplanning_resassess/opsplanning.html">Operational Planning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../opsplanning_resassess/resassess.html">Resource Assessment module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../doc_spectrum.html">Spectra tool-kit</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Gallery of use-cases</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="plot_0_Database_exploration.html">Visualize the database configuration: nodes, bathymetry…</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_1_data_extraction.html">Extract some time-series from the database and analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_2_Multivariate_Extremes.html">Modelling multivariate extremes</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Use-case example of the Operational Planning module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_4_Producible.html">Estimation of producible energy</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/auto_examples/plot_3_Operation_Planning.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Use-case example of the Operational Planning module</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-extraction">Data extraction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#weather-windows">Weather windows</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#operational-criteria">Operational criteria</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#computation-of-weather-windows">Computation of weather windows</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-the-monthly-statistics">Plotting the monthly statistics</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#operational-planning">Operational planning</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Operational criteria</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#computation-of-operation-durations">Computation of operation durations</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-auto-examples-plot-3-operation-planning-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code.</p>
+</div>
+<section class="sphx-glr-example-title" id="use-case-example-of-the-operational-planning-module">
+<span id="sphx-glr-auto-examples-plot-3-operation-planning-py"></span><h1>Use-case example of the Operational Planning module<a class="headerlink" href="#use-case-example-of-the-operational-planning-module" title="Link to this heading">#</a></h1>
+<p>In this page, we will present some of the functionalities offered by the toolbox
+for operational planning and weather windows computations.
+Here, we will deal with the computation of empirical weather windows only, directly from the time series.
+The examples are given using the Resourcecode data,
+but of course any other data source can be used, e.g. in-situ data.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>In addition, a demonstration tool based on this module can be accessed on
+the Resourcecode Tools <a class="reference external" href="https://resourcecode.ifremer.fr/tools">web page</a>.</p>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">calendar</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">plotly.graph_objects</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">go</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">resourcecode</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">resourcecode.opsplanning</span><span class="w"> </span><span class="kn">import</span> <span class="n">ww_calc</span><span class="p">,</span> <span class="n">wwmonstats</span><span class="p">,</span> <span class="n">olmonstats</span><span class="p">,</span> <span class="n">oplen_calc</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">plotly.io</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pio</span>
+
+<span class="n">pio</span><span class="o">.</span><span class="n">renderers</span><span class="o">.</span><span class="n">default</span> <span class="o">=</span> <span class="s2">&quot;sphinx_gallery&quot;</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">resourcecode</span><span class="o">.</span><span class="n">Client</span><span class="p">()</span>
+<span class="n">percentiles</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">,</span> <span class="mf">0.99</span><span class="p">]</span>
+<span class="n">MONTH_NAMES</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">calendar</span><span class="o">.</span><span class="n">month_name</span><span class="p">)</span>
+</pre></div>
+</div>
+<section id="data-extraction">
+<h2>Data extraction<a class="headerlink" href="#data-extraction" title="Link to this heading">#</a></h2>
+<p>We have selected a location next to Ushant island, node number <cite>36855</cite></p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_dataframe_from_url</span><span class="p">(</span>
+    <span class="s2">&quot;https://resourcecode.ifremer.fr/explore?pointId=136855&quot;</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;hs&quot;</span><span class="p">,</span> <span class="s2">&quot;tp&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="weather-windows">
+<h2>Weather windows<a class="headerlink" href="#weather-windows" title="Link to this heading">#</a></h2>
+<p>In this module weather window is defined as uninterrupted window of given length,
+when the operational criteria are met.
+The main deliverable is the number (count) of weather windows (and various statistics around the number).
+The number of weather windows for a given period of time can be considered back-to-back
+(next window is considered after the end of pervious window)
+or for any timestamp - every timestamp is considered as potential start of a weather window.</p>
+<section id="operational-criteria">
+<h3>Operational criteria<a class="headerlink" href="#operational-criteria" title="Link to this heading">#</a></h3>
+<p>We assume here that the constraints are in terms of <span class="math notranslate nohighlight">\(H_s\)</span> and <span class="math notranslate nohighlight">\(T_p\)</span>, although
+any constraint can be used, as soon as the data is available (e.g. wind or current speed, etc.).
+We also need to define the length of the weather windows needed, defined in hours.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">criteria</span> <span class="o">=</span> <span class="s2">&quot;hs &lt; 1.8 and tp &lt; 9&quot;</span>
+<span class="n">winlen</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">data_matching_criteria</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">criteria</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="computation-of-weather-windows">
+<h3>Computation of weather windows<a class="headerlink" href="#computation-of-weather-windows" title="Link to this heading">#</a></h3>
+<p>Next, takes place the most important part of the module:
+computing the effective weather windows, and then compute monthly statistics.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">windetect</span> <span class="o">=</span> <span class="n">ww_calc</span><span class="p">(</span><span class="n">data_matching_criteria</span><span class="p">,</span> <span class="n">winlen</span><span class="o">=</span><span class="n">winlen</span><span class="p">,</span> <span class="n">concurrent_windows</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">wwmonstats</span><span class="p">(</span><span class="n">windetect</span><span class="p">)</span>
+<span class="n">stats</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">results</span><span class="o">.</span><span class="n">describe</span><span class="p">(</span><span class="n">percentiles</span><span class="o">=</span><span class="n">percentiles</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="s2">&quot;std&quot;</span><span class="p">])</span>
+    <span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="plotting-the-monthly-statistics">
+<h3>Plotting the monthly statistics<a class="headerlink" href="#plotting-the-monthly-statistics" title="Link to this heading">#</a></h3>
+<p>Lastly, we can produce some plots of the <cite>stats</cite> matrix. First of all, a static plot with some quantiles.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">layout</span><span class="o">=</span><span class="s2">&quot;constrained&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">MONTH_NAMES</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;mean&quot;</span><span class="p">],</span> <span class="s2">&quot;-o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">MONTH_NAMES</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;25%&quot;</span><span class="p">],</span> <span class="s2">&quot;-o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;25% quantile&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">MONTH_NAMES</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;75%&quot;</span><span class="p">],</span> <span class="s2">&quot;-o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;75% quantile&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Number of weather windows by month&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_plot_3_Operation_Planning_001.png" srcset="../_images/sphx_glr_plot_3_Operation_Planning_001.png" alt="plot 3 Operation Planning" class = "sphx-glr-single-img"/><p>We can also produce interactive plots to facilitate the visualisation.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">colname</span> <span class="ow">in</span> <span class="n">stats</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span>
+        <span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span>
+            <span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="n">MONTH_NAMES</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">stats</span><span class="o">.</span><span class="n">index</span><span class="p">],</span>
+            <span class="n">y</span><span class="o">=</span><span class="n">stats</span><span class="p">[</span><span class="n">colname</span><span class="p">],</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">colname</span><span class="p">,</span>
+            <span class="n">legendgroup</span><span class="o">=</span><span class="s2">&quot;by_month&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">update_xaxes</span><span class="p">(</span><span class="n">title_text</span><span class="o">=</span><span class="s2">&quot;Month&quot;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">update_yaxes</span><span class="p">(</span><span class="n">title_text</span><span class="o">=</span><span class="s2">&quot;Number of Weather Window&quot;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+    <span class="n">height</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span>
+    <span class="n">legend_tracegroupgap</span><span class="o">=</span><span class="mi">130</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Monthly statistics of number of weather window (Concurrent)&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">fig</span>
+</pre></div>
+</div>
+<div class="output_subarea output_html rendered_html output_result">
+<div>            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG"></script><script type="text/javascript">if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}</script>                <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-3.0.1.min.js"></script>                <div id="7fa2e6c2-a864-4e26-9210-23c5bce38534" class="plotly-graph-div" style="height:800px; width:100%;"></div>            <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("7fa2e6c2-a864-4e26-9210-23c5bce38534")) {                    Plotly.newPlot(                        "7fa2e6c2-a864-4e26-9210-23c5bce38534",                        [{"legendgroup":"by_month","name":"mean","x":["January","February","March","April","May","June","July","August","September","October","November","December"],"y":{"dtype":"f8","bdata":"tJfQXkJ7JUC0l9BeQnsnQGgvob2E9jBAAAAAAAAASkCO4ziO4\u002fhcQCa0l9BegmVATGgvob1kbkBfQnsJ7TVwQF9CewntZVdAJrSX0F5CTEDaS2gvob07QOQ4juM4ji9A"},"type":"scatter"},{"legendgroup":"by_month","name":"min","x":["January","February","March","April","May","June","July","August","September","October","November","December"],"y":{"dtype":"f8","bdata":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxQAAAAAAAgE9AAAAAAADAXkAAAAAAAIBTQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"type":"scatter"},{"legendgroup":"by_month","name":"1%","x":["January","February","March","April","May","June","July","August","September","October","November","December"],"y":{"dtype":"f8","bdata":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUrkfhehQzQAAAAAAAYFFAmpmZmZm5X0D2KFyPwvVYQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"type":"scatter"},{"legendgroup":"by_month","name":"5%","x":["January","February","March","April","May","June","July","August","September","October","November","December"],"y":{"dtype":"f8","bdata":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACamZmZmZk5QM3MzMzMrFZAZmZmZmaWYUAzMzMzM4NkQAEAAAAAAB5ANDMzMzMz4z8AAAAAAAAAAAAAAAAAAAAA"},"type":"scatter"},{"legendgroup":"by_month","name":"25%","x":["January","February","March","April","May","June","July","August","September","October","November","December"],"y":{"dtype":"f8","bdata":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALkAAAAAAAMBHQAAAAAAAAGJAAAAAAADAaEAAAAAAAFBqQAAAAAAAgE1AAAAAAAAAMkAAAAAAAAAAQAAAAAAAAAAA"},"type":"scatter"},{"legendgroup":"by_month","name":"50%","x":["January","February","March","April","May","June","July","August","September","October","November","December"],"y":{"dtype":"f8","bdata":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAhAAAAAAAAAQkAAAAAAAEBeQAAAAAAAgGVAAAAAAAAgbkAAAAAAAOBtQAAAAAAAAFNAAAAAAACARkAAAAAAAAA1QAAAAAAAAPA\u002f"},"type":"scatter"},{"legendgroup":"by_month","name":"75%","x":["January","February","March","April","May","June","July","August","September","October","November","December"],"y":{"dtype":"f8","bdata":"AAAAAAAAMUAAAAAAAAApQAAAAAAAgDNAAAAAAABgVEAAAAAAAOBkQAAAAAAAQGhAAAAAAACYckAAAAAAAOBzQAAAAAAAAF1AAAAAAABgVUAAAAAAAMBEQAAAAAAAADNA"},"type":"scatter"},{"legendgroup":"by_month","name":"95%","x":["January","February","March","April","May","June","July","August","September","October","November","December"],"y":{"dtype":"f8","bdata":"MTMzMzMzS0AzMzMzM7NKQGZmZmZmplFAzczMzMw8YkDMzMzMzKxpQDMzMzMzE3FAzMzMzMxcdkAzMzMzM8t3QMzMzMzMzGpAmpmZmZmZXEDMzMzMzOxSQP7\u002f\u002f\u002f\u002f\u002fv1VA"},"type":"scatter"},{"legendgroup":"by_month","name":"99%","x":["January","February","March","April","May","June","July","August","September","October","November","December"],"y":{"dtype":"f8","bdata":"ehSuR+H6T0A4CtejcH1XQIPrUbgeZVVAo3A9CtezY0AJ16NwPUJwQArXo3A94nFACtejcD2Cd0BwPQrXo\u002fh4QG89CtejYG1AJFyPwvVYZ0BQuB6F69FXQEbhehSuZ1pA"},"type":"scatter"},{"legendgroup":"by_month","name":"max","x":["January","February","March","April","May","June","July","August","September","October","November","December"],"y":{"dtype":"f8","bdata":"AAAAAABAUEAAAAAAAABbQAAAAAAAgFZAAAAAAAAgZEAAAAAAAEBxQAAAAAAAEHJAAAAAAACwd0AAAAAAAFB5QAAAAAAAIG5AAAAAAACAakAAAAAAAEBZQAAAAAAAQFtA"},"type":"scatter"}],                        {"template":{"data":{"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"#E5ECF6","showlakes":true,"showland":true,"subunitcolor":"white"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2},"annotations":[{"font":{"color":"black","size":15},"name":"draft watermark","opacity":0.7,"showarrow":false,"text":"Figure made with resourcecode","x":1.0,"xanchor":"right","xref":"paper","y":0.1,"yref":"paper"}]}},"xaxis":{"title":{"text":"Month"}},"yaxis":{"title":{"text":"Number of Weather Window"}},"legend":{"tracegroupgap":130},"height":800,"title":{"text":"Monthly statistics of number of weather window (Concurrent)"}},                        {"responsive": true}                    )                };            </script>        </div>
+</div>
+<br />
+<br /></section>
+</section>
+<section id="operational-planning">
+<h2>Operational planning<a class="headerlink" href="#operational-planning" title="Link to this heading">#</a></h2>
+<p>The operational length is how long will it take to carry out the operation of given nominal length,
+when taking into account weather downtime.
+Operational length is provided in units of time. When calculating the length,
+operations can be considered critical or non-critical.
+With critical operations, the full operations have to restart if criteria is exceeded.
+With non-critical operations, they can be paused for the bad weather
+and continued once the conditions meet the criteria.</p>
+<section id="id1">
+<h3>Operational criteria<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">criteria</span> <span class="o">=</span> <span class="s2">&quot;hs &lt; 1.8 and tp &lt; 9&quot;</span>
+<span class="n">oplen</span> <span class="o">=</span> <span class="mi">12</span>
+<span class="n">critical_operation</span> <span class="o">=</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</section>
+<section id="computation-of-operation-durations">
+<h3>Computation of operation durations<a class="headerlink" href="#computation-of-operation-durations" title="Link to this heading">#</a></h3>
+<p>Once the criteria are defined, we can proceed to the estimation</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">oplendetect</span> <span class="o">=</span> <span class="n">oplen_calc</span><span class="p">(</span><span class="n">data_matching_criteria</span><span class="p">,</span> <span class="n">oplen</span><span class="p">,</span> <span class="n">critical_operation</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">olmonstats</span><span class="p">(</span><span class="n">oplendetect</span><span class="p">)</span>
+<span class="n">stats</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">results</span><span class="o">.</span><span class="n">describe</span><span class="p">(</span><span class="n">percentiles</span><span class="o">=</span><span class="n">percentiles</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="s2">&quot;std&quot;</span><span class="p">])</span>
+    <span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/runner/work/py-resourcecode/py-resourcecode/resourcecode/opsplanning/__init__.py:328: FutureWarning:
+
+Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+</pre></div>
+</div>
+<p>And finally produce visual exploration of the durations.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">colname</span> <span class="ow">in</span> <span class="n">stats</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span>
+        <span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span>
+            <span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="n">MONTH_NAMES</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">stats</span><span class="o">.</span><span class="n">index</span><span class="p">],</span>
+            <span class="n">y</span><span class="o">=</span><span class="n">stats</span><span class="p">[</span><span class="n">colname</span><span class="p">],</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">colname</span><span class="p">,</span>
+            <span class="n">legendgroup</span><span class="o">=</span><span class="s2">&quot;by_month&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">update_xaxes</span><span class="p">(</span><span class="n">title_text</span><span class="o">=</span><span class="s2">&quot;Month&quot;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">update_yaxes</span><span class="p">(</span><span class="n">title_text</span><span class="o">=</span><span class="s2">&quot;Length of operations&quot;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+    <span class="n">height</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span>
+    <span class="n">legend_tracegroupgap</span><span class="o">=</span><span class="mi">130</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Monthly statistics of length of operations (non-critical operations)&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">fig</span>
+</pre></div>
+</div>
+<div class="output_subarea output_html rendered_html output_result">
+<div>            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG"></script><script type="text/javascript">if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}</script>                <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-3.0.1.min.js"></script>                <div id="f73a0b04-ca20-4e2c-86dc-351d8151c216" class="plotly-graph-div" style="height:800px; width:100%;"></div>            <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("f73a0b04-ca20-4e2c-86dc-351d8151c216")) {                    Plotly.newPlot(                        "f73a0b04-ca20-4e2c-86dc-351d8151c216",                        [{"legendgroup":"by_month","name":"mean","x":["January","February","March","April","May","June","July","August","September","October","November","December"],"y":{"dtype":"f8","bdata":"juM4juM0l0CrqqqqqjaSQO0ltJfQ1ohAVVVVVVUleEBCewntJfRdQHsJ7SW011pA0V5CewntV0DaS2gvob1HQO0ltJfQHmhAjuM4juM4c0ChvYT2EuKOQNpLaC+hVZRA"},"type":"scatter"},{"legendgroup":"by_month","name":"min","x":["January","February","March","April","May","June","July","August","September","October","November","December"],"y":{"dtype":"f8","bdata":"AAAAAACAS0AAAAAAAAAxQAAAAAAAAD5AAAAAAAAAKEAAAAAAAAAoQAAAAAAAAChAAAAAAAAAKEAAAAAAAAAoQAAAAAAAAChAAAAAAAAAKEAAAAAAAAAoQAAAAAAAAChA"},"type":"scatter"},{"legendgroup":"by_month","name":"1%","x":["January","February","March","April","May","June","July","August","September","October","November","December"],"y":{"dtype":"f8","bdata":"mpmZmZnJYECF61G4HoUxQArXo3A9Cj9ANDMzMzOzN0AAAAAAAAAoQAAAAAAAAChAAAAAAAAAKEAK16NwPQopQAAAAAAAAChAzczMzMzML0CamZmZmRk1QK5H4XoUrjBA"},"type":"scatter"},{"legendgroup":"by_month","name":"5%","x":["January","February","March","April","May","June","July","August","September","October","November","December"],"y":{"dtype":"f8","bdata":"mpmZmZnRdkCamZmZmZkzQGdmZmZm5kpAZmZmZmamUECamZmZmZkoQJqZmZmZmShAAAAAAAAAKECamZmZmZksQAAAAAAAAChAzczMzMzMPECamZmZmdlLQM3MzMzMTEVA"},"type":"scatter"},{"legendgroup":"by_month","name":"25%","x":["January","February","March","April","May","June","July","August","September","October","November","December"],"y":{"dtype":"f8","bdata":"AAAAAACkg0AAAAAAAMiAQAAAAAAA6H1AAAAAAADQZ0AAAAAAAABFQAAAAAAAQEJAAAAAAAAAMkAAAAAAAIA1QAAAAAAAgDBAAAAAAABATkAAAAAAANBpQAAAAAAASHRA"},"type":"scatter"},{"legendgroup":"by_month","name":"50%","x":["January","February","March","April","May","June","July","August","September","October","November","December"],"y":{"dtype":"f8","bdata":"AAAAAAC0lEAAAAAAAECUQAAAAAAAGItAAAAAAABQdkAAAAAAAMBZQAAAAAAAAFhAAAAAAACATEAAAAAAAABGQAAAAAAAAERAAAAAAAAAZ0AAAAAAAHB2QAAAAAAAOJFA"},"type":"scatter"},{"legendgroup":"by_month","name":"75%","x":["January","February","March","April","May","June","July","August","September","October","November","December"],"y":{"dtype":"f8","bdata":"AAAAAACtoUAAAAAAABCcQAAAAAAAYJFAAAAAAAA4gEAAAAAAAIBjQAAAAAAAkGNAAAAAAACQYkAAAAAAACBQQAAAAAAAkGVAAAAAAADIgUAAAAAAANKRQAAAAAAA46BA"},"type":"scatter"},{"legendgroup":"by_month","name":"95%","x":["January","February","March","April","May","June","July","August","September","October","November","December"],"y":{"dtype":"f8","bdata":"mZmZmZmDpkAAAAAAALWgQAAAAAAA6pZAmZmZmZltikDNzMzMzNRxQGZmZmZmVmxAmJmZmZnZb0CYmZmZmdlaQDIzMzMzV4hA\u002f\u002f\u002f\u002f\u002f\u002f9bi0AzMzMzM1utQGVmZmZmz6pA"},"type":"scatter"},{"legendgroup":"by_month","name":"99%","x":["January","February","March","April","May","June","July","August","September","October","November","December"],"y":{"dtype":"f8","bdata":"rkfhehTPpkCamZmZmf+gQDMzMzMzf5dAPArXo3BdjUBQuB6F6xl1QMzMzMzMTG1AyszMzMwkdUAJ16NwPSpeQLMehetRVpVA9Shcj8JhjUBbj8L1KI2wQK5H4XoUn6xA"},"type":"scatter"},{"legendgroup":"by_month","name":"max","x":["January","February","March","April","May","June","July","August","September","October","November","December"],"y":{"dtype":"f8","bdata":"AAAAAADapkAAAAAAAAqhQAAAAAAAlJdAAAAAAAAIjkAAAAAAACB2QAAAAAAAoG1AAAAAAACwdkAAAAAAAMBeQAAAAAAAQJhAAAAAAADQjUAAAAAAACWxQAAAAAAAqqxA"},"type":"scatter"}],                        {"template":{"data":{"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"#E5ECF6","showlakes":true,"showland":true,"subunitcolor":"white"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2},"annotations":[{"font":{"color":"black","size":15},"name":"draft watermark","opacity":0.7,"showarrow":false,"text":"Figure made with resourcecode","x":1.0,"xanchor":"right","xref":"paper","y":0.1,"yref":"paper"}]}},"xaxis":{"title":{"text":"Month"}},"yaxis":{"title":{"text":"Length of operations"}},"legend":{"tracegroupgap":130},"height":800,"title":{"text":"Monthly statistics of length of operations (non-critical operations)"}},                        {"responsive": true}                    )                };            </script>        </div>
+</div>
+<br />
+<br /><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 5.438 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-plot-3-operation-planning-py">
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/ee4df266f2263dde7f2553136f62cbb2/plot_3_Operation_Planning.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_3_Operation_Planning.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/e4d7ad987f1d4bd7f585c4dfc5cc39cc/plot_3_Operation_Planning.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_3_Operation_Planning.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/a5715cc9e1d2696fff778ccb714deaa3/plot_3_Operation_Planning.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">plot_3_Operation_Planning.zip</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="plot_2_Multivariate_Extremes.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Modelling multivariate extremes</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="plot_4_Producible.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Estimation of producible energy</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-extraction">Data extraction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#weather-windows">Weather windows</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#operational-criteria">Operational criteria</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#computation-of-weather-windows">Computation of weather windows</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-the-monthly-statistics">Plotting the monthly statistics</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#operational-planning">Operational planning</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Operational criteria</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#computation-of-operation-durations">Computation of operation durations</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By IFREMER
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025, IFREMER.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

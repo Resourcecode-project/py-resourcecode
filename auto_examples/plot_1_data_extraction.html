@@ -1,0 +1,827 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Extract some time-series from the database and analysis &#8212; Resourcecode 1.3.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9c221496"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'auto_examples/plot_1_data_extraction';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Modelling multivariate extremes" href="plot_2_Multivariate_Extremes.html" />
+    <link rel="prev" title="Visualize the database configuration: nodes, bathymetry…" href="plot_0_Database_exploration.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/resourcecode-logo.jpg" class="logo__image only-light" alt="Resourcecode 1.3.1 documentation - Home"/>
+    <script>document.write(`<img src="../_static/resourcecode-logo.jpg" class="logo__image only-dark" alt="Resourcecode 1.3.1 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../doc_installation.html">How to install the library ?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../doc_client.html">Query data using the client</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../doc_data.html">Helpers to get embedded data</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../doc_nataf.html">Extreme Values Modelling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../doc_weatherwindow.html">Estimate of Weather Window for marine operations, based on significant wave height</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../doc_produciple_assessment.html">Producible Assessment</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../doc_opsplanning_resassess.html">Operational planning and Resource assessment code</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../opsplanning_resassess/opsplanning.html">Operational Planning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../opsplanning_resassess/resassess.html">Resource Assessment module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../doc_spectrum.html">Spectra tool-kit</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Gallery of use-cases</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="plot_0_Database_exploration.html">Visualize the database configuration: nodes, bathymetry…</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Extract some time-series from the database and analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_2_Multivariate_Extremes.html">Modelling multivariate extremes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_3_Operation_Planning.html">Use-case example of the Operational Planning module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_4_Producible.html">Estimation of producible energy</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/auto_examples/plot_1_data_extraction.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Extract some time-series from the database and analysis</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#node-selection-and-data-extraction">Node selection and data extraction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extraction-of-data-from-the-hindcast-database">Extraction of data from the Hindcast database</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sea-state-parameters-extraction-and-helpers-from-the-toolbox">Sea-state parameters extraction and helpers from the toolbox</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spectral-data-extraction-and-computation-of-sea-state-parameters">Spectral data extraction and computation of sea-state parameters</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-auto-examples-plot-1-data-extraction-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code.</p>
+</div>
+<section class="sphx-glr-example-title" id="extract-some-time-series-from-the-database-and-analysis">
+<span id="sphx-glr-auto-examples-plot-1-data-extraction-py"></span><h1>Extract some time-series from the database and analysis<a class="headerlink" href="#extract-some-time-series-from-the-database-and-analysis" title="Link to this heading">#</a></h1>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">resourcecode</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">resourcecode.spectrum</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plot</span>
+
+<span class="n">plot</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;figure.dpi&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">400</span>
+</pre></div>
+</div>
+<section id="node-selection-and-data-extraction">
+<h2>Node selection and data extraction<a class="headerlink" href="#node-selection-and-data-extraction" title="Link to this heading">#</a></h2>
+<p>Below, we will look for data next to the location of interest, located in the vicinity of Brest Bay.
+We will look at the time-series data and also some spectral data</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">selected_node</span> <span class="o">=</span> <span class="n">resourcecode</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">get_closest_point</span><span class="p">(</span>
+    <span class="n">latitude</span><span class="o">=</span><span class="mf">48.3026514</span><span class="p">,</span> <span class="n">longitude</span><span class="o">=-</span><span class="mf">4.6861533</span>
+<span class="p">)</span>
+<span class="n">selected_node</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>(134940, 296.89)
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">selected_specPoint</span> <span class="o">=</span> <span class="n">resourcecode</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">get_closest_station</span><span class="p">(</span>
+    <span class="n">latitude</span><span class="o">=</span><span class="mf">48.3026514</span><span class="p">,</span> <span class="n">longitude</span><span class="o">=-</span><span class="mf">4.6861533</span>
+<span class="p">)</span>
+<span class="n">selected_specPoint</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>(&#39;W004679N48304&#39;, 808.82)
+</pre></div>
+</div>
+</section>
+<section id="extraction-of-data-from-the-hindcast-database">
+<h2>Extraction of data from the Hindcast database<a class="headerlink" href="#extraction-of-data-from-the-hindcast-database" title="Link to this heading">#</a></h2>
+<section id="sea-state-parameters-extraction-and-helpers-from-the-toolbox">
+<h3>Sea-state parameters extraction and helpers from the toolbox<a class="headerlink" href="#sea-state-parameters-extraction-and-helpers-from-the-toolbox" title="Link to this heading">#</a></h3>
+<p>Once the node is selected, it is possible to retrieve the data from the Cassandra database using the
+commands below. It is also possible to select which variables to retrieve.
+The list of available variables can be obtained using the <cite>get_variables</cite> method.
+We study here the following variables:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(H_s\)</span>, the significant wave height;</p></li>
+<li><p><span class="math notranslate nohighlight">\(T_p\)</span> the peak period;</p></li>
+<li><p><span class="math notranslate nohighlight">\(D_p\)</span> the direction at peak frequency;</p></li>
+<li><p>The energy flux <span class="math notranslate nohighlight">\(CgE\)</span>;</p></li>
+<li><p>zonal and meridional velocity components of wind;</p></li>
+</ul>
+</div></blockquote>
+<p>For this example, we have selectedonly year 2010.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">client</span> <span class="o">=</span> <span class="n">resourcecode</span><span class="o">.</span><span class="n">Client</span><span class="p">()</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_dataframe</span><span class="p">(</span>
+    <span class="n">pointId</span><span class="o">=</span><span class="n">selected_node</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">startDateTime</span><span class="o">=</span><span class="s2">&quot;2010-01-01T01:00:00&quot;</span><span class="p">,</span>
+    <span class="n">endDateTime</span><span class="o">=</span><span class="s2">&quot;2011-01-01T00:00:00&quot;</span><span class="p">,</span>
+    <span class="n">parameters</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;hs&quot;</span><span class="p">,</span> <span class="s2">&quot;uwnd&quot;</span><span class="p">,</span> <span class="s2">&quot;vwnd&quot;</span><span class="p">,</span> <span class="s2">&quot;t02&quot;</span><span class="p">,</span> <span class="s2">&quot;tp&quot;</span><span class="p">,</span> <span class="s2">&quot;dp&quot;</span><span class="p">,</span> <span class="s2">&quot;cge&quot;</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="output_subarea output_html rendered_html output_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>hs</th>
+      <th>uwnd</th>
+      <th>vwnd</th>
+      <th>t02</th>
+      <th>tp</th>
+      <th>dp</th>
+      <th>cge</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2010-01-01 01:00:00</th>
+      <td>1.360</td>
+      <td>-6.0</td>
+      <td>-6.7</td>
+      <td>4.78</td>
+      <td>11.363636</td>
+      <td>221.0</td>
+      <td>9.3</td>
+    </tr>
+    <tr>
+      <th>2010-01-01 02:00:00</th>
+      <td>1.350</td>
+      <td>-6.0</td>
+      <td>-7.0</td>
+      <td>4.68</td>
+      <td>11.363636</td>
+      <td>221.0</td>
+      <td>8.9</td>
+    </tr>
+    <tr>
+      <th>2010-01-01 03:00:00</th>
+      <td>1.324</td>
+      <td>-5.6</td>
+      <td>-7.3</td>
+      <td>4.62</td>
+      <td>11.494253</td>
+      <td>222.0</td>
+      <td>8.5</td>
+    </tr>
+    <tr>
+      <th>2010-01-01 04:00:00</th>
+      <td>1.282</td>
+      <td>-5.4</td>
+      <td>-7.8</td>
+      <td>4.56</td>
+      <td>11.494253</td>
+      <td>223.0</td>
+      <td>7.9</td>
+    </tr>
+    <tr>
+      <th>2010-01-01 05:00:00</th>
+      <td>1.220</td>
+      <td>-5.3</td>
+      <td>-8.1</td>
+      <td>4.60</td>
+      <td>11.494253</td>
+      <td>224.0</td>
+      <td>7.2</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<br />
+<br /><p>With the toolbox, is is possible to convert zonal and meridional velocity components of wind the the more
+convenient Intensity-direction variables.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;wspd&quot;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;wdir&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">resourcecode</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">zmcomp2metconv</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">uwnd</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">vwnd</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The figure below is an example of the histograme of the variables that can be
+extracted from the database. <span class="math notranslate nohighlight">\(H_s\)</span>,:math:<cite>T_p</cite>, <span class="math notranslate nohighlight">\(W_s\)</span> and <span class="math notranslate nohighlight">\(CgE\)</span> are
+shown here with the wind and wave directions, but the code can be changed to plot any
+of the available variables in the Hindcast database.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="p">[[</span><span class="s2">&quot;hs&quot;</span><span class="p">,</span> <span class="s2">&quot;tp&quot;</span><span class="p">,</span> <span class="s2">&quot;cge&quot;</span><span class="p">,</span> <span class="s2">&quot;wspd&quot;</span><span class="p">,</span> <span class="s2">&quot;dp&quot;</span><span class="p">,</span> <span class="s2">&quot;wdir&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">16</span><span class="p">,</span> <span class="mi">8</span><span class="p">])</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_plot_1_data_extraction_001.png" srcset="../_images/sphx_glr_plot_1_data_extraction_001.png" alt="hs, tp, cge, wspd, dp, wdir" class = "sphx-glr-single-img"/></section>
+<section id="spectral-data-extraction-and-computation-of-sea-state-parameters">
+<h3>Spectral data extraction and computation of sea-state parameters<a class="headerlink" href="#spectral-data-extraction-and-computation-of-sea-state-parameters" title="Link to this heading">#</a></h3>
+<p>The toolbox also offers the possibility to download the spectral data from the coarser ‘SPEC’ grid,
+corresponding to the orange dots of the web portal. This is possible thanks to the <cite>get_2D_spectrum</cite> and
+<cite>get_1D_spectrum</cite> from the <em>spectrum</em> module. An example is shown below:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">spec</span> <span class="o">=</span> <span class="n">resourcecode</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">get_2D_spectrum</span><span class="p">(</span>
+    <span class="n">selected_specPoint</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">years</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;2010&quot;</span><span class="p">],</span> <span class="n">months</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;01&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>And we offer function to represent the spectral data, both for 2D and 1D spectrum.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">resourcecode</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">plot_2D_spectrum</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_plot_1_data_extraction_002.png" srcset="../_images/sphx_glr_plot_1_data_extraction_002.png" alt="Wave directional spectrum at point W004679N48304 (-4.68°W,48.30°N) on 2010-01-01 01:00:00" class = "sphx-glr-single-img"/><p>There is also function to compute the 1D spectrum from the 2D.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">spec1D</span> <span class="o">=</span> <span class="n">resourcecode</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">convert_spectrum_2Dto1D</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+<span class="n">resourcecode</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">plot_1D_spectrum</span><span class="p">(</span><span class="n">spec1D</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sea_state</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;Figure size 700x500 with 1 Axes&gt;
+</pre></div>
+</div>
+<p>Among the functionalities of the toolbox, it is possible to compute the sea-state parameters from spectral data. Small
+discrepancies can be found between the Hindcast sea-state parameters and the one computed with the toolbox.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">parameters_df</span> <span class="o">=</span> <span class="n">resourcecode</span><span class="o">.</span><span class="n">spectrum</span><span class="o">.</span><span class="n">compute_parameters_from_2D_spectrum</span><span class="p">(</span>
+    <span class="n">spec</span><span class="p">,</span> <span class="n">use_depth</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+<span class="n">parameters_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="output_subarea output_html rendered_html output_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>time</th>
+      <th>Hm0</th>
+      <th>Tp</th>
+      <th>T01</th>
+      <th>T02</th>
+      <th>Te</th>
+      <th>mu</th>
+      <th>nu</th>
+      <th>CgE</th>
+      <th>km</th>
+      <th>lm</th>
+      <th>depth</th>
+      <th>Thetam</th>
+      <th>Thetapm</th>
+      <th>Spr</th>
+      <th>Qp</th>
+      <th>wnd</th>
+      <th>wnddir</th>
+      <th>cur</th>
+      <th>curdir</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2010-01-01 00:00:00</td>
+      <td>1.258713</td>
+      <td>11.382546</td>
+      <td>6.299747</td>
+      <td>4.894921</td>
+      <td>9.126643</td>
+      <td>0.629497</td>
+      <td>0.810161</td>
+      <td>8.091658</td>
+      <td>0.173012</td>
+      <td>36.316369</td>
+      <td>28.5</td>
+      <td>221.665815</td>
+      <td>221.841529</td>
+      <td>52.452013</td>
+      <td>1.905638</td>
+      <td>9.0</td>
+      <td>44.400002</td>
+      <td>0.3</td>
+      <td>218.900009</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>2010-01-01 01:00:00</td>
+      <td>1.271215</td>
+      <td>11.273698</td>
+      <td>6.118387</td>
+      <td>4.806066</td>
+      <td>8.845303</td>
+      <td>0.618847</td>
+      <td>0.787826</td>
+      <td>8.000145</td>
+      <td>0.178597</td>
+      <td>35.180836</td>
+      <td>30.0</td>
+      <td>222.276735</td>
+      <td>222.227011</td>
+      <td>55.652089</td>
+      <td>1.780164</td>
+      <td>9.0</td>
+      <td>42.000000</td>
+      <td>0.4</td>
+      <td>227.199997</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>2010-01-01 02:00:00</td>
+      <td>1.270940</td>
+      <td>11.310064</td>
+      <td>5.964570</td>
+      <td>4.717962</td>
+      <td>8.617916</td>
+      <td>0.611819</td>
+      <td>0.773477</td>
+      <td>7.790361</td>
+      <td>0.184614</td>
+      <td>34.034173</td>
+      <td>31.5</td>
+      <td>223.474217</td>
+      <td>222.590049</td>
+      <td>57.603553</td>
+      <td>1.701667</td>
+      <td>9.2</td>
+      <td>40.200001</td>
+      <td>0.3</td>
+      <td>234.600006</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>2010-01-01 03:00:00</td>
+      <td>1.250777</td>
+      <td>11.416240</td>
+      <td>5.887424</td>
+      <td>4.667331</td>
+      <td>8.503349</td>
+      <td>0.609530</td>
+      <td>0.768868</td>
+      <td>7.451620</td>
+      <td>0.188269</td>
+      <td>33.373499</td>
+      <td>32.5</td>
+      <td>226.098226</td>
+      <td>223.223522</td>
+      <td>58.092844</td>
+      <td>1.701595</td>
+      <td>9.2</td>
+      <td>37.799999</td>
+      <td>0.2</td>
+      <td>246.000000</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>2010-01-01 04:00:00</td>
+      <td>1.213452</td>
+      <td>11.484228</td>
+      <td>5.851882</td>
+      <td>4.627031</td>
+      <td>8.463007</td>
+      <td>0.612215</td>
+      <td>0.774279</td>
+      <td>6.990126</td>
+      <td>0.191482</td>
+      <td>32.813387</td>
+      <td>32.5</td>
+      <td>229.779274</td>
+      <td>224.242327</td>
+      <td>57.098317</td>
+      <td>1.753959</td>
+      <td>9.5</td>
+      <td>34.799999</td>
+      <td>0.1</td>
+      <td>285.899994</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<br />
+<br /><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 15.083 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-plot-1-data-extraction-py">
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/677b8a8510c92263e79b624b46a6a547/plot_1_data_extraction.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_1_data_extraction.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/ccff97968e50cb6ba53cf3bd367b567a/plot_1_data_extraction.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_1_data_extraction.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/07d1f77e2419b9dfb332979a9f8aa09e/plot_1_data_extraction.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">plot_1_data_extraction.zip</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="plot_0_Database_exploration.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Visualize the database configuration: nodes, bathymetry…</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="plot_2_Multivariate_Extremes.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Modelling multivariate extremes</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#node-selection-and-data-extraction">Node selection and data extraction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extraction-of-data-from-the-hindcast-database">Extraction of data from the Hindcast database</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sea-state-parameters-extraction-and-helpers-from-the-toolbox">Sea-state parameters extraction and helpers from the toolbox</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spectral-data-extraction-and-computation-of-sea-state-parameters">Spectral data extraction and computation of sea-state parameters</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By IFREMER
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025, IFREMER.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

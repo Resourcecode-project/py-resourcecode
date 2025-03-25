@@ -1,0 +1,801 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Modelling multivariate extremes &#8212; Resourcecode 1.3.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9c221496"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'auto_examples/plot_2_Multivariate_Extremes';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Use-case example of the Operational Planning module" href="plot_3_Operation_Planning.html" />
+    <link rel="prev" title="Extract some time-series from the database and analysis" href="plot_1_data_extraction.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/resourcecode-logo.jpg" class="logo__image only-light" alt="Resourcecode 1.3.1 documentation - Home"/>
+    <script>document.write(`<img src="../_static/resourcecode-logo.jpg" class="logo__image only-dark" alt="Resourcecode 1.3.1 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../doc_installation.html">How to install the library ?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../doc_client.html">Query data using the client</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../doc_data.html">Helpers to get embedded data</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../doc_nataf.html">Extreme Values Modelling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../doc_weatherwindow.html">Estimate of Weather Window for marine operations, based on significant wave height</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../doc_produciple_assessment.html">Producible Assessment</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../doc_opsplanning_resassess.html">Operational planning and Resource assessment code</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../opsplanning_resassess/opsplanning.html">Operational Planning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../opsplanning_resassess/resassess.html">Resource Assessment module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../doc_spectrum.html">Spectra tool-kit</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Gallery of use-cases</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="plot_0_Database_exploration.html">Visualize the database configuration: nodes, bathymetry…</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_1_data_extraction.html">Extract some time-series from the database and analysis</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Modelling multivariate extremes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_3_Operation_Planning.html">Use-case example of the Operational Planning module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_4_Producible.html">Estimation of producible energy</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/auto_examples/plot_2_Multivariate_Extremes.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Modelling multivariate extremes</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-extraction-and-univariate-models">Data extraction and univariate models</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fitted-model-for-h-s">Fitted model for <span class="math notranslate nohighlight">\(H_s\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fitted-model-for-w-s">Fitted model for <span class="math notranslate nohighlight">\(W_s\)</span></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multivariate-model-gaussian-copula">Multivariate model: Gaussian copula</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#environmental-contours">Environmental contours</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-auto-examples-plot-2-multivariate-extremes-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code.</p>
+</div>
+<section class="sphx-glr-example-title" id="modelling-multivariate-extremes">
+<span id="sphx-glr-auto-examples-plot-2-multivariate-extremes-py"></span><h1>Modelling multivariate extremes<a class="headerlink" href="#modelling-multivariate-extremes" title="Link to this heading">#</a></h1>
+<p>Extreme value modelling is a central topic in the design of offshore structures.</p>
+<p>In this package, we used the Peaks Over Threshold (POT) approach:
+the data above a defined threshold is kept, independent exceedances are identified based
+on a time-separation criterion and a GPD distribution is fitted to the set of clusters maxima.
+The particular case of Exponential distribution is selected using an AIC criterion.
+This procedure is based on the excellent package <a class="reference external" href="https://georgebv.github.io/pyextremes/">pyextremes</a>.</p>
+<p>We also propose in this package to compute multivariate extremes using the methodology described in
+<a class="reference external" href="https://archimer.ifremer.fr/doc/00498/60948/">Raillard et al (2019)</a>.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>In addition, a demonstration tool based on this module can be accessed on
+the Resourcecode Tools <a class="reference external" href="https://resourcecode.ifremer.fr/tools">web page</a>.</p>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plot</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">resourcecode</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">resourcecode.eva</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">censgaussfit</span><span class="p">,</span>
+    <span class="n">get_fitted_models</span><span class="p">,</span>
+    <span class="n">get_gpd_parameters</span><span class="p">,</span>
+    <span class="n">run_simulation</span><span class="p">,</span>
+    <span class="n">huseby</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">plotly.graph_objects</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">go</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">plotly.io</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pio</span>
+
+<span class="n">pio</span><span class="o">.</span><span class="n">renderers</span><span class="o">.</span><span class="n">default</span> <span class="o">=</span> <span class="s2">&quot;sphinx_gallery&quot;</span>
+</pre></div>
+</div>
+<section id="data-extraction-and-univariate-models">
+<h2>Data extraction and univariate models<a class="headerlink" href="#data-extraction-and-univariate-models" title="Link to this heading">#</a></h2>
+<p>We have selected a location next to Ushant island, node number <cite>36855</cite> and we compute the wind intensity
+using the <code class="xref py py-func docutils literal notranslate"><span class="pre">resourcecode.utils.zmcomp2metconv()</span></code> function of the package.</p>
+<dl class="simple">
+<dt>We also define here the tuning parameters for fitting the models to the data:</dt><dd><ul class="simple">
+<li><p>quantile above which the model is fitted;</p></li>
+<li><p>de-clustering parameter, specified in hours.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Then, we fit the <strong>POT</strong> model to the data.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">client</span> <span class="o">=</span> <span class="n">resourcecode</span><span class="o">.</span><span class="n">Client</span><span class="p">()</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_dataframe_from_url</span><span class="p">(</span>
+    <span class="s2">&quot;https://resourcecode.ifremer.fr/explore?pointId=136855&quot;</span><span class="p">,</span>
+    <span class="n">parameters</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;hs&quot;</span><span class="p">,</span> <span class="s2">&quot;uwnd&quot;</span><span class="p">,</span> <span class="s2">&quot;vwnd&quot;</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">data</span><span class="p">[</span><span class="s2">&quot;wspd&quot;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;wdir&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">resourcecode</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">zmcomp2metconv</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">uwnd</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">vwnd</span><span class="p">)</span>
+
+<span class="c1"># Tuning parameters for the POT model</span>
+<span class="n">quantile_fit</span> <span class="o">=</span> <span class="mf">0.95</span>
+<span class="n">r</span> <span class="o">=</span> <span class="s2">&quot;72H&quot;</span>
+<span class="n">return_periods</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">])</span>
+<span class="n">models</span> <span class="o">=</span> <span class="n">get_fitted_models</span><span class="p">(</span><span class="n">data</span><span class="p">[[</span><span class="s2">&quot;hs&quot;</span><span class="p">,</span> <span class="s2">&quot;wspd&quot;</span><span class="p">]],</span> <span class="n">quantile_fit</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+<span class="n">gpd_parameters</span> <span class="o">=</span> <span class="n">get_gpd_parameters</span><span class="p">(</span><span class="n">models</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/opt/hostedtoolcache/Python/3.11.11/x64/lib/python3.11/site-packages/pyextremes/extremes/peaks_over_threshold.py:18: FutureWarning:
+
+&#39;H&#39; is deprecated and will be removed in a future version. Please use &#39;h&#39; instead of &#39;H&#39;.
+
+/opt/hostedtoolcache/Python/3.11.11/x64/lib/python3.11/site-packages/pyextremes/eva.py:525: FutureWarning:
+
+&#39;H&#39; is deprecated and will be removed in a future version. Please use &#39;h&#39; instead of &#39;H&#39;.
+
+/opt/hostedtoolcache/Python/3.11.11/x64/lib/python3.11/site-packages/pyextremes/extremes/peaks_over_threshold.py:18: FutureWarning:
+
+&#39;H&#39; is deprecated and will be removed in a future version. Please use &#39;h&#39; instead of &#39;H&#39;.
+
+/opt/hostedtoolcache/Python/3.11.11/x64/lib/python3.11/site-packages/pyextremes/eva.py:525: FutureWarning:
+
+&#39;H&#39; is deprecated and will be removed in a future version. Please use &#39;h&#39; instead of &#39;H&#39;.
+</pre></div>
+</div>
+<section id="fitted-model-for-h-s">
+<h3>Fitted model for <span class="math notranslate nohighlight">\(H_s\)</span><a class="headerlink" href="#fitted-model-for-h-s" title="Link to this heading">#</a></h3>
+<p>We can plot the fitted model against the observations</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">models</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot_diagnostic</span><span class="p">()</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_plot_2_Multivariate_Extremes_001.png" srcset="../_images/sphx_glr_plot_2_Multivariate_Extremes_001.png" alt="Return value plot, Probability density plot, Q-Q plot, P-P plot" class = "sphx-glr-single-img"/><p>Below, one can find the estimated return levels for <span class="math notranslate nohighlight">\(H_s\)</span></p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">return_levels_Hs</span> <span class="o">=</span> <span class="n">models</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_summary</span><span class="p">(</span><span class="n">return_period</span><span class="o">=</span><span class="n">return_periods</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
+<span class="n">return_levels_Hs</span>
+</pre></div>
+</div>
+<div class="output_subarea output_html rendered_html output_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>return value</th>
+      <th>lower ci</th>
+      <th>upper ci</th>
+    </tr>
+    <tr>
+      <th>return period</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1.0</th>
+      <td>9.558622</td>
+      <td>9.178443</td>
+      <td>9.927872</td>
+    </tr>
+    <tr>
+      <th>2.0</th>
+      <td>10.522578</td>
+      <td>9.945388</td>
+      <td>10.961319</td>
+    </tr>
+    <tr>
+      <th>5.0</th>
+      <td>11.661462</td>
+      <td>10.759296</td>
+      <td>12.367068</td>
+    </tr>
+    <tr>
+      <th>10.0</th>
+      <td>12.431003</td>
+      <td>11.280748</td>
+      <td>13.418608</td>
+    </tr>
+    <tr>
+      <th>25.0</th>
+      <td>13.340192</td>
+      <td>11.853686</td>
+      <td>14.638731</td>
+    </tr>
+    <tr>
+      <th>50.0</th>
+      <td>13.954528</td>
+      <td>12.213844</td>
+      <td>15.467969</td>
+    </tr>
+    <tr>
+      <th>100.0</th>
+      <td>14.512067</td>
+      <td>12.521210</td>
+      <td>16.244726</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<br />
+<br /></section>
+<section id="fitted-model-for-w-s">
+<h3>Fitted model for <span class="math notranslate nohighlight">\(W_s\)</span><a class="headerlink" href="#fitted-model-for-w-s" title="Link to this heading">#</a></h3>
+<p>The diagnostic plots are below</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">models</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot_diagnostic</span><span class="p">()</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_plot_2_Multivariate_Extremes_002.png" srcset="../_images/sphx_glr_plot_2_Multivariate_Extremes_002.png" alt="Return value plot, Probability density plot, Q-Q plot, P-P plot" class = "sphx-glr-single-img"/><p>Lastly, the estimated return levels for <span class="math notranslate nohighlight">\(W_s\)</span></p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">return_levels_Wspd</span> <span class="o">=</span> <span class="n">models</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">get_summary</span><span class="p">(</span><span class="n">return_period</span><span class="o">=</span><span class="n">return_periods</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
+<span class="n">return_levels_Wspd</span>
+</pre></div>
+</div>
+<div class="output_subarea output_html rendered_html output_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>return value</th>
+      <th>lower ci</th>
+      <th>upper ci</th>
+    </tr>
+    <tr>
+      <th>return period</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1.0</th>
+      <td>21.225659</td>
+      <td>20.771930</td>
+      <td>21.723203</td>
+    </tr>
+    <tr>
+      <th>2.0</th>
+      <td>22.654234</td>
+      <td>22.021782</td>
+      <td>23.396844</td>
+    </tr>
+    <tr>
+      <th>5.0</th>
+      <td>24.367800</td>
+      <td>23.357643</td>
+      <td>25.457977</td>
+    </tr>
+    <tr>
+      <th>10.0</th>
+      <td>25.543490</td>
+      <td>24.178229</td>
+      <td>27.073757</td>
+    </tr>
+    <tr>
+      <th>25.0</th>
+      <td>26.953722</td>
+      <td>25.092697</td>
+      <td>29.107160</td>
+    </tr>
+    <tr>
+      <th>50.0</th>
+      <td>27.921291</td>
+      <td>25.674009</td>
+      <td>30.590525</td>
+    </tr>
+    <tr>
+      <th>100.0</th>
+      <td>28.810989</td>
+      <td>26.153189</td>
+      <td>32.033587</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<br />
+<br /></section>
+</section>
+<section id="multivariate-model-gaussian-copula">
+<h2>Multivariate model: Gaussian copula<a class="headerlink" href="#multivariate-model-gaussian-copula" title="Link to this heading">#</a></h2>
+<p>We will fit the censored Gaussian copula to estimate the joint distribution of extremes.
+thanks to the <a class="reference internal" href="../doc_nataf.html#resourcecode.eva.censgaussfit" title="resourcecode.eva.censgaussfit"><code class="xref py py-func docutils literal notranslate"><span class="pre">resourcecode.eva.censgaussfit()</span></code></a> function.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">rho_nataf</span> <span class="o">=</span> <span class="n">censgaussfit</span><span class="p">(</span><span class="n">data</span><span class="p">[[</span><span class="s2">&quot;hs&quot;</span><span class="p">,</span> <span class="s2">&quot;wspd&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">quantile_fit</span><span class="p">)</span><span class="o">.</span><span class="n">x</span>
+</pre></div>
+</div>
+<p>In the reference paper, they used the Huseby approach to compute environmental countours,
+which is a method based on monte-carlo simulation. The function func:<cite>resourcecode.eva.run_simulation</cite>
+is thus used to simulate from the fitted model, using the marginal distributions found earlier.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">nataf</span> <span class="o">=</span> <span class="n">run_simulation</span><span class="p">(</span><span class="n">rho_nataf</span><span class="p">,</span> <span class="n">quantile_fit</span><span class="p">,</span> <span class="n">gpd_parameters</span><span class="p">,</span> <span class="n">n_simulations</span><span class="o">=</span><span class="mi">1000000</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="environmental-contours">
+<h2>Environmental contours<a class="headerlink" href="#environmental-contours" title="Link to this heading">#</a></h2>
+<p>We first have to define the appropriate level set for the Huseby method.#
+They are defined using the number of <strong>joint</strong> excess of <span class="math notranslate nohighlight">\(H_s\)</span> and <span class="math notranslate nohighlight">\(W_s\)</span>.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">npy</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;hs&gt;</span><span class="si">{</span><span class="n">models</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">extremes_kwargs</span><span class="p">[</span><span class="s1">&#39;threshold&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> and wspd&gt;</span><span class="si">{</span><span class="n">models</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">extremes_kwargs</span><span class="p">[</span><span class="s1">&#39;threshold&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">year</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+<span class="n">levels</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">return_periods</span> <span class="o">*</span> <span class="n">npy</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We can then use the <a class="reference internal" href="../doc_nataf.html#resourcecode.eva.huseby" title="resourcecode.eva.huseby"><code class="xref py py-func docutils literal notranslate"><span class="pre">resourcecode.eva.huseby()</span></code></a> function to effectively compute the contours.
+The value of <cite>120</cite> can be changed to obtain smoother contours, at the price of higher computationnal cost.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+    <span class="c1"># on some cases, we may divide by zero, and numpy warns us</span>
+    <span class="c1"># about that. Let&#39;s hide this warning to the users.</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">theta</span> <span class="o">=</span> <span class="n">huseby</span><span class="p">(</span><span class="n">nataf</span><span class="p">,</span> <span class="n">levels</span><span class="p">,</span> <span class="mi">120</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Lastly, we can plot the contours, here single lines.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">()</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">add_traces</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span>
+            <span class="n">x</span><span class="o">=</span><span class="n">X</span><span class="p">[:,</span> <span class="n">i</span><span class="p">],</span>
+            <span class="n">y</span><span class="o">=</span><span class="n">Y</span><span class="p">[:,</span> <span class="n">i</span><span class="p">],</span>
+            <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;lines&quot;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">retlev</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">retlev</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">return_periods</span><span class="p">)</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+    <span class="n">scene</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+        <span class="n">xaxis_title</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="n">yaxis_title</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+        <span class="n">zaxis_title</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+    <span class="p">),</span>
+    <span class="n">height</span><span class="o">=</span><span class="mi">1200</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">fig</span>
+</pre></div>
+</div>
+<div class="output_subarea output_html rendered_html output_result">
+<div>            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG"></script><script type="text/javascript">if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}</script>                <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-3.0.1.min.js"></script>                <div id="6466d30e-77e3-4da9-b9d8-90b913ef8db0" class="plotly-graph-div" style="height:1200px; width:100%;"></div>            <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("6466d30e-77e3-4da9-b9d8-90b913ef8db0")) {                    Plotly.newPlot(                        "6466d30e-77e3-4da9-b9d8-90b913ef8db0",                        [{"mode":"lines","name":"1","x":{"dtype":"f8","bdata":"zsdFxOBFK0C6VOSETlArQEMNb2CHUStARnZeGzRMK0DAbg6rP0ErQHYh5os8MStA09LJKaEVK0BepSfV1vYqQPIvtcuJzipA\u002fZ5VBaqfKkA+qfL17WwqQKfKbC62MypASpU\u002ffQDwKUBMA7eWCKYpQIq4cGcYWSlAfRBQU0sHKUDtlT8MKLEoQAWKOIB9VChAVFxgeYzyJ0CtK3q19Y0nQICSkx6+JCdAncxmOxe4JkDBpZrvi0gmQKV2BPRg1yVAf93Y6fRlJUA4bKMWi\u002fEkQJM6+UKMfCRAuhmz\u002f2MIJEDBD8CuKpUjQCZhXbrzIyNACLnB5Uy1IkB\u002fjN8CbkoiQPROpjRQ5CFAtpn3xl6FIUCJ67To2S4hQB+54dwH5CBAvIxf3NalIEAD0RL0JHYgQIoyTv81VCBAIEjzTCo9IEDO3k0j5y0gQBOkTrylIiBAbgzT5SAdIEAVF0PKgBggQHObKfFiFCBA6FuRDa4QIEAbu2WuTg0gQAo4e5s1CiBAiX7DeiAJIECJfsN6IAkgQIl+w3ogCSBAiX7DeiAJIECJfsN6IAkgQIl+w3ogCSBAiX7DeiAJIECJfsN6IAkgQIl+w3ogCSBAiX7DeiAJIECJfsN6IAkgQIl+w3ogCSBAiX7DeiAJIECJfsN6IAkgQIl+w3ogCSBAiX7DeiAJIECJfsN6IAkgQIl+w3ogCSBAiX7DeiAJIECaVkExMQogQGefP8RWDCBArV0m6JIOIEDB3B+mXRIgQDX6nYJ5GyBAZsYfhgUyIEBk8EulN1YgQCv\u002ffpKFfiBAdC4tmIamIEDuzvm6g80gQCH0GjL38iBAVTB1nCkXIUA1tothWzohQMs3rqHGXCFAZOgxz6B+IUCCfucJHKAhQPvDXVBowSFAdAnUlrTiIUCSn4nRLwQiQM+02gdPJiJAVWdjyPdIIkCBXM8QNWwiQFWJmJk9kCJACLnB5Uy1IkDIutDlpNsiQIEN0POPAyNAfN++SmMtI0ALqZooglkjQDIFOd1hiCNALKnoJI+6I0B8ju9ZtfAjQCedDE2oKyRAYJ29A3JsJEAPvdRQZrQkQMf9oG8\u002fBSVAmjc1eeBcJUCfXMcpUMAlQKpam+\u002fALyZArcexkw+qJkAk\u002fH\u002fUmy0nQFIuxMFXsydA4pTVJiA2KEAn48zUj7EoQNZzLsDbHClArdahytN\u002fKUBtCvBHL9YpQBTcd3DfICpAjmHaDCxkKkBPOAZy058qQN4t1061zypAcdF\u002fWhD5KkAykkP0sRsrQIP4EEgiNCtA"},"y":{"dtype":"f8","bdata":"NmdupX8wNkAQmgXsZog2QB7ol5V33jZAbJlwhBozN0CmKgu\u002faYY3QNS2fOB82DdAVPlJY\u002fUlOED5FyN2dXI4QEoQvPtkujhAvbtafeT+OEAPuTK3cUE5QLwjypEhgDlAAUY0UVi3OUA27o5Ng+k5QJTwd\u002fAdGTpAtcbd0FJEOkDF4LgvT2s6QHHQUugqizpAtaOQt2KkOkDgym\u002f5ork6QJY99qKkxzpA168r+xvPOkA+FtgH4M86QK7PATtKyzpAZC\u002fTadDDOkDfYEHuXrE6QHWLst1dlzpAoKl9G3B4OkAXdRJkRFI6QMbTC00DJzpANyHLYBr0OUC6S5ZTBrk5QM7v0K\u002ffeDlAUc2AFd4sOUCCLcT6xtk4QPKmrE8ZfDhA16UwNHYYOEArcQ3exa83QK94tXLJRjdANWf4wsbiNkA4YG96xIY2QFtRHxvSNDZA6OoFPorpNUD5XnFfN6c1QD\u002fYX0owbDVAqyr+NQo3NUDB9iZcrgY1QL5j1oFC2jRAnDpO9JqwNEDjQvRBq4k0QOAH\u002frVLZTRAzNsgGw9DNECaqThpmiI0QC\u002fmsp2gAzRAo5Ftld\u002flM0A1f1meHckzQK2Dfo0nrTNAiFnHNM+RM0CKSuMd6nYzQPtXOXZQXDNA2HxiHNxBM0C1oYvCZyczQCav4RrODDNAKKD9A+nxMkADdkarkNYyQHt6a5qaujJADWhXo9idMkCcy2kArIAyQL21CnwCYzJAXAKaKyFEMkCG9bklxSQyQKVf0BGhBzJA2lkT1LTzMUBAutLrROsxQIVxHsL45zFA5Qqf7kbmMUD7BB6KaOUxQCFKHeuS5DFAhTRic8TjMUB40o+z++IxQFmwGGA34jFAsKIgSHbhMUBo2r5Nt+AxQAOwMF\u002f53zFAnoWicDvfMUBXvUB2fN4xQLOdLAG93jFA7bTrLHnfMUA4PBF\u002fOOAxQP60syD84DFAjLPsVMXhMUC5kruBleIxQK6Cyzpu4zFAkrjXTlHkMUD91a3YQOUxQDAENlU\u002f5jFAKFeEwE\u002fnMUA7mOa8degxQByNWMi16TFAVUwhhxXrMUA3KjcunOwxQF9yjh5T7jFAmo5WQ5rzMUALOqAX5PkxQFYXIl0WAzJAg2Pt1G4RMkBX+Ei+ySYyQPP\u002fPXlKRjJAhjpgjM1wMkA4OaKnC6YyQAJo+nDM5TJAXW+hgXYsM0DSLsnqGXkzQIxb8OYOyjNA0fgqlBgeNECVPl+hinQ0QA9afQNZzDRAEmsAWjclNUAGnuzkvH41QOr5fZXG1zVA"},"type":"scatter"},{"mode":"lines","name":"2","x":{"dtype":"f8","bdata":"J3SLZ58qLECGMo5F0zosQPWow1g9RCxA9+V7a3NBLED6MjHa8jQsQHi0HxpwJCxAc7vOZHEJLEBB8rT+PecrQHL3YxZuwCtA7ltqR9mRK0CsIHtc3FgrQCILAPJ9GytAAT7ILA\u002fUKkD+5PFO6IQqQMxu6rDkLSpA\u002f4hkOJ\u002fNKUDwX7Tit2kpQNc8xnbV\u002fihAR3jQUc2PKEDj4Wb3FxwoQNkH+bAIpSdA+yf91AYsJ0C+H4+A0bAmQA8dL\u002foSMCZAQDV1qyCwJUCF+HbU2i8lQDy3PTBnriRAzxBPVwEtJEAR3hm7ka0jQFlp6qjTLyNACLnB5Uy1IkBfQC5a+z4iQDn4g4iNziFAo3yRVqpmIUDMezcZDAghQMVmQWMjuSBAxu0Dm956IECdlknthFAgQHxZ3uddNCBAJT\u002f\u002fNA8kIEAyrFi6FRsgQB2y5zTgFCBABAJHkoAPIEAOa5wryAogQN\u002f\u002f0RBkByBA3\u002f\u002fREGQHIEDf\u002f9EQZAcgQN7\u002f0RBkByBA3v\u002fREGQHIEDf\u002f9EQZAcgQN\u002f\u002f0RBkByBA3\u002f\u002fREGQHIEDe\u002f9EQZAcgQN7\u002f0RBkByBA3v\u002fREGQHIEDe\u002f9EQZAcgQN7\u002f0RBkByBA3v\u002fREGQHIEDe\u002f9EQZAcgQN7\u002f0RBkByBA3v\u002fREGQHIEDe\u002f9EQZAcgQN7\u002f0RBkByBA3v\u002fREGQHIEDe\u002f9EQZAcgQN7\u002f0RBkByBA3v\u002fREGQHIEDe\u002f9EQZAcgQPYzC4WZByBAYAxPpNkJIEAuLMhKNQwgQAeU\u002f7ktEiBA\u002fVtMofkoIEBVgIm9f1AgQGFgqdGweiBArvkb1sGjIED1ljNu88ogQI3280iZ8CBAZxv3ZvwUIUBAoWeGXTghQGIzyhX3WiFADCddz\u002f58IUC+\u002fGEWp54hQP6n+ikgwCFAP1OTPZnhIUDxKJiEQQMiQJocKz5JJSJAvK6NzeJHIkD5HJItdGsiQK3rRM3bjyJACLnB5Uy1IkCE3pAVCtwiQP9h8npeBCNAVEfQMaAuI0CksAx+M1sjQNIrEeWOiiNAzKiQlkC9I0BaNgGx9fMjQOIdGTSELyRAVlBZ4\u002fhwJEB2V1kSq7kkQF0TbYtZCyVA7L1b4VVoJUDhkj1ax9MlQL77NOQqSyZA2uv6BJTVJkD4SFhiG20nQJro5Te9DihATGS3SSqsKEDEHGwQMT0pQOOGVI0rvClA6Ok8\u002fwsrKkCgDnq6NZEqQGx0Pa+e5CpAGNZZDC0sK0AYcFKFlGwrQBiS7B5zoytAKYnwWK3SK0DgZheDFvYrQM6\u002fR60xESxA"},"y":{"dtype":"f8","bdata":"919rhC9sNkBIfFPiqc42QCfrT5meMDdAQMeYVcGPN0CCWBFoOOw3QEK0u60GSDhAKciikQagOEC19kv8RfU4QGneqID4SDlAvu1rUSGZOUDwlXFrgeM5QB5WCNypKzpAncOZ0xltOkCk+uZa06g6QBJsuBMC3jpA\u002f+zfRWYKO0BsF8TwsjI7QLDTQBPRUjtADiE1jBttO0Do\u002fPEbNIA7QAPY1\u002fsPjTtAfF5puTyVO0AOR2O935c7QJkmUqDojDtAQbp6m5Z\u002fO0AWmOBgNG07QN+JbBptUTtAKNuDgo0sO0B2o6O57gM7QFcnG8FI0TpA1rkwaTKYOkCUU6eCM1c6QN4sxXLyCzpALcVXHOOzOUAKu2PXV1Y5QBPrEOEC5zhA1nuhQNJuOEDQOkOYRe43QCT0O04\u002fczdAbx\u002frN5QAN0BR\u002f8Gk55k2QDlz35DfQDZA3IvuY9LzNUAOJuItI7A1QBq8cURyczVA8vCzMHg7NUAOArNUEQk1QEhOy1I12zRAyRBrNxWxNEC9Tms6DIo0QAk\u002fBQ6VZTRAty3+NUJDNEBggxBvuCI0QDjZo4SqAzRAsFigKNblM0BDv3yDAckzQGhGBEn5rDNAVngiLY+RM0BDqvGdmHYzQLvU+q7tWzNAPE0SJmhBM0C+xSmd4iYzQDfwMq43DDNAIyICH0HxMkARVCAD19UyQDbbp8jOuTJAyUGEI\u002fqcMkBAwYDHJX8yQJU02143YDJAKUTGCR9BMkCzZMVYiiAyQHGZU+C\u002fADJAA3rDHn\u002fsMUCd7tZRXOYxQBzeMVFt5DFAC2DVEoPjMUBEhhuDo+IxQC83r8TM4TFAD3goN\u002f3gMUDKEDxpM+AxQOl1ng1u3zFAEU7Z8aveMUCkG4P2690xQDbhaAgt3TFAx6ZOGm7cMUBadPgertsxQIJMMwPs2jFAoLGVpybaMUBtovwnvNoxQN4Z4c2B2zFABcIQFU3cMUDOsDtnH90xQGZXNlz63TFArQiBx9\u002feMUCcQ3fJ0d8xQFrykeXS4DFAnoLFH+bhMUDLv\u002fYjD+MxQM8p\u002fHtS5DFAszAA27XlMUBQ4\u002f2IQOcxQFqBqf\u002f76DFAXIOg1fTqMUDbHbgpPO0xQFzNEwPH8zFA79q2V678MUCUrXSFLA0yQI2RRKmIJzJAEX3rRVRQMkCdGIIWlIcyQLzoRa+ByzJA\u002fC13EMYYM0D4Hrxwd2wzQPb43luyxTNAtB96b1YiNEAXlX6CfYE0QP4A6VNk4jRAaRv8vZFENUDm7O\u002fNyaY1QKJoMfToCDZA"},"type":"scatter"},{"mode":"lines","name":"5","x":{"dtype":"f8","bdata":"fEplyHo4LUCEmmbyXUstQJLb+2+LWi1AsndVp\u002fFcLUBtbFyKS1ktQBvffS9\u002fUS1AZjjkY4tELUCWBZz+LiYtQEoEeGUy\u002fSxAvHkZ4yXILECbL7bKoo8sQLfKCVdlRSxAM0H1kSj4K0AqpJtxl5srQHb06fTYOStA8J2aiM\u002fKKkAIjjBXQVcqQD0LDX5Z3ClArCnw9\u002fxXKUDyrlswe9AoQKFgsWUGQyhAxMR\u002fTFS3J0BV1UTp\u002fyknQKNfX\u002fWjmCZAbdF5rqwJJkDUMgU33nklQLF54yuE6iRAfzH4tcxaJEAk1oXYScsjQBbFZdJ7PiNACLnB5Uy1IkCu\u002fIG+ZDEiQK+77NUCtCFAapPhP6hAIUBfEKe4MNogQJm3wMW9hyBA8HxRmChPIEBFLd74Ri0gQPd2rWGmGyBABjnnRa8SIEArIE0oNgsgQD6H6ltUBiBAPofqW1QGIEA+h+pbVAYgQD6H6ltUBiBAPofqW1QGIEA+h+pbVAYgQD6H6ltUBiBAPofqW1QGIEA+h+pbVAYgQD6H6ltUBiBAPofqW1QGIEA+h+pbVAYgQD6H6ltUBiBAPofqW1QGIEA+h+pbVAYgQD6H6ltUBiBAPofqW1QGIEA+h+pbVAYgQD6H6ltUBiBAPofqW1QGIEA+h+pbVAYgQD6H6ltUBiBAPofqW1QGIEA+h+pbVAYgQD6H6ltUBiBAPofqW1QGIEA+h+pbVAYgQD6H6ltUBiBAPofqW1QGIEAHSlQbIwggQLTLM0hqCyBApOd4c2chIECWCP5cjkwgQNoL\u002fRYTeCBAw0amTlShIECxkEDns8ggQIMFCPKF7iBAl55FxRMTIUBUMyFrnjYhQAVetJZgWSFAZetMQZB7IUDpUVAJYJ0hQNwkgWYAvyFA0fexw6DgIUBVXrWLcAIiQLTrTTagJCJAZhbhYWJHIkAiq7wH7WoiQDdE+tp6jyJACLnB5Uy1IkCVdAc+i9wiQIM0iBlmBSNAraVFszQwI0ARGGydXF0jQPsWjehVjSNApTtqnrDAI0BU2KkeHPgjQGY3fjJxNCRAnBJ7HcB2JEBmgeOrZMAkQBk5q3kjEyVAYE2b1FVxJUCuH0uGLd4lQN\u002fn8UIhXiZAo7zHWqH3JkBEZbnEmKMnQHvD\u002f9j4ZShAt7WndLwqKUAaOT92u94pQNNYv\u002fh\u002ffSpAFhLozof+KkB8CWQ\u002frG8rQJ5+ymhzyitAPIn5ywgYLEBUpoUSelwsQI+ezSxKnSxA2cCxDO\u002fRLECN1SWQxP8sQGDJI4vzHC1A"},"y":{"dtype":"f8","bdata":"VO19o5myNkDfdhkfUSA3QLEp3d7RjjdADfOYDNv6N0AArsmZWWY4QFSspGsZ0jhAxRrYo8g9OUCg9iUK06I5QOpcAhGuAzpAfWWySr9eOkA0UHkp+rg6QH1K968hCDtAVNEtgOVVO0CYZIuUC5g7QP6sebbu1TtA+JHnUkQHPEChtQHcUTM8QAswtwJxVjxAgeOcT6FsPECoLrptNnw8QPaomE8vgDxAzQT7IkyDPEDcoIhnToA8QFaG700scTxAHipR\u002fUliPECCkLz9T0w8QD5\u002f6MfEMTxA5P2gLtMNPEAquTF1Ttw7QPxpodhyoztA\u002fzgOffphO0DqmADC8xI7QHnC9xVWvzpAjvKDnwVbOkCz3mPQjOk5QEGGkOsiYjlAMcGjqqvGOEDnxhrvzyg4QHXbELnBlTdA7meEQjQVN0BwmxctDKo2QBKo+JaaTTZAIxNRQb76NUCQ3J9ACLM1QCk4OgIKdDVASOv3wfk7NUBkLc7ufgk1QDN8YMKQ2zRAunsi91+xNEC48qaDR4o0QLL7WOXBZTRAGiyfdGFDNEBEHw3KyiI0QLoodZKwAzRAS5B7ZdDlM0CmbK1U8MgzQMb0g\u002f\u002fcrDNA08eTB2iRM0D6SRrKZnYzQPzbz0qxWzNAl0RkQCFBM0Ayrfg1kSYzQDQ\u002frrbbCzNAW8E0edrwMkBolESBZdUyQIgcGyxSuTJA4vhMG3KcMkBzYFPukX4yQOppu7Z3XzJAFF0pDOE+MkC\u002fwQl4vh0yQMAK6H6++zFAO5XlcHbmMUB3jG3h+eIxQApfm6YB4jFAT+BPVRbhMUC9rzC\u002fNeAxQAN0uARe3zFAInWWg43eMUCQCc7Iwt0xQOR0jIX83DFAQ6vzhTncMUCR2EipeNsxQHz+Fdu42jFAaCTjDPnZMUC2UTgwONkxQBWInzB12DFAafNd7a7XMUDWh5Uy5NYxQPWIc7ET1jFArosewVHVMUDlUYLQJtYxQGbIgJ8E1zFADO+wB+3XMUD0L4Uw4tgxQM\u002fU16Xm2TFADAmrdf3aMUDFQCFYKtwxQA6eMuZx3TFA9IEK5tneMUBfmeq3aeAxQGGTHvUq4jFAOEo8XirkMUBqjy1LeeYxQKq54\u002fcv6TFA9SpbWXHsMUBFTPORMfcxQAgz8oYtCjJApg3RJoItMkBTQKWbVGQyQNUfZbOZqzJA2bwiT3QAM0DzXDUXcF0zQPRwk2aTwDNAODTa81YnNEBb+Y9UqZA0QAqH1gpn\u002fDRAkH\u002fMj1hpNUD0JtK0gtc1QEqT6GZsRDZA"},"type":"scatter"},{"mode":"lines","name":"10","x":{"dtype":"f8","bdata":"\u002fK4yrC\u002f1LUCalbm+pA8uQOSVZ6TrHy5AFclHu1soLkCam6vbGCsuQB6ocL6yIi5AxgkF8TYULkDKA8z5hf0tQIAzJGCt3S1AdFkxfo2qLUDCTuAHcW8tQB7OsAFMKC1ATlHBii7LLECCq+ly32gsQPOh8dA59StAjcBUCLB4K0D5JCSjePcqQJqofN\u002fKcCpA6ZlPjIrmKUCcH59Xk08pQN7wjGVLuChAM0fKVe0dKED4\u002fTQ2CoUnQOKRaQ0b6yZAzpufwWZNJkAOHMzocK4lQMhtUIUXESVAyiXSQ6h2JEDtj64w+90jQN7EF5q8RyNACLnB5Uy1IkC0i1p3kiciQP\u002faqljBoSFAJJcQqBAmIUBEAPwsZ7sgQMkiN46kaCBAwwLTuiE1IEAjAwaoYRsgQMK7kKErECBAABQ48QwHIEB5+n4N+gUgQHn6fg36BSBAefp+DfoFIEB5+n4N+gUgQHn6fg36BSBAefp+DfoFIEB5+n4N+gUgQHn6fg36BSBAefp+DfoFIEB5+n4N+gUgQHn6fg36BSBAefp+DfoFIEB5+n4N+gUgQHn6fg36BSBAefp+DfoFIEB5+n4N+gUgQHn6fg36BSBAefp+DfoFIEB5+n4N+gUgQHn6fg36BSBAefp+DfoFIEB5+n4N+gUgQHn6fg36BSBAefp+DfoFIEB5+n4N+gUgQHn6fg36BSBAefp+DfoFIEB5+n4N+gUgQHn6fg36BSBAefp+DfoFIEA4ZETPJQYgQOD4t4bACCBAz\u002fFgAS8eIEBzoHifM0sgQG6S59DQdiBAtVEyOimgIECATqj1nscgQGAdyUOG7SBA\u002fdIYpCgSIUChLFBFxzUhQJ0qifucWCFAnNZp3t96IUDoAM2owpwhQMQDte11viFAoAadMingIUDsMAD9CwIiQOrc4N9OJCJA59oZliRHIkCLNFE3w2oiQCjqoJdljyJACLnB5Uy1IkDTtTehwtwiQBp1ggobBiNAb11\u002fq1sxI0Dzmhz1714jQO1A\u002fmJcjyNAC96VWDLDI0CGCm7aIvsjQEi\u002fALoIOCRAHrNOyPZ6JEAAeE8UTMUkQFKHNnjRGCVAxKHp5OV3JUAgyKrOwuUlQIIiJqDpZiZALmt7HdoBJ0DIQ9OSVr8nQKS1y7EXlyhAxQT3WXd7KUD+oBHK\u002fk0qQMrFz2B++SpAfpdvUy+EK0C2McV19f4rQHoW1eU4ZCxAYs0pwfe2LEByHxDu0AMtQHqSYnouQy1Abqn4BwV6LUAAtm7cKqgtQLKwM4FA0i1A"},"y":{"dtype":"f8","bdata":"kNKSA9fjNkDqyG8FH1s3QDT\u002fMJWg0TdAMvkwCrRHOECnmU8G\u002f704QPh0hVkLMjlAjGLOZMGlOUAY4+M3ABg6QIZFXln+hzpAInCvbe\u002fuOkCz3YOdtVI7QOAlmJANsDtAeB\u002ftoRP+O0Csi3ywQUg8QLUA2dtNgzxAH9BFVOy0PECIPMdYaOA8QBAYrQ1sBD1AU4TAnZYiPUAPXkPOxC09QCAmN7ikND1AaMbUlaEyPUBqRHMn7S49QCYNFAcxJT1AOPr5x78NPUCkghxRyuo8QKbTg5S7wTxARjlKxNyWPEBM6HyxZmQ8QBaByK4gKDxA4TLVpXbkO0CIZFzEp5o7QEf4qAO5OjtAhN9p7fTPOkDlrnChYUw6QNyHD8mmrzlARp1oiPr6OEAKa0nxiUY4QAr82cXIpTdAnvHIxAMjN0DkjAQGX682QGIwq5\u002fpTTZAYGWHZQL7NUAO7pH3QrM1QKy8SHE8dDVAW4VW0iQ8NUCj52Rcowk1QCT+SCav2zRA1Cw3z3ixNEBoSxA4W4o0QAd7sszQZTRAMSQa12tDNECW5Nbj0CI0QKnekJWyAzRAXo4xe87lM0DSfaie6sgzQA3qrZjTrDNAnwK+BFuRM0CdXHs6VnYzQGS6XDidWzNAGHIJsAlBM0DMKbYndiYzQJSHlyW9CzNAkuFUW7jwMkAj+mTHP9UyQF9masEouTJA0lXh5EScMkCHBYLKYH4yQJv\u002fO3xCXzJAAMD4iKc+MkAdkuGhYBwyQGKw1vPF+TFApJv8YOXjMUBg1AA+0OExQMPwn3fX4DFA6yIIouvfMUDMIKWNCt8xQJL541ky3jFAzcaIY2HdMUBKTMY2ltwxQOGPDYTP2zFAmG\u002fTFgzbMUCew7rNStoxQLcfspOK2TFA0HupWcrYMUDVz5AQCdgxQI2vVqNF1zFAI\u002fOd8H7WMUCheNvDs9UxQNxFgM3i1DFAoh6\u002fmQrUMUCCHFyFKdMxQKpOxK890jFAxg268tvSMUDef+5n09MxQO\u002fOWE7a1DFArvJPu\u002fPVMUCzd+NvI9cxQF4xFBBu2DFANxHpb9nZMUAbh1cBbdsxQIuytHQy3TFAE1cxqTbfMUBt8FYgi+ExQDoeQFBI5DFAwZHOgZHnMUD2SLvRAOwxQP0BYcml+TFAFRO5gUwXMkC0h4SUDUwyQEldVRcjlzJA6UmRuhXxMkC6fewNwlMzQHHPakkmvTNA6POR1LUqNEDs85l6Pps0QHSwNWCsDTVACrpmMpCBNUDnZJCUZPY1QKS4fXK4bDZA"},"type":"scatter"},{"mode":"lines","name":"25","x":{"dtype":"f8","bdata":"vj2fPajULkA0LN\u002fTGQAvQH5xd\u002fbQIC9Ata6HKoglL0AkhTxndiMvQI+CgkRaGi9AaDZhnzgML0Cdny6Qa\u002fAuQAtj\u002fkJOxi5A5o2m\u002fHqXLkBaVGe4pmAuQGhptOvtDi5ACH0j9CezLUDmnRaJvEktQEFr1x38zixAYIXcD8JDLEAYCZlV2LYrQN6zXQg0KStAglu\u002f2dOOKkAanDmQ7OspQFrfHsHsSClAkat1KiqgKEDtK4TdOfMnQBdbulnfRCdA+ZlsNhSZJkDSPC9Ume0lQEiSIfhoQyVAE3e27K+bJEAgkWxX7PUjQPG743PTUyNACLnB5Uy1IkBz3cFfYRwiQHZOzHYmiyFAgZNJ2pIFIUBYx8kjlJQgQARsasI8RyBAEjsSwz0dIEBX\u002fZv4Rw0gQCUQ\u002fvDCBSBAJRD+8MIFIEAlEP7wwgUgQCUQ\u002fvDCBSBAJRD+8MIFIEAlEP7wwgUgQCUQ\u002fvDCBSBAJRD+8MIFIEAlEP7wwgUgQCUQ\u002fvDCBSBAJRD+8MIFIEAlEP7wwgUgQCUQ\u002fvDCBSBAJRD+8MIFIEAlEP7wwgUgQCUQ\u002fvDCBSBAJRD+8MIFIEAlEP7wwgUgQCUQ\u002fvDCBSBAJRD+8MIFIEAlEP7wwgUgQCUQ\u002fvDCBSBAJRD+8MIFIEAlEP7wwgUgQCUQ\u002fvDCBSBAJRD+8MIFIEAlEP7wwgUgQCUQ\u002fvDCBSBAJRD+8MIFIEAlEP7wwgUgQCUQ\u002fvDCBSBAJBD+8MIFIEAkEP7wwgUgQATxf0\u002fYBiBAKZX6VNcbIECjYE5cIEogQPX2A\u002frQdSBA8I3wzDufIEAI7BMbw8YgQBHnckq77CBAitNM+20RIUCNpmF5HDUhQEcz\u002frIBWCFA6WLf11N6IUBXjXe5RZwhQIjSagAIviFAuRdeR8rfIUAnQvYovAEiQMlx100OJCJAg\u002f5zh\u002fNGIkCH0YgFomoiQP+9YrZUjyJACLnB5Uy1IkAhF+Uz1NwiQBuu0QY\u002fBiNAbkSHpO8xI0Cye7Y3WmAjQLs2+UyckSNAq4WDKfvFI0BBkeFof\u002f4jQA+jdx4GPCRAEPMV8aR\u002fJEAJ+d+OvsokQC\u002fpnYggHyVAyHAvEjB\u002fJUBifuwjL+4lQDyQww6rcCZA5J31wDQNJ0B4Jv02o80nQHGlN6EavyhAsezwcsLNKUCso5SzGs4qQGf3HPCCiStA9szf8H8jLECsT7HudqUsQAdxvK+KEi1ATVJ83VJoLUA4I5HtdrstQE3K9l58\u002fy1AONUrXnY8LkCi\u002fQ\u002fWenYuQPo+RHGuqS5A"},"y":{"dtype":"f8","bdata":"WseEmyYeN0BANRZ5KaM3QHOpQbuUKDhAYW6Nb1mnOECM+xyjwCU5QNZeNfifozlAhkSgAewhOkDBQrQjLJw6QMytSRwcETtAwJqjMdOFO0BWmFGFZfg7QEa6EmO8WjxAHOPzSfS2PEABVxv6Rgk9QM0pRBPJTD1AMp1AYbx\u002fPUA5vxUQKK89QMklYvWO3D1AeE5Kp2T5PUCY\u002f9i5MQg+QI7erbA0Ez5A05G3KTMRPkDSEAb3RAI+QIpnPCcm6T1A0I3fbVbNPUD0svrsLKk9QOTy4yOFfT1ARse8KgVNPUBoYHmqthI9QLBpxZ151TxAkjswWdaLPEB6djYCSzU8QKPLbhWB0ztABJaGJNVeO0D4h0dEA8k6QJI3Z7XqAjpApoYBQv4qOUDty4v69V04QD+rry5RtDdA\u002fPVXgYskN0BrO\u002fQRl682QIZfGdsZTjZAgTU6+yv7NUD2i4XMZrM1QPVihzhbdDVAMSoxGj88NUCWDIiXuQk1QFNkI7LB2zRAOMqW+IexNEA5roU+Z4o0QNpCGOXZZTRAse5+LXJDNEA5H\u002fSc1CI0QAzs68+zAzRAN\u002fz7T83lM0D4GG4i58gzQGRa29vNrDNAEqYHFFORM0DC8SkfTHYzQJzOg\u002fiQWzNAkkaqTvtAM0CJvtCkZSYzQGKbKn6qCzNAEudMiaPwMkDBMnnBKNUyQC105noPuTJA7ZBYTSmcMkAZoWjNQn4yQOxtYAAiXzJAdJ7Vb4Q+MkBKSjy4HBwyQBBSM6Rc+DFA+kJWdAfiMUBowbP14+AxQMjziMDq3zFAborqgf7eMUC5B0sJHd4xQF52QXVE3TFAlzzXIXPcMUB0ipmap9sxQAH2Y4\u002fg2jFAXfUhyxzaMUBkg\u002fUrW9kxQFnQUZya2DFATh2uDNrXMUBVq4FtGNcxQLGqP6lU1jFAPhYKno3VMUAbZMwWwtQxQFUqYsPw0zFA+ZhYLxjTMUBEFrm2NtIxQOqsGnhK0TFASt\u002fvQlHQMUDH4JqASM8xQJ+PTM0+zzFA282HIVvQMUBIFjf4jdExQBXXnAHc0jFAuI8kIUvUMUBed23c4tUxQJNrY\u002f2s1zFAogc2hbbZMUC82aojEdwxQAQwd4\u002fV3jFAlj6tbifiMUAoDlMtPOYxQCGidsou7DFA\u002fjNGw6gAMkAEzi6NGTAyQMsdkHxefzJAGo\u002fPvcPeMkDmUJlygkgzQKJmc\u002fdDuTNA9IEeunguNED6fU6q26Y0QNqDTgtHITVAzo+w+JOdNUAJacNZOhw2QH658G2anDZA"},"type":"scatter"},{"mode":"lines","name":"50","x":{"dtype":"f8","bdata":"OPTHysh6L0AH+NlsJpYvQG\u002fouBblrS9AmpvqDA26L0Cemb6PnsMvQM0YyNrCwy9AH8J2Vpu5L0CEXW6rTpgvQDTQxlupaC9AmRp506w0L0BENixFTvkuQCbREGMbrC5ASOmP\u002fNlSLkBfRp3EP+YtQLrsq+CpbC1AmzL2OrHlLEDALTm8c08sQAahBvoHrStA9sRPcQT8KkDTu2K+g00qQKOUipPsnClAELuUasLsKECMFeOyVjkoQMbI2Qa9hidAuZ5Jq2TRJkA\u002fdiE4WxomQC01HbKyZiVAX2DMj\u002f+2JEArezFkMAgkQOFJ4iegXCNACLnB5Uy1IkACZtHQnBIiQNQW6ooMeSFA67iOQMzsIEBkeTD6rHogQGAZtJcyLiBA6qQ37EATIEDEwbEVswUgQMTBsRWzBSBAxMGxFbMFIEDEwbEVswUgQMTBsRWzBSBAxMGxFbMFIEDEwbEVswUgQMTBsRWzBSBAxMGxFbMFIEDEwbEVswUgQMTBsRWzBSBAxMGxFbMFIEDEwbEVswUgQMTBsRWzBSBAxMGxFbMFIEDEwbEVswUgQMTBsRWzBSBAxMGxFbMFIEDEwbEVswUgQMTBsRWzBSBAxMGxFbMFIEDEwbEVswUgQMTBsRWzBSBAxMGxFbMFIEDEwbEVswUgQMTBsRWzBSBAxMGxFbMFIEDEwbEVswUgQMTBsRWzBSBAxMGxFbMFIEDEwbEVswUgQMTBsRWzBSBAxMGxFbMFIEDEwbEVswUgQGuz+PgBBiBABnztvP4aIECgEwEUdkkgQMn3p7UydSBAwmOF7KieIEDe9J8ZO8YgQE1+Mro97CBA5OO7gvoQIUDJMfHQsjQhQHsyVKOhVyFAg8CIOP15IUBgAPtv+JshQPPWsP\u002fDvSFAhq1mj4\u002ffIUBj7djGigEiQGp7DVzmIyJAHXxwLtVGIkACyqV8jWoiQJkvL0VKjyJACLnB5Uy1IkAkStwS39wiQB22uUlVBiNARppg6xEyI0DgMXRCiWAjQHCT6dFGkiNAhb2BdvTHI0BgZ95WZwEkQC5nXRZ5PyRANpF7uLCDJEDHoeAMdM8kQOb2Y7eUJCVAH+qgVX2FJUAfpZA8d\u002fUlQPLxiwYaeSZAw3RxeAUXJ0CsFzbLJtknQKRHRL8UzyhAh5jjq0T7KUDVSWf3wBErQG7j4w129CtA1NbMTPOgLEASiUtcuDUtQH7pwMG3nS1A6Q8xEIv6LUA84gidd1UuQOaqnusbrS5ANEmCZXv3LkDKiqQWLTUvQB\u002fCWSlYXC9A"},"y":{"dtype":"f8","bdata":"xi\u002fns39JN0Df5BzbHdA3QPnet0NVWDhA\u002fP5oSnXfOED8bLO5qGg5QHAMmuVR8TlAQQNGkbp4OkCCiNIWh\u002fc6QBPt30zOcDtA4GVime\u002fpO0CHApBKQWE8QHCbprQOzzxAHI2WOTo2PUDQfKNIoI89QCUsAXat3j1AWWVW73YhPkC+o9AoBlQ+QKQZbNAQdz5ATvkRCMSEPkAsmg5IiJA+QECqNo53lD5AjxldixiUPkC6VkzNv4g+QD4cyI7ueD5A2pf5uudbPkAC4nX2FzA+QNip4QA3AT5Aa62BeF7TPUAS068rs5c9QBdrwAenUz1A2qtXI\u002fwMPUBZTPpzQbw8QK4PQpXYTTxALAlut8fLO0CO4qovKhw7QNO8UXpUQTpAbpaS7hA\u002fOUBAHYn6jWo4QDNlO1JntDdAB04LVJ4kN0AVRCQyp682QGaHs7snTjZAZhI18jf7NUCfT8MbcbM1QIp5ixNkdDVAMBHuqUY8NUDlN\u002fz8vwk1QCC7MAjH2zRA+29WVYyxNEBWk0G0aoo0QBpvBYPcZTRATHdKAHRDNECl\u002fi6v1SI0QGgzXiq0AzRA01Xl+czlM0BL3rch5sgzQN1OPzXMrDNACY8ty1CRM0Bwpb02SXYzQD7dRHKNWzNAngR2K\u002fdAM0D9K6fkYCYzQMtjLiClCzNAMnq+i53wMkBeuqwhItUyQPAqNDUIuTJAaLMGXSGcMkDU1Y0sOn4yQJYKvacYXzJA75GhVno+MkAgmubTERwyQOUBeQS+9zFA0gao1VrhMUAS8YLKUeAxQP7tzlBY3zFAJvY30WveMUDIYpYait0xQGzZ\u002fEqx3DFAOUEBvt\u002fbMUBkXMr+E9sxQDtP17xM2jFAY4++wojZMUDqX1LuxtgxQHScuSkG2DFA\u002f9ggZUXXMUCGqbSQg9YxQK7pm5a\u002f1TFAhNyoVPjUMUCw93GVLNQxQHxfdghb0zFAINbcOILSMUDDQjuCoNExQOpKpAK00DFA1kfwiLrPMUAXMst9sc4xQOqLbsWVzTFAXtf0lmPMMUB6zAM7uswxQFg1RzcLzjFAQKNxlH3PMUDq4CHpGNExQAzAYhXn0jFACEDHN\u002fXUMUB67AwoVdcxQOBawtQf2jFAkxuJNHndMUDWsCAsl+ExQMbhCF7O5jFAJOweryP0MUCU9hS6ViEyQJ1YB\u002fm3bTJAfxi0qlbQMkCqeJakwz4zQPgf3BoqtjNA3SwrlJIxNEAI82rmmLA0QLS9X29aMzVA7BWD9IW4NUDiYXH9Mj82QG67GWRQxDZA"},"type":"scatter"},{"mode":"lines","name":"100","x":{"dtype":"f8","bdata":"jBz1kKf5L0AqxtkvRAgwQPGAek7XETBA6HiDpqEbMEAnlyhDZx8wQCeXKENnHzBAJ5coQ2cfMECCEwD3zxowQMbwgnu3CDBAnE86IG\u002fWL0BesEAjEJgvQDoJ7mhJWC9AFnD4AUYDL0DebFzFHZwuQHqdeK6yFC5Ab7O7FZF8LUDK2CHDYtUsQIyzst9qKixASKauxzN5K0BLURGtZ8AqQMA\u002fx0aGCipAjN8Rn5xLKUBiUrPNNokoQC6TPcrcxydA8BNH0wsHJ0B5JTZ4ekomQKcOCGmvjyVA1tsL8KfUJEDTIhUqxxokQM3VYFAMZiNACLnB5Uy1IkAud3U\u002fbQsiQC3rHb1taiFARM51OcnTIECvKNHWX1wgQN3v4jkqISBAC\u002f1ewHULIEBYER+fqgUgQFgRH5+qBSBAWBEfn6oFIEBYER+fqgUgQFgRH5+qBSBAWBEfn6oFIEBYER+fqgUgQFgRH5+qBSBAWBEfn6oFIEBYER+fqgUgQFgRH5+qBSBAWBEfn6oFIEBYER+fqgUgQFgRH5+qBSBAWBEfn6oFIEBYER+fqgUgQFgRH5+qBSBAWBEfn6oFIEBYER+fqgUgQFgRH5+qBSBAWBEfn6oFIEBYER+fqgUgQFgRH5+qBSBAWBEfn6oFIEBYER+fqgUgQFgRH5+qBSBAWBEfn6oFIEBYER+fqgUgQFgRH5+qBSBAWBEfn6oFIEBYER+fqgUgQFgRH5+qBSBAWBEfn6oFIEBYER+fqgUgQFgRH5+qBSBAi2aKrpMaIEBapNt8EkkgQNP7fCXWdCBAXvLABVOeIECpqHyO68UgQKwkfkr06yBA2eob+rYQIUAZqIsFdTQhQFuxyXRpVyFAtBAxj8p5IUBuaFo8y5shQNgwHzqcvSFAQ\u002fnjN23fIUD9UA3lbQEiQFWwdP\u002fOIyJAmLmybsNGIkDYdiJ6gWoiQAU9wClEjyJACLnB5Uy1IkBTb31u5dwiQN5lwU5iBiNAV71i9yUyI0Al+7PFpGAjQP2UFFNqkiNA6UqQlyDII0AKUgaumQIkQNLNBXbDQiRAEYEc4YyHJEC3tqQe8tMkQAWCkLXIKSVAU0yBbYCLJUBeBWyhafwlQEdaAbwlgSZALi4ZqmIgJ0C4SWzbIuQnQJj85mAe3ChAi1psMAUiKkBcgJL+hlsrQKoMCiscYixAC86lW0YpLUCakeeKer8tQLb9ehSURi5A\u002fMbCXcelLkBuqTzXEPcuQOoQJl2wNy9AqidFGExtL0BEjMDhpqMvQDiRXCW\u002f0S9A"},"y":{"dtype":"f8","bdata":"nXQue5pqN0CSEHFIyPQ3QGuFwJUzgDhAXrADBcMOOUB8tVQVH5w5QPKijnDAKTpAdLWQmGq7OkCTvyepIU07QBaf755I1DtAo+VgJvRQPEAS0QQ4Ts48QPCtp0h7Tj1AcdzYy9TCPUDxEr0zvSs+QBnNxbgmej5AYN4AxSW4PkBSrAnTt+Q+QHTv0OwFCj9AA\u002fgkC44kP0A6o3v9CTE\u002fQBTEg8QfPT9AoMiQcjE2P0BoVX1g9CE\u002fQOiNpWMYBz9AxlkwObzjPkDUN9OCJ8E+QDtmMc8tmj5A6Vbd7kJlPkDgIkvzCR8+QDYlJd3C2j1AbNWulRSFPUDlUivuih89QHxhvT6psDxAJcVoAsQ5PEAoaGyjb307QBiuHJjQYTpAuxF4x7pOOUBPQGwJnGo4QPM1LSNztDdA3gvvX6gkN0BQsHvNr682QP3C1SMvTjZA0LUDVT77NUBjXWicdrM1QLx6hc1odDVAKNoXs0o8NUC86vFmwwk1QIJtS+HJ2zRAuIVhqY6xNEC+8f+MbIo0QN3qlOjdZTRAthBv+XRDNEDDcIxB1iI0QB5bpFq0AzRAMKDyy8zlM0AABLSY5cgzQBQAsFPLrDNA7j4Gk0+RM0AkUGupR3YzQKNjtpCLWzNAJIgh9vRAM0ClrIxbXiYzQCTA10KiCzNAWdE8WZrwMkAzEJOYHtUyQEgMj1MEuTJAGHBQIB2cMkAptZ6RNX4yQISftqoTXzJAkv\u002fT8nQ+MkBqJa4DDBwyQIkeQ1999zFAEEJ3gwXhMUB5b7xN\u002fN8xQEAI86sC3zFAA3FcBhbeMUCo2XYrNN0xQCV5Bzlb3DFAMqpgionbMUAOR22qvdoxQAFjdkj22TFA\u002frzgLjLZMUB6+E87cNgxQK9Mvlev1zFA5KAsdO7WMUBg3JuALNYxQF02Bmdo1TFAUFIPBaHUMUAs7xsl1dMxQDggdXYD0zFAtb8FhCrSMUBbKCCpSNExQB6RiQNc0DFA5CnAYWLPMUBOVwUsWc4xQN2\u002fEkY9zTFAGjln5grMMUBw4ZFevcoxQMh2eBpzyTFACBIhj+jKMUB5CdxSh8wxQOzHzlpZzjFAGc2V4WvQMUDvNhDl0NIxQCWQFImh1TFAT5sfEQLZMUA7cR3VKN0xQOKgbCxr4jFA+cNbdnrpMUD403jRPREyQPTajmufWzJAmMbAe6nAMkBK9lAzdTUzQKMtDexmsjNAsKo9PzQ1NEAKIswb0bo0QH0oVtrHQTVATtHUa3\u002fJNUBh7s2BdVM2QNGoP5to3jZA"},"type":"scatter"}],                        {"template":{"data":{"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"#E5ECF6","showlakes":true,"showland":true,"subunitcolor":"white"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2},"annotations":[{"font":{"color":"black","size":15},"name":"draft watermark","opacity":0.7,"showarrow":false,"text":"Figure made with resourcecode","x":1.0,"xanchor":"right","xref":"paper","y":0.1,"yref":"paper"}]}},"scene":{"xaxis":{"title":{"text":"hs"}},"yaxis":{"title":{"text":"uwnd"}},"zaxis":{"title":{"text":"vwnd"}}},"height":1200},                        {"responsive": true}                    )                };            </script>        </div>
+</div>
+<br />
+<br /><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 24.366 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-plot-2-multivariate-extremes-py">
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/6e1a33693b0969e1abd5f74b47e55466/plot_2_Multivariate_Extremes.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_2_Multivariate_Extremes.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/769457c2e9017b36ba0788d5b485de85/plot_2_Multivariate_Extremes.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_2_Multivariate_Extremes.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/e8981aabdc4e30b0c3d62c724ec494f0/plot_2_Multivariate_Extremes.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">plot_2_Multivariate_Extremes.zip</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="plot_1_data_extraction.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Extract some time-series from the database and analysis</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="plot_3_Operation_Planning.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Use-case example of the Operational Planning module</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-extraction-and-univariate-models">Data extraction and univariate models</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fitted-model-for-h-s">Fitted model for <span class="math notranslate nohighlight">\(H_s\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fitted-model-for-w-s">Fitted model for <span class="math notranslate nohighlight">\(W_s\)</span></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multivariate-model-gaussian-copula">Multivariate model: Gaussian copula</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#environmental-contours">Environmental contours</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By IFREMER
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025, IFREMER.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

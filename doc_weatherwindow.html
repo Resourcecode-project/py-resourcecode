@@ -1,0 +1,629 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Estimate of Weather Window for marine operations, based on significant wave height &#8212; Resourcecode 1.3.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9c221496"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'doc_weatherwindow';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Producible Assessment" href="doc_produciple_assessment.html" />
+    <link rel="prev" title="Extreme Values Modelling" href="doc_nataf.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/resourcecode-logo.jpg" class="logo__image only-light" alt="Resourcecode 1.3.1 documentation - Home"/>
+    <script>document.write(`<img src="_static/resourcecode-logo.jpg" class="logo__image only-dark" alt="Resourcecode 1.3.1 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="doc_installation.html">How to install the library ?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc_client.html">Query data using the client</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc_data.html">Helpers to get embedded data</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="doc_nataf.html">Extreme Values Modelling</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Estimate of Weather Window for marine operations, based on significant wave height</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc_produciple_assessment.html">Producible Assessment</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="doc_opsplanning_resassess.html">Operational planning and Resource assessment code</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="opsplanning_resassess/opsplanning.html">Operational Planning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="opsplanning_resassess/resassess.html">Resource Assessment module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="doc_spectrum.html">Spectra tool-kit</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="auto_examples/index.html">Gallery of use-cases</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="auto_examples/plot_0_Database_exploration.html">Visualize the database configuration: nodes, bathymetry…</a></li>
+<li class="toctree-l2"><a class="reference internal" href="auto_examples/plot_1_data_extraction.html">Extract some time-series from the database and analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="auto_examples/plot_2_Multivariate_Extremes.html">Modelling multivariate extremes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="auto_examples/plot_3_Operation_Planning.html">Use-case example of the Operational Planning module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="auto_examples/plot_4_Producible.html">Estimation of producible energy</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/doc_weatherwindow.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Estimate of Weather Window for marine operations, based on significant wave height</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resourcecode.weatherwindow.WeatherWindowResult"><code class="docutils literal notranslate"><span class="pre">WeatherWindowResult</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resourcecode.weatherwindow.WeibullDistributionResult"><code class="docutils literal notranslate"><span class="pre">WeibullDistributionResult</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#resourcecode.weatherwindow.WeibullDistributionResult.P"><code class="docutils literal notranslate"><span class="pre">WeibullDistributionResult.P</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#resourcecode.weatherwindow.WeibullDistributionResult.Ha"><code class="docutils literal notranslate"><span class="pre">WeibullDistributionResult.Ha</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#resourcecode.weatherwindow.WeibullDistributionResult.x0"><code class="docutils literal notranslate"><span class="pre">WeibullDistributionResult.x0</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#resourcecode.weatherwindow.WeibullDistributionResult.b"><code class="docutils literal notranslate"><span class="pre">WeibullDistributionResult.b</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#resourcecode.weatherwindow.WeibullDistributionResult.k"><code class="docutils literal notranslate"><span class="pre">WeibullDistributionResult.k</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resourcecode.weatherwindow.compute_weather_windows"><code class="docutils literal notranslate"><span class="pre">compute_weather_windows()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resourcecode.weatherwindow.fit_weibull_distribution"><code class="docutils literal notranslate"><span class="pre">fit_weibull_distribution()</span></code></a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="estimate-of-weather-window-for-marine-operations-based-on-significant-wave-height">
+<h1>Estimate of Weather Window for marine operations, based on significant wave height<a class="headerlink" href="#estimate-of-weather-window-for-marine-operations-based-on-significant-wave-height" title="Link to this heading">#</a></h1>
+<p>The objective is to provide the probability of occurrence and expected mean
+number of events of weather windows corresponding to situations when <span class="math notranslate nohighlight">\(Hs\)</span>
+remains below an access threshold (<span class="math notranslate nohighlight">\(Ha\)</span>) for a given duration <span class="math notranslate nohighlight">\(T\)</span>.
+Associated operational parameters are the access time and waiting time. Because
+of the seasonal variability of the wave climate, Weather Windows parameters are
+estimated over monthly periods. The implemented method is based on results
+presented in:</p>
+<ul class="simple">
+<li><p>EQUIMAR Deliverable D7.4.1 «Procedures for Estimating Site Accessibility and
+Appraisal of Implications of Site Accessibility » (2010), T. Stallard,
+University of Manchester, UKJ-F. Dhedin, Sylvain Saviot and Carlos Noguera
+Électricité de France, France)</p></li>
+<li><p>Walker RT, Johanning L, Parkinson R. (2011) Weather Windows for Device
+Deployment at UK test Site: Availability and Cost Implications, European Wave
+and Tidal Energy Conference, Southampton, EWTEC2011.</p></li>
+</ul>
+<p id="module-resourcecode.weatherwindow">Created on 24/03/2021</p>
+<p>&#64;author: Christophe Maisondieu</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="resourcecode.weatherwindow.WeatherWindowResult">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">resourcecode.weatherwindow.</span></span><span class="sig-name descname"><span class="pre">WeatherWindowResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">weibull_distribution_result</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#resourcecode.weatherwindow.WeibullDistributionResult" title="resourcecode.weatherwindow.weatherwindow.WeibullDistributionResult"><span class="pre">WeibullDistributionResult</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">tau</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">PT</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_events</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_access_hours</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_waiting_hours</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#resourcecode.weatherwindow.WeatherWindowResult" title="Link to this definition">#</a></dt>
+<dd><p>The resulting estimation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>weibull_distribution_result</strong> (<a class="reference internal" href="#resourcecode.weatherwindow.WeibullDistributionResult" title="resourcecode.weatherwindow.WeibullDistributionResult"><em>WeibullDistributionResult</em></a>) – Weibull adjustment parameters</p></li>
+<li><p><strong>tau</strong> (<em>np.ndarray</em>) – Persistence: Mean duration of periods for which Hs&lt;Ha (Hours)</p></li>
+<li><p><strong>PT</strong> (<em>np.ndarray</em>) – The probability of occurence of a weather window corresponding to
+sea-state having hs &lt; hs_access_threshold</p></li>
+<li><p><strong>number_events</strong> (<em>np.ndarray</em>) – number of events</p></li>
+<li><p><strong>number_access_hours</strong> (<em>np.ndarray</em>) – number access hours</p></li>
+<li><p><strong>number_waiting_hours</strong> (<em>np.ndarray</em>) – number waiting hours</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="resourcecode.weatherwindow.WeibullDistributionResult">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">resourcecode.weatherwindow.</span></span><span class="sig-name descname"><span class="pre">WeibullDistributionResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Ha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_MCFrHS</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_Y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_residual</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#resourcecode.weatherwindow.WeibullDistributionResult" title="Link to this definition">#</a></dt>
+<dd><p>The resulting fitted parameters for a Weibull distribution</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Ha</strong> (<em>np.ndarray</em>) – the values for which the distribution has been fitted</p></li>
+<li><p><strong>x0</strong> (<em>float</em>) – the parameter of the Weibull distribution</p></li>
+<li><p><strong>b</strong> (<em>float</em>) – the parameter of the Weibull distribution</p></li>
+<li><p><strong>k</strong> (<em>float</em>) – the parameter of the Weibull distribution</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="resourcecode.weatherwindow.WeibullDistributionResult.P">
+<span class="sig-name descname"><span class="pre">P</span></span><a class="headerlink" href="#resourcecode.weatherwindow.WeibullDistributionResult.P" title="Link to this definition">#</a></dt>
+<dd><p>P is the probability of exceedance  P(Hs &gt; Ha)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="resourcecode.weatherwindow.WeibullDistributionResult.Ha">
+<span class="sig-name descname"><span class="pre">Ha</span></span><a class="headerlink" href="#resourcecode.weatherwindow.WeibullDistributionResult.Ha" title="Link to this definition">#</a></dt>
+<dd><p>the values for which the distribution has been fitted</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="resourcecode.weatherwindow.WeibullDistributionResult.x0">
+<span class="sig-name descname"><span class="pre">x0</span></span><a class="headerlink" href="#resourcecode.weatherwindow.WeibullDistributionResult.x0" title="Link to this definition">#</a></dt>
+<dd><p>the parameter of the Weibull distribution</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="resourcecode.weatherwindow.WeibullDistributionResult.b">
+<span class="sig-name descname"><span class="pre">b</span></span><a class="headerlink" href="#resourcecode.weatherwindow.WeibullDistributionResult.b" title="Link to this definition">#</a></dt>
+<dd><p>the parameter of the Weibull distribution</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="resourcecode.weatherwindow.WeibullDistributionResult.k">
+<span class="sig-name descname"><span class="pre">k</span></span><a class="headerlink" href="#resourcecode.weatherwindow.WeibullDistributionResult.k" title="Link to this definition">#</a></dt>
+<dd><p>the parameter of the Weibull distribution</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="resourcecode.weatherwindow.compute_weather_windows">
+<span class="sig-prename descclassname"><span class="pre">resourcecode.weatherwindow.</span></span><span class="sig-name descname"><span class="pre">compute_weather_windows</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Series</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">month</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hs_access_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#resourcecode.weatherwindow.compute_weather_windows" title="Link to this definition">#</a></dt>
+<dd><p>Identification of weather windows</p>
+<p>Montly statistics
+NMI Method</p>
+<p>Based on EQUIMAR Deliverable D7.4.1 Procedures for Estimating Site
+Accessibility and Appraisal of Implications of Site Accessibility (T.
+Stallard,University of Manchester, UKJ-F. Dhedin, Sylvain Saviot and
+Carlos NogueraElectricité de France, France) August 2010</p>
+<p>and</p>
+<p>Walker RT, Johanning L, Parkinson R. (2011) Weather Windows for Device
+Deployment at UK test Site: Availability and Cost Implications, European
+Wave and Tidal Energy Conference, Southampton,  EWTEC2011.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>hs</strong> (<em>a pandas Series given the Significant Wave Height</em><em> (</em><em>m</em><em>)</em>) – with a datetime index.</p></li>
+<li><p><strong>month</strong> (<em>int</em><em>, </em><em>the month number for which the weather window should be</em>) – computed.</p></li>
+<li><p><strong>hs_access_threshold</strong> (<em>an optional numpy array given the significant wave</em>) – height operational access threshold</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>results</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>a WeatherWindowResult</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="resourcecode.weatherwindow.fit_weibull_distribution">
+<span class="sig-prename descclassname"><span class="pre">resourcecode.weatherwindow.</span></span><span class="sig-name descname"><span class="pre">fit_weibull_distribution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Series</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#resourcecode.weatherwindow.WeibullDistributionResult" title="resourcecode.weatherwindow.weatherwindow.WeibullDistributionResult"><span class="pre">WeibullDistributionResult</span></a></span></span><a class="headerlink" href="#resourcecode.weatherwindow.fit_weibull_distribution" title="Link to this definition">#</a></dt>
+<dd><p>Fit a Weibull distribution on Hs.</p>
+<blockquote>
+<div><p>The probability of excedence <span class="math notranslate nohighlight">\(P(Hs &gt; Ha)\)</span> follows a Weibull
+distribution given by three parameters:</p>
+<p><span class="math notranslate nohighlight">\(P(Hs &gt; Ha) = exp(-((Ha - x0)/b)^k)\)</span></p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>hs</strong> (<em>a pandas Series</em>) – giving the Significant Wave Height (m) with a datetime index.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>weibull_distribution_result</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#resourcecode.weatherwindow.WeibullDistributionResult" title="resourcecode.weatherwindow.WeibullDistributionResult">WeibullDistributionResult</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="doc_nataf.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Extreme Values Modelling</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="doc_produciple_assessment.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Producible Assessment</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resourcecode.weatherwindow.WeatherWindowResult"><code class="docutils literal notranslate"><span class="pre">WeatherWindowResult</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resourcecode.weatherwindow.WeibullDistributionResult"><code class="docutils literal notranslate"><span class="pre">WeibullDistributionResult</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#resourcecode.weatherwindow.WeibullDistributionResult.P"><code class="docutils literal notranslate"><span class="pre">WeibullDistributionResult.P</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#resourcecode.weatherwindow.WeibullDistributionResult.Ha"><code class="docutils literal notranslate"><span class="pre">WeibullDistributionResult.Ha</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#resourcecode.weatherwindow.WeibullDistributionResult.x0"><code class="docutils literal notranslate"><span class="pre">WeibullDistributionResult.x0</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#resourcecode.weatherwindow.WeibullDistributionResult.b"><code class="docutils literal notranslate"><span class="pre">WeibullDistributionResult.b</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#resourcecode.weatherwindow.WeibullDistributionResult.k"><code class="docutils literal notranslate"><span class="pre">WeibullDistributionResult.k</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resourcecode.weatherwindow.compute_weather_windows"><code class="docutils literal notranslate"><span class="pre">compute_weather_windows()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resourcecode.weatherwindow.fit_weibull_distribution"><code class="docutils literal notranslate"><span class="pre">fit_weibull_distribution()</span></code></a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By IFREMER
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025, IFREMER.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
