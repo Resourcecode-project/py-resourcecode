@@ -46,7 +46,7 @@ def raw_convert_spectrum_2Dto1D(
 
     vd = ((vdir + 180) % 360 * np.pi) / 180
     ivd = vd.argsort()
-    return np.trapz(spectrum_2D[ivd, :], x=vd[ivd], axis=0)
+    return np.trapezoid(spectrum_2D[ivd, :], x=vd[ivd], axis=0)
 
 
 def convert_spectrum_2Dto1D(spectrumDataSet: xarray.Dataset) -> xarray.Dataset:

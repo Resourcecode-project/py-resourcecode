@@ -141,19 +141,19 @@ def raw_compute_parameters_from_1D_spectrum(
         raise ValueError("Depth must be positive")
 
     # Total energy
-    M0 = np.trapz(Ef, x=freq)
+    M0 = np.trapezoid(Ef, x=freq)
 
     # Significant Wave Height
     Hm0 = 4 * np.sqrt(M0)
 
     # Periods
-    M01 = np.trapz(freq * Ef, x=freq)
+    M01 = np.trapezoid(freq * Ef, x=freq)
     T01 = M0 / M01
 
-    M02 = np.trapz(freq**2 * Ef, x=freq)
+    M02 = np.trapezoid(freq**2 * Ef, x=freq)
     T02 = np.sqrt(M0 / M02)
 
-    Me = np.trapz(Ef / freq, x=freq)
+    Me = np.trapezoid(Ef / freq, x=freq)
     Te = Me / M0
 
     # fp evaluaton using spline fitting around Ef peak
@@ -171,7 +171,7 @@ def raw_compute_parameters_from_1D_spectrum(
 
     k = dispersion(freq, depth, n_iter=200, tol=1e-6)
     kd = k * depth
-    km = np.trapz(k * Ef, x=freq) / M0
+    km = np.trapezoid(k * Ef, x=freq) / M0
     lm = 2 * np.pi / km
 
     # Group velocity
@@ -180,7 +180,7 @@ def raw_compute_parameters_from_1D_spectrum(
     cg = 0.5 * c1 * c2
 
     # Energy flux
-    cgef = np.trapz(cg * Ef, x=freq)
+    cgef = np.trapezoid(cg * Ef, x=freq)
     CgE = water_density * g * cgef / 1000
 
     return SeaStatesParameters(
@@ -252,37 +252,37 @@ def raw_compute_parameters_from_2D_spectrum(
     cg = 0.5 * c1 * c2
 
     # Energy flux
-    cgef = np.trapz(cg[:, np.newaxis] * E.T, x=vdir, axis=1)
-    parameters.CgE = water_density * g * np.trapz(cgef, x=freq) / 1000
+    cgef = np.trapezoid(cg[:, np.newaxis] * E.T, x=vdir, axis=1)
+    parameters.CgE = water_density * g * np.trapezoid(cgef, x=freq) / 1000
 
     # compute direction from (°)
     aa = (E.T * np.cos(vdir)).T
     bb = (E.T * np.sin(vdir)).T
 
-    af = np.trapz(aa, x=vdir, axis=0)
-    am = np.trapz(af, x=freq)
+    af = np.trapezoid(aa, x=vdir, axis=0)
+    am = np.trapezoid(af, x=freq)
 
-    bf = np.trapz(bb, x=vdir, axis=0)
-    bm = np.trapz(bf, x=freq)
+    bf = np.trapezoid(bb, x=vdir, axis=0)
+    bm = np.trapezoid(bf, x=freq)
 
     Thetam = (np.arctan2(bm, am) * 180 / np.pi) % 360
 
     Spr = np.sqrt(2 * (1 - np.sqrt((am**2 + bm**2) / M0**2)))
     Spr = (Spr * 180 / np.pi) % 360
 
-    iEfm = np.trapz(E, x=vdir, axis=0).argmax()
+    iEfm = np.trapezoid(E, x=vdir, axis=0).argmax()
     aap = E[:, iEfm] * np.cos(vdir)
-    apm = np.trapz(aap, x=vdir)
+    apm = np.trapezoid(aap, x=vdir)
 
     bbp = E[:, iEfm] * np.sin(vdir)
-    bpm = np.trapz(bbp, x=vdir)
+    bpm = np.trapezoid(bbp, x=vdir)
 
     # Mean direction at peak frequency
     Thetapm = (np.arctan2(bpm, apm) * 180 / np.pi) % 360
 
     S2 = E**2
-    Qpf = np.trapz((S2 * freq).T, x=vdir)
-    MQ = np.trapz(Qpf, x=freq)
+    Qpf = np.trapezoid((S2 * freq).T, x=vdir)
+    MQ = np.trapezoid(Qpf, x=freq)
 
     Qp = 2 * MQ / (M0**2)
 

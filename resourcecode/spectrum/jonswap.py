@@ -20,7 +20,6 @@
 
 import numpy as np
 import pandas as pd
-import numexpr as ne
 
 
 def jonswap(hs: float, tp: float, gamma: float, freq: np.ndarray) -> np.ndarray:
@@ -44,24 +43,23 @@ def jonswap(hs: float, tp: float, gamma: float, freq: np.ndarray) -> np.ndarray:
 
     out: vector containing the spectrum on input freq
     """
-    freq = freq[freq > 0]
 
-    expr = (
-        "5"
-        "/ (16 * freq ** 5)"
-        "* (hs ** 2)"
-        "/ (tp ** 4)"
-        "* exp(-5.0 / (4 * tp ** 4) /(freq ** 4))"
-        "* gamma ** ("
-        "   exp("
-        "       -((freq - 1 / tp) ** 2)"
-        "       * (tp ** 2)"
-        "       / (2 * (where(freq < (1.0 / tp), 0.07, 0.09) ** 2))"
-        "   )"
-        ")"
+    sf = (
+        5
+        / (16 * freq**5)
+        * (hs**2)
+        / (tp**4)
+        * np.exp(-5.0 / (4 * tp**4) / (freq**4))
+        * gamma
+        ** (
+            np.exp(
+                -((freq - 1 / tp) ** 2)
+                * (tp**2)
+                / (2 * (np.where(freq < (1.0 / tp), 0.07, 0.09) ** 2))
+            )
+        )
     )
-    sf = ne.evaluate(expr)
-    alpha = (hs**2) / (16 * np.trapz(sf, x=freq))
+    alpha = (hs**2) / (16 * np.trapezoid(sf, x=freq))
     return alpha * sf
 
 

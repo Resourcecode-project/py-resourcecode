@@ -133,7 +133,7 @@ class PTO:
             power_t = pd.DataFrame(
                 (
                     (self.rho * self.g * self.width)
-                    * np.trapz(
+                    * np.trapezoid(
                         (((c_g * s).to_numpy())[:, np.newaxis] * self.capture_width).T,
                         x=self.freqs,
                     )
@@ -164,7 +164,7 @@ class PTO:
             tp_list.append(tp)
 
         self.wave_power = pd.DataFrame(
-            self.rho * self.g * self.width * np.trapz(c_g * self.s, x=self.freqs),
+            self.rho * self.g * self.width * np.trapezoid(c_g * self.s, x=self.freqs),
             index=self.times,
         )  # incident wave power (W)
 
@@ -219,7 +219,7 @@ class PTO:
         s0 = np.interp(f0, f, s)
 
         fn = np.power(f0, n)
-        mn = np.trapz(s0 * fn, x=f0)
+        mn = np.trapezoid(s0 * fn, x=f0)
 
         return mn
 
