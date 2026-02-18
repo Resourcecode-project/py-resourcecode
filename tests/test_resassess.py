@@ -36,14 +36,14 @@ def data():
     return df
 
 
-def test_exceed():
+def test_exceed(data):
     data = pd.Series(np.arange(1, 5))
     sorted_data, exceedance = exceed(data)
     np.testing.assert_array_equal(sorted_data.values, np.arange(4, 0, -1))
     np.testing.assert_array_equal(exceedance, [0.75, 0.5, 0.25, 0.0])
 
 
-def test_bivar_stats_missing_column():
+def test_bivar_stats_missing_column(data):
     data = pd.DataFrame()
     with pytest.raises(NameError) as e:
         bivar_stats(data)
@@ -55,7 +55,7 @@ def test_bivar_stats_missing_column():
     assert e.match("Crucial parameter missing: t0m1")
 
 
-def test_univar_monstats_missing_columns():
+def test_univar_monstats_missing_columns(data):
     data = pd.DataFrame({"toto": []})
     with pytest.raises(NameError) as e:
         univar_monstats(data, "hs")
@@ -81,15 +81,14 @@ def test_bivar_stats(data):
 
 
 def test_univar_monstats(data):
-    exceed, dtm, dty = univar_monstats(data, "hs")
+    _exceed, dtm, dty = univar_monstats(data, "hs")
     stored_results = ("monthly_stat.csv", "yearly_stat.csv")
     for result, expected_result_path in zip((dtm, dty), stored_results):
         path = DATA_DIR / "resassess" / expected_result_path
-        expected_result = pd.read_csv(path, index_col=0)
-        expected_result = expected_result.astype(
-            {col: "int32" for col in expected_result.select_dtypes("int64").columns}
+        expected_result = pd.read_csv(
+            path, index_col=0, dtype={"month_index": np.int32}
         )
-        # count is the first column returned by 'describe()'
+        # count is the first column return by describe
         count_index = result.columns.get_loc("count")
 
         # Check the first columns that could either be int (month_index, year) or
