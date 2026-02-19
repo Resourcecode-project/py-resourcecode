@@ -98,7 +98,6 @@ setup(
     keywords=keywords,
     url=url,
     packages=find_packages(exclude=["test"]),
-    data_files=[("etc/resourcecode", ["config/config.ini"])],
     include_package_data=True,
     zip_safe=False,
     project_urls={
