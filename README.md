@@ -24,57 +24,42 @@ in expected environmental conditions,and de-risk investment in future technology
 
 ## Installation
 
-### Dependencies
+### Requirements
 
-To install the toolbox, the following packages are necessary:
+- Python (>= 3.11, < 3.14)
+- pandas (>= 2.2, < 3)
+- numpy (>= 2.0, < 3)
+- scipy (>= 1.14.1, < 2)
+- xarray (>= 2024.11.0)
+- netCDF4 (>= 1.7.0, < 2)
+- And other dependencies (see `pyproject.toml` for the complete list)
 
-- python (>= 3.9, <3.13)
-- pandas (>= 1.0.0)
-- requests (>= 2.23.0)
-- numpy (>= 1.20.1,  < 2.0.0)
-- scipy (>= 1.6.1)
-- pyextremes (>= 2.0.0)
-- pytest (>7.0.0)
-- pyarrow (>= 6.0.0)
-- plotly (>= 4.12.0)
-- numexpr (>= 2.7.0)
-- xarray (>= 0.19.0)
+### Using uv (recommended)
 
-
-### Using an environment
-
-Maybe the easiest way to install the toolbox is to create a dedicated virtual
-environment:
+The recommended way to install the toolbox is to use [`uv`](https://docs.astral.sh/uv/), a fast Python package installer:
 
 ```shell
-$ cd /your/work/directory
-$ python3 -m venv env-resourcecode
+$ uv pip install resourcecode
 ```
 
-then, you activate it:
+### Using pip
+
+Alternatively, you can use pip:
 
 ```shell
-$ source env-resourcecode/bin/activate
-(env-resourcecode)$
+$ python -m pip install resourcecode
 ```
 
-In this virtual environment, you can now install the library. The library  is
-available on PyPI, and installation is straightforward, using the following
-command:
+### Development installation
 
+For development, clone the repository and install with all dependencies:
+
+```shell
+$ git clone https://github.com/Resourcecode-project/py-resourcecode
+$ cd py-resourcecode
+$ uv sync --all-extras --dev
+$ uv run pytest
 ```
-(env-resourcecode)$ python -m pip install resourcecode
-[…]
-```
-
-To test whether the install has been successful, you can run:
-
-```bash
-(env-resourcecode)$ python -c "import resourcecode ; print(resourcecode.__version__)"
-1.1.2
-```
-
-which should print the current locally installed version of `resourcecode`.
 
 ## Example of use
 

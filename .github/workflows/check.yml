@@ -15,13 +15,15 @@ jobs:
     name:  Run lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v6
+      - name: Install uv
+        uses: astral-sh/setup-uv@v8.1.0
         with:
-          python-version: 3.11
-      - name: Install tox
-        run: python -m pip install tox
+          version: "0.11.16"
+          python-version: "3.11"
+          enable-cache: true
+      - name: Install tox with tox-uv
+        run: uv tool install tox --with tox-uv
       - name: check-manifest
         run: tox -e check-manifest
       - name: flake8
@@ -39,10 +41,10 @@ jobs:
       fail-fast: false
       matrix:
         py:
+          - "3.14"
+          - "3.13"
           - "3.12"
           - "3.11"
-          - "3.10"
-          - "3.9"
         os:
           - ubuntu-latest
           - macos-13
@@ -50,15 +52,17 @@ jobs:
     env:
       MPLBACKEND: Agg  # https://github.com/orgs/community/discussions/26434
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
-      - name: Setup python for test ${{ matrix.py }}
-        uses: actions/setup-python@v5
+      - name: Install uv
+        uses: astral-sh/setup-uv@v8.1.0
         with:
+          version: "0.11.16"
           python-version: ${{ matrix.py }}
-      - name: Install tox
-        run: python -m pip install tox-gh>=1.2
+          enable-cache: true
+      - name: Install tox with tox-uv
+        run: uv tool install tox --with tox-uv
       - name: Setup test suite
         run: tox -vv --notest
       - name: Run test suite

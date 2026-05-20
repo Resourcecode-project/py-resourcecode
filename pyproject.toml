@@ -1,0 +1,108 @@
+[build-system]
+requires = ["setuptools>=77.0.3", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "resourcecode"
+dynamic = ["version"]
+description = "The ResourceCODE Marine Data Toolbox is a python package to facilitate the access to recent hindcast database of sea-state, along with a set of state-of-the-art methods for data analysis."
+readme = "README.md"
+license = {text = "GPL-3.0-or-later"}
+requires-python = ">=3.11, <=3.14"
+authors = [
+    {name = "Nicolas Raillard", email = "nicolas.raillard@ifremer.fr"}
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: 3 :: Only",
+    "Operating System :: OS Independent",
+    "License :: OSI Approved :: GNU General Public License v3 (GPL-3.0-or-later)",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Topic :: Scientific/Engineering :: Physics",
+]
+keywords = [
+    "statistics",
+    "extreme",
+    "extreme value analysis",
+    "eva",
+    "coastal",
+    "ocean",
+    "marine",
+    "environmental",
+    "engineering",
+    "renewable",
+    "MRE",
+    "offshore",
+    "data",
+    "hindcast",
+]
+dependencies = [
+    "pandas>=2.2",
+    "requests>=2.28.1",
+    "numpy>=2.0,<3.0",
+    "scipy>=1.10.1",
+    "pyextremes>=2.5.0",
+    "pytest>=7.2.1",
+    "pyarrow>=22.0.0",  # Pyodide 0.29.4 compatible (max version available)
+    "plotly>=5.4.0",
+    "xarray>=2025.12.0",  # Pyodide 0.29.4 compatible (max version available)
+    "netCDF4>=1.7.0",
+]
+
+[project.urls]
+Homepage = "https://resourcecode-project.github.io/py-resourcecode/"
+GitHub = "https://github.com/Resourcecode-project/py-resourcecode"
+"Web Portal" = "https://resourcecode.ifremer.fr"
+PyPI = "https://pypi.org/project/resourcecode"
+
+[project.optional-dependencies]
+dev = [
+    "flake8>=3.6",
+    "black>=19.10b0",
+    "mypy",
+    "nbqa",
+    "check-manifest",
+    "tox",
+    "tox-uv",
+]
+doc = [
+    "sphinx>=4.5",
+    "sphinx-book-theme",
+    "sphinx_gallery",
+    "plotly",
+]
+
+[tool.setuptools.dynamic]
+version = {attr = "resourcecode.__version__.__version__"}
+
+[tool.setuptools.packages.find]
+include = ["resourcecode*"]
+
+[dependency-groups]
+dev = [
+    "flake8>=3.6",
+    "black>=19.10b0",
+    "mypy",
+    "nbqa",
+    "check-manifest",
+    "tox",
+    "tox-uv",
+]
+
+[tool.black]
+line-length = 120
+target-version = ["py39", "py310", "py311", "py312", "py313"]
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true

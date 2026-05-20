@@ -2,16 +2,19 @@ include LICENSE
 include CITATION.cff
 include tox.ini
 include mypy.ini
-include resourcecode/config/config.ini
-include dev_requirements.txt
 include fp_hs.png
 exclude .gitlab-ci.yml .gitlab-ci-ifremer.yml
 include *.md
+include uv.lock
+include *.txt
 
+recursive-include config *.ini
 recursive-include notebooks *.ipynb
+global-exclude **/.ipynb_checkpoints/*
 recursive-include resourcecode *.py
 recursive-include resourcecode/data *.feather *.json
 recursive-include resourcecode *.csv
+recursive-include resourcecode/config *.ini
 
 recursive-include examples *.py
 recursive-include examples *.rst
@@ -22,6 +25,7 @@ recursive-include CLA *.pdf
 
 recursive-exclude joss_paper *
 exclude joss_paper
+exclude dev_requirements.txt
 
 prune codes_to_migrate
 prune doc
