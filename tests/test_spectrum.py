@@ -74,11 +74,22 @@ def test_compute_parameter_2D():
 
 
 def test_download_2D_file():
+    # Use decode_cf=False to avoid xarray segfault with scale_factor/add_offset
+    # This is a workaround for xarray >= 2024.x with numpy 2.x where applying
+    # CF conventions (scale_factor, add_offset) causes a segfault in some cases.
+    # See, probably related to https://github.com/pydata/xarray/issues/11205 / numpy / xarray and
+    # python 3.14
     expected_spectrum = xarray.open_dataset(
-        DATA_DIR / "spectrum" / "W001933N55743_201605.nc"
+        DATA_DIR / "spectrum" / "W001933N55743_201605.nc",
+        decode_cf=False,
     )
+    # Manually apply scale_factor and add_offset
+    efth_encoded = expected_spectrum["efth"]
+    scale_factor = expected_spectrum["efth"].encoding.get("scale_factor", 1.0)
+    add_offset = expected_spectrum["efth"].encoding.get("add_offset", 0.0)
+    efth_decoded = efth_encoded * scale_factor + add_offset
     expected_spectrum = expected_spectrum.assign(
-        Ef=pow(10, expected_spectrum["efth"]) - 1e-12
+        Ef=np.power(10.0, efth_decoded) - 1e-12
     )
     expected_spectrum = expected_spectrum.drop_vars("efth")
 

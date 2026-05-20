@@ -22,6 +22,7 @@ import shutil
 import tempfile
 import urllib.request
 import xarray
+import numpy as np
 from typing import Iterable
 import contextlib
 
@@ -81,12 +82,19 @@ def download_single_2D_file(
     with contextlib.closing(urllib.request.urlopen(url)) as response:
         with tempfile.NamedTemporaryFile(delete=False, suffix=".nc") as tmp_file:
             shutil.copyfileobj(response, tmp_file)
-    with xarray.open_dataset(tmp_file.name) as ds:
+    with xarray.open_dataset(tmp_file.name, decode_cf=False) as ds:
         # Remove the 'string40' dimension which is not very indicative
         ds = ds.drop_dims("string40").squeeze()
         # Convert the log-spectrum to the actual value
-        # the value is already scaled internally by xarray so we do not need the scale factor of 0.004
-        ds = ds.assign(Ef=pow(10, ds["efth"]) - 1e-12)
+        # Manually apply scale_factor and add_offset to avoid xarray segfault
+        # This affects xarray >= 2024.x with numpy 2.x where CF decoding can cause
+        # segfaults when applying scale_factor/add_offset on certain NetCDF files.
+        efth_encoded = ds["efth"]
+        scale_factor = ds["efth"].encoding.get("scale_factor", 1.0)
+        add_offset = ds["efth"].encoding.get("add_offset", 0.0)
+        efth_decoded = efth_encoded * scale_factor + add_offset
+        # Compute Ef using numpy to avoid xarray segfault with CF decoding
+        ds = ds.assign(Ef=np.power(10.0, efth_decoded) - 1e-12)
         ds = ds.drop_vars(["efth", "station"])
         # We sort the direction to start at 0
         ds = ds.sortby("direction")
