@@ -64,6 +64,12 @@ def censgaussfit(data: np.ndarray, q: float) -> OptimizeResult:
         else:
             sigma = cov
 
+        # Check if sigma is positive semi-definite
+        eigenvalues = np.linalg.eigvalsh(sigma)
+        if not np.all(eigenvalues >= -1e-10):
+            # Return a large penalty for non-PSD matrices
+            return 1e10
+
         rv = multivariate_normal(
             mean=np.zeros(len(cov)), cov=sigma, allow_singular=True
         )
