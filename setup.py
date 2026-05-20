@@ -36,17 +36,17 @@ url = "https://resourcecode-project.github.io/py-resourcecode/"
 license = "GPL-v3.0"
 
 install_requires = [
-    "pandas >= 1.0.0, < 3.0.0",
-    "requests >= 2.23.0",
-    "numpy >= 1.20.1, < 2.0.0",
-    "scipy >= 1.6.1, < 1.14.0",
-    "pyextremes >= 2.0.0",
-    "pytest >= 7.0.0",
-    "pyarrow >= 6.0.0",
-    "plotly >= 4.12.0",
-    "numexpr >= 2.7.0",
-    "xarray >= 0.19.0",
-    "netCDF4 >= 1.6.0",
+    "pandas >= 1.5.3, < 3.0.0",
+    "requests >= 2.28.1",
+    "numpy >= 1.24.2, < 3.0.0",
+    "scipy >= 1.10.1",
+    "pyextremes >= 2.5.0",
+    "pytest >= 7.2.1",
+    "pyarrow >= 23.0.1",
+    "plotly >= 5.4.0",
+    "numexpr >= 2.8.4",
+    "xarray >= 2026.4.0",
+    "netCDF4 >= 1.7.4",
 ]
 
 classifiers = [
@@ -87,7 +87,7 @@ setup(
     name="resourcecode",
     version=__version__,
     license=license,
-    python_requires=">=3.9, <3.13",
+    python_requires=">=3.9, <3.15",
     description=description,
     author=author,
     author_email=author_email,
