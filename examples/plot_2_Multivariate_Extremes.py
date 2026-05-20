@@ -3,6 +3,7 @@
 Modelling multivariate extremes
 ===============================
 """
+
 # %%
 # Extreme value modelling is a central topic in the design of offshore structures.
 #

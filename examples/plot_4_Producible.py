@@ -7,6 +7,7 @@ In this example, we will estimate WEC energy production using the ResourceCode h
 data as an input and capture width data of a standard WEC to simulate the behaviour and estimate
 energy that can be harvested with this device from the slected location.
 """
+
 # %%
 # .. seealso::
 #    In addition, a demonstration tool based on this module can be accessed on
@@ -57,9 +58,7 @@ plt.show()
 # For this example, we used the data from the SEMREVO location.
 # We only need the frequency spectrum in this case, so we convert it to a pandas DataFrame.
 
-spec1D = resourcecode.spectrum.download_data.get_1D_spectrum(
-    "SEMREVO", ["2014"], ["02"]
-)
+spec1D = resourcecode.spectrum.download_data.get_1D_spectrum("SEMREVO", ["2014"], ["02"])
 spec = spec1D.ef.to_pandas()
 
 # The frequency has been truncated, so here we reconcile both
@@ -172,9 +171,7 @@ pto_damp_kn.plot.hist(
     ax=ax2,
     bins=len(pto.capture_width.columns),
     legend=False,
-    weights=np.ones_like(pto_damp_kn[pto_damp_kn.columns[0]])
-    * 100.0
-    / len(pto_damp_kn),
+    weights=np.ones_like(pto_damp_kn[pto_damp_kn.columns[0]]) * 100.0 / len(pto_damp_kn),
 )
 ax2.grid()
 ax2.set_xlabel("PTO damping (kN.s/m)")
@@ -214,9 +211,7 @@ pto_damp_kn.plot.hist(
     ax=ax4,
     bins=len(pto.capture_width.columns),
     legend=False,
-    weights=np.ones_like(pto_damp_kn[pto_damp_kn.columns[0]])
-    * 100.0
-    / len(pto_damp_kn),
+    weights=np.ones_like(pto_damp_kn[pto_damp_kn.columns[0]]) * 100.0 / len(pto_damp_kn),
 )
 ax4.grid()
 ax4.set_xlabel("PTO damping (kN.s/m) - JONWSAP")

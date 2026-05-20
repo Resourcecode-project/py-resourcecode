@@ -56,6 +56,7 @@ Created on Wed Dec  2 14:14:48 2020
 
 @author: david.darbinyan
 """
+
 from itertools import product
 
 import pandas as pd
@@ -92,9 +93,7 @@ def _get_timestep(data: pd.DataFrame) -> pd.Timedelta:
     return tstep
 
 
-def ww_calc(
-    critsubs: pd.DataFrame, winlen: float, concurrent_windows: bool = True
-) -> pd.Series:
+def ww_calc(critsubs: pd.DataFrame, winlen: float, concurrent_windows: bool = True) -> pd.Series:
     """
     Method that calculates and returns start date of each weather window
 
@@ -127,9 +126,7 @@ def ww_calc(
         strtwin = critsubs.index.values[k]
         thistime = strtwin
         nexttime = critsubs.index.values[k + 1]
-        while pd.Timedelta(nexttime - thistime) <= tstep and k < (
-            critsubs.shape[0] - 2
-        ):
+        while pd.Timedelta(nexttime - thistime) <= tstep and k < (critsubs.shape[0] - 2):
             k += 1
             if pd.Timedelta(nexttime - strtwin) >= dt.timedelta(seconds=3600 * winlen):
                 windetect.append(strtwin)
@@ -202,10 +199,7 @@ def oplen_calc(critsubs, oplen, critical_operation=False, date=1, monstrt=True):
         elif isinstance(date, int) and date >= 1:
             dayval = date
         else:
-            msg = (
-                "Variable date in monthly results calculation should be"
-                " positive integer or datetime object"
-            )
+            msg = "Variable date in monthly results calculation should be" " positive integer or datetime object"
             raise NameError(msg)
         yerng = [min(critsubs.index).year, max(critsubs.index).year]
         morng = [min(critsubs.index).month, max(critsubs.index).month]
@@ -215,20 +209,13 @@ def oplen_calc(critsubs, oplen, critical_operation=False, date=1, monstrt=True):
             freq="MS",
         )
         daterng = daterng.shift(dayval - 1, freq="D")
-        oplendetect = pd.Series(
-            np.zeros(daterng.shape[0], dtype="timedelta64[s]"), index=daterng
-        )
+        oplendetect = pd.Series(np.zeros(daterng.shape[0], dtype="timedelta64[s]"), index=daterng)
     elif monstrt is False:
         if isinstance(date, dt.datetime):
             daterng = pd.date_range(start=date, end=date)
-            oplendetect = pd.Series(
-                np.zeros(daterng.shape[0], dtype="timedelta64[s]"), index=daterng
-            )
+            oplendetect = pd.Series(np.zeros(daterng.shape[0], dtype="timedelta64[s]"), index=daterng)
         else:
-            msg = (
-                "Variable date in single result calculation should be"
-                " a datetime object"
-            )
+            msg = "Variable date in single result calculation should be" " a datetime object"
             raise NameError(msg)
     else:
         raise NameError("Input option monstrt should be boolean")
@@ -284,9 +271,7 @@ def wwmonstats(windetect):
     yeun = windetect.dt.year.unique()
     moun = windetect.dt.month.unique()
     yeun.sort()
-    wwmonres = pd.DataFrame(
-        np.zeros([yeun.shape[0], moun.shape[0]]), columns=moun, index=yeun
-    )
+    wwmonres = pd.DataFrame(np.zeros([yeun.shape[0], moun.shape[0]]), columns=moun, index=yeun)
 
     for ye, mo in product(yeun, moun):
         subs = windetect[(windetect.dt.year == ye) & (windetect.dt.month == mo)]
@@ -318,12 +303,8 @@ def olmonstats(oplendetect):
     moun.sort()
     yeun.sort()
 
-    olmonres = pd.DataFrame(
-        np.zeros([yeun.shape[0], moun.shape[0]]), columns=moun, index=yeun
-    )
+    olmonres = pd.DataFrame(np.zeros([yeun.shape[0], moun.shape[0]]), columns=moun, index=yeun)
     for ye, mo in product(yeun, moun):
-        subs = oplendetect[
-            (oplendetect.index.year == ye) & (oplendetect.index.month == mo)
-        ]
+        subs = oplendetect[(oplendetect.index.year == ye) & (oplendetect.index.month == mo)]
         olmonres.at[ye, mo] = subs[0].days * 24 + subs[0].seconds / 3600
     return olmonres

@@ -85,9 +85,7 @@ def test_univar_monstats(data):
     stored_results = ("monthly_stat.csv", "yearly_stat.csv")
     for result, expected_result_path in zip((dtm, dty), stored_results):
         path = DATA_DIR / "resassess" / expected_result_path
-        expected_result = pd.read_csv(
-            path, index_col=0, dtype={"month_index": np.int32}
-        )
+        expected_result = pd.read_csv(path, index_col=0, dtype={"month_index": np.int32})
         # count is the first column return by describe
         count_index = result.columns.get_loc("count")
 

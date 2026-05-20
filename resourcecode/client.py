@@ -114,9 +114,7 @@ class Client:
 
         return self.get_dataframe_from_criteria(criteria)
 
-    def get_dataframe_from_url(
-        self, selection_url: str, parameters: Iterable[str] = ("hs",)
-    ) -> pd.DataFrame:
+    def get_dataframe_from_url(self, selection_url: str, parameters: Iterable[str] = ("hs",)) -> pd.DataFrame:
         """Get the pandas dataframe of the data described by the url
 
         Parameters
@@ -214,15 +212,10 @@ class Client:
         try:
             node_id = int(parsed_criteria["node"])
         except ValueError:  # failed to convert node to an integer
-            raise BadPointIdError(
-                "Point Id must be an integer, can not be "
-                f"{parsed_criteria['node']!r}"
-            )
+            raise BadPointIdError("Point Id must be an integer, can not be " f"{parsed_criteria['node']!r}")
         else:
             if node_id not in self.possible_points_id:
-                raise BadPointIdError(
-                    f"{parsed_criteria['node']} is an unknown pointId."
-                )
+                raise BadPointIdError(f"{parsed_criteria['node']} is an unknown pointId.")
 
         # Cassandra database start indexing at 1, so decrement node
         parsed_criteria["node"] = parsed_criteria["node"] - 1
@@ -305,7 +298,4 @@ class Client:
         if response.ok:
             return response.json()
 
-        raise ValueError(
-            "Unable to get a response from the database"
-            "(status code = {})".format(response.status_code)
-        )
+        raise ValueError("Unable to get a response from the database" "(status code = {})".format(response.status_code))

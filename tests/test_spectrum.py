@@ -51,9 +51,7 @@ def test_compute_parameter_1D():
     depth = float(np.loadtxt(DATA_DIR / "spectrum" / "depth.csv", delimiter=","))
     etfh = np.loadtxt(DATA_DIR / "spectrum" / "Etfh.csv", delimiter=",")
 
-    expected_parameters = SeaStatesParameters(
-        *np.loadtxt(DATA_DIR / "spectrum" / "parameters_1D.csv", delimiter=",")
-    )
+    expected_parameters = SeaStatesParameters(*np.loadtxt(DATA_DIR / "spectrum" / "parameters_1D.csv", delimiter=","))
     got_parameters = raw_compute_parameters_from_1D_spectrum(etfh, freq, depth)
 
     assert got_parameters.approx(expected_parameters)
@@ -65,9 +63,7 @@ def test_compute_parameter_2D():
     vdir = np.loadtxt(DATA_DIR / "spectrum" / "dir.csv", delimiter=",")
     depth = float(np.loadtxt(DATA_DIR / "spectrum" / "depth.csv", delimiter=","))
 
-    expected_parameters = SeaStatesParameters(
-        *np.loadtxt(DATA_DIR / "spectrum" / "parameters_2D.csv", delimiter=",")
-    )
+    expected_parameters = SeaStatesParameters(*np.loadtxt(DATA_DIR / "spectrum" / "parameters_2D.csv", delimiter=","))
     got_parameters = raw_compute_parameters_from_2D_spectrum(spec, freq, vdir, depth)
 
     assert got_parameters.approx(expected_parameters)
@@ -88,9 +84,7 @@ def test_download_2D_file():
     scale_factor = expected_spectrum["efth"].encoding.get("scale_factor", 1.0)
     add_offset = expected_spectrum["efth"].encoding.get("add_offset", 0.0)
     efth_decoded = efth_encoded * scale_factor + add_offset
-    expected_spectrum = expected_spectrum.assign(
-        Ef=np.power(10.0, efth_decoded) - 1e-12
-    )
+    expected_spectrum = expected_spectrum.assign(Ef=np.power(10.0, efth_decoded) - 1e-12)
     expected_spectrum = expected_spectrum.drop_vars("efth")
 
     got_spectrum = get_2D_spectrum("W001933N55743", ["2016"], ["05"])
@@ -99,9 +93,7 @@ def test_download_2D_file():
 
 
 def test_download_1D_file():
-    expected_spectrum = xarray.open_dataset(
-        DATA_DIR / "spectrum" / "RSCD_WW3-RSCD-UG-W001933N55743_201605_freq.nc"
-    )
+    expected_spectrum = xarray.open_dataset(DATA_DIR / "spectrum" / "RSCD_WW3-RSCD-UG-W001933N55743_201605_freq.nc")
     expected_spectrum = expected_spectrum.drop_dims("string40").squeeze()
     expected_spectrum = expected_spectrum.drop_vars(["station"])
 

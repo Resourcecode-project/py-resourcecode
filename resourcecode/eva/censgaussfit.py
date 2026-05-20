@@ -70,9 +70,7 @@ def censgaussfit(data: np.ndarray, q: float) -> OptimizeResult:
             # Return a large penalty for non-PSD matrices
             return 1e10
 
-        rv = multivariate_normal(
-            mean=np.zeros(len(cov)), cov=sigma, allow_singular=True
-        )
+        rv = multivariate_normal(mean=np.zeros(len(cov)), cov=sigma, allow_singular=True)
         upper_point = np.full(len(cov), th_norm)
         prob = 1 - rv.cdf(upper_point)
 
