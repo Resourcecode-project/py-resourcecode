@@ -93,8 +93,11 @@ def test_univar_monstats(data):
 
         # Check the first columns that could either be int (month_index, year) or
         # string (month)
-        assert result.iloc[:, :count_index].equals(
-            expected_result.iloc[:, :count_index]
+        # Use check_dtype=False to handle int32 vs int64 differences
+        pd.testing.assert_frame_equal(
+            result.iloc[:, :count_index],
+            expected_result.iloc[:, :count_index],
+            check_dtype=False,
         )
         # Check the remaining columns (floats) using numpy
         np.testing.assert_allclose(
