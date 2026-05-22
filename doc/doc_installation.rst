@@ -5,7 +5,7 @@ Create a dedicated virtual environment
 --------------------------------------
 
 To install the library, you may first of all, create a dedicated virtual
-environment with a python version at least `3.9`:
+environment with a python version at least `3.11`:
 
 .. code-block:: shell
 
@@ -33,7 +33,7 @@ Install the library
 
 In this virtual environment, you can now install the library. The library is 
 available on PyPI, and installation is straightforward, using the following
-command :
+command :
 
 
 .. code-block:: shell
@@ -46,25 +46,24 @@ To test whether the install has been successful, you can run:
 .. code-block:: shell
 
    (env-resourcecode)$ python -c "import resourcecode ; print(resourcecode.__version__)"
-   0.6.0
 
 which should print the current locally installed version of `resourcecode`.
 
+Alternative installation with uv
+--------------------------------
 
-Known issues
-------------
-
-During the `pip install` step, you may have an error say
-
-   Could not install packages due to an EnvironmentError: 404 Client Error: Not
-   Found for url: https://pypi.org/simple/resourcecode/
-
-
-this is a known issue, which occurs with `pip <= 19.0`. To overcome this issue,
-you simply have to update `pip` to it latest version:
+For a faster and more reliable installation, you can use `uv <https://docs.astral.sh/uv/>`_,
+a modern Python package installer:
 
 .. code-block:: shell
 
-   (env-resourcecode)$ python -m pip install --upgrade pip
+   $ uv venv env-resourcecode --python 3.11
+   $ source env-resourcecode/bin/activate
+   (env-resourcecode)$ uv pip install resourcecode
 
-and re-run the install step which should be fine.
+For development, you can also use uv to sync all dependencies:
+
+.. code-block:: shell
+
+   $ uv sync --all-extras --dev
+   $ uv run pytest
