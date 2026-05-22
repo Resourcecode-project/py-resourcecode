@@ -8,7 +8,7 @@ dynamic = ["version"]
 description = "The ResourceCODE Marine Data Toolbox is a python package to facilitate the access to recent hindcast database of sea-state, along with a set of state-of-the-art methods for data analysis."
 readme = "README.md"
 license = {text = "GPL-3.0-or-later"}
-requires-python = ">=3.11, <=3.14"
+requires-python = ">=3.11, <3.14"
 authors = [
     {name = "Nicolas Raillard", email = "nicolas.raillard@ifremer.fr"}
 ]
@@ -20,7 +20,6 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
-    "Programming Language :: Python :: 3.14",
     "Programming Language :: Python :: 3 :: Only",
     "Operating System :: OS Independent",
     "License :: OSI Approved :: GNU General Public License v3 (GPL-3.0-or-later)",
@@ -44,17 +43,19 @@ keywords = [
     "data",
     "hindcast",
 ]
+
+# Minimal version of dependencies are chosen to be compatible with marimo-wasm 0.23 compatible (cf
+# https://wasm.marimo.app/pyodide-lock.json?v=0.23.7)
 dependencies = [
-    "pandas>=2.2",
-    "requests>=2.28.1",
-    "numpy>=2.0,<3.0",
-    "scipy>=1.10.1",
-    "pyextremes>=2.5.0",
-    "pytest>=7.2.1",
-    "pyarrow>=22.0.0",  # Pyodide 0.29.4 compatible (max version available)
-    "plotly>=5.4.0",
-    "xarray>=2025.12.0",  # Pyodide 0.29.4 compatible (max version available)
-    "netCDF4>=1.7.0",
+    "pandas>=2.2,<3",
+    "requests>=2.31.0,<3",
+    "numpy>=2.0,<3",
+    "scipy>=1.14.1,<2",
+    "pyextremes>=2.5.0,<3",
+    "pyarrow>=18.1.0,<19", 
+    "plotly>=6,<7",
+    "xarray>=2024.11.0",
+    "netCDF4>=1.7.0,<2",
 ]
 
 [project.urls]
@@ -95,14 +96,15 @@ dev = [
     "check-manifest",
     "tox",
     "tox-uv",
+    "pytest>=9.0.3",
 ]
 
 [tool.black]
 line-length = 120
-target-version = ["py39", "py310", "py311", "py312", "py313"]
+target-version = ["py311", "py312", "py313"]
 
 [tool.mypy]
-python_version = "3.9"
+python_version = "3.11"
 warn_return_any = true
 warn_unused_configs = true
 ignore_missing_imports = true
