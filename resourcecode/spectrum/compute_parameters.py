@@ -244,7 +244,7 @@ def raw_compute_parameters_from_2D_spectrum(
     kd = k * depth
 
     if not np.isfinite(depth):
-        c1 = 1
+        c1 = np.ones_like(kd)
     else:
         c1 = 1 + 2 * kd / np.sinh(2 * kd)
 
