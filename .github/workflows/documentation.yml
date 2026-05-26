@@ -19,7 +19,7 @@ jobs:
           version: "0.11.16"
           enable-cache: true
       - name: Install the project
-        run: uv sync --locked --all-extras --extra doc
+        run: uv sync --locked --all-extras
       - name: Run doctest
         run: uv run sphinx-build -b doctest doc .
   docdeploy:
