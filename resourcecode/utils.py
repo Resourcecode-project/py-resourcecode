@@ -33,6 +33,7 @@ CONFIG_FILEPATHS = [
     "./resourcecode.ini",
     "~/.config/resourcecode.ini",
     f"{sys.prefix}/etc/resourcecode/config.ini",
+    Path(__file__).parent / "config" / "config.ini",
 ]
 
 LOGGER = logging.getLogger("resourcecode.default")

@@ -19,7 +19,7 @@
 # with Resourcecode. If not, see <https://www.gnu.org/licenses/>.
 
 import numpy as np
-from scipy.stats import norm, mvn
+from scipy.stats import norm, multivariate_normal
 from scipy.optimize import minimize, Bounds, OptimizeResult
 
 from resourcecode.utils import set_trig
@@ -64,15 +64,17 @@ def censgaussfit(data: np.ndarray, q: float) -> OptimizeResult:
         else:
             sigma = cov
 
-        return (
-            tail_dependency_obs
-            - mvn.mvnun(
-                means=np.zeros_like(cov),
-                covar=sigma,
-                lower=np.full(len(cov), th_norm),
-                upper=np.full(len(cov), np.inf),
-            )[0]
-        ) ** 2
+        # Check if sigma is positive semi-definite
+        eigenvalues = np.linalg.eigvalsh(sigma)
+        if not np.all(eigenvalues >= -1e-10):
+            # Return a large penalty for non-PSD matrices
+            return 1e10
+
+        rv = multivariate_normal(mean=np.zeros(len(cov)), cov=sigma, allow_singular=True)
+        upper_point = np.full(len(cov), th_norm)
+        prob = 1 - rv.cdf(upper_point)
+
+        return (tail_dependency_obs - prob) ** 2
 
     # to get the same result as R, I needed to transpose
     cov0 = np.corrcoef(data.T)[np.triu_indices(data.shape[1], k=1)]

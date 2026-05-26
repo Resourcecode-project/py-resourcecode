@@ -36,6 +36,7 @@ Created on Wed Dec  2 14:14:48 2020
 
 @author: david.darbinyan
 """
+
 from pathlib import Path
 from typing import Tuple
 
@@ -44,7 +45,6 @@ import numpy as np
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-
 
 pd.options.plotting.backend = "plotly"
 
@@ -71,9 +71,7 @@ def exceed(df: pd.DataFrame) -> Tuple[pd.DataFrame, np.ndarray]:
     return datasrt, exceedance
 
 
-def univar_monstats(
-    df: pd.DataFrame, varnm: str
-) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+def univar_monstats(df: pd.DataFrame, varnm: str) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     """
     Method to calculate univariate statistics for any input variable. Used in
     resource assessment to produce deliverables as per IEC
@@ -101,10 +99,7 @@ def univar_monstats(
     """
     if varnm not in df.columns:
         existing_col = ", ".join(sorted(df.columns))
-        raise NameError(
-            f"Parameter {varnm} is not in the dataframe. "
-            f"Possible values are: {existing_col}"
-        )
+        raise NameError(f"Parameter {varnm} is not in the dataframe. " f"Possible values are: {existing_col}")
     # sort rows according to the variable selected
     sorted_df = df[[varnm]].sort_values(by=varnm)
     sorted_df.index = pd.to_datetime(df.index, format="%d/%m/%Y %H:%M")
@@ -113,9 +108,7 @@ def univar_monstats(
     sorted_df["month_index"] = sorted_df.index.month
     sorted_df["month"] = sorted_df.index.month_name()
     sorted_df["year"] = sorted_df.index.year
-    sorted_df["Exceedance"] = sorted_df.groupby("month")[varnm].rank(
-        method="min", pct=True
-    )
+    sorted_df["Exceedance"] = sorted_df.groupby("month")[varnm].rank(method="min", pct=True)
 
     res = [sorted_df]
 

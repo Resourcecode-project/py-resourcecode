@@ -3,6 +3,7 @@
 Use-case example of the Operational Planning module
 ===================================================
 """
+
 # %%
 #
 # In this page, we will present some of the functionalities offered by the toolbox
@@ -34,9 +35,7 @@ MONTH_NAMES = list(calendar.month_name)
 #
 # We have selected a location next to Ushant island, node number `36855`
 
-data = client.get_dataframe_from_url(
-    "https://resourcecode.ifremer.fr/explore?pointId=136855", parameters=("hs", "tp")
-)
+data = client.get_dataframe_from_url("https://resourcecode.ifremer.fr/explore?pointId=136855", parameters=("hs", "tp"))
 
 # %%
 # Weather windows
@@ -69,12 +68,7 @@ data_matching_criteria = data.query(criteria)
 
 windetect = ww_calc(data_matching_criteria, winlen=winlen, concurrent_windows=False)
 results = wwmonstats(windetect)
-stats = (
-    results.describe(percentiles=percentiles)
-    .drop(["count", "std"])
-    .transpose()
-    .sort_index()
-)
+stats = results.describe(percentiles=percentiles).drop(["count", "std"]).transpose().sort_index()
 
 # %%
 # Plotting the monthly statistics
@@ -142,12 +136,7 @@ critical_operation = False
 
 oplendetect = oplen_calc(data_matching_criteria, oplen, critical_operation)
 results = olmonstats(oplendetect)
-stats = (
-    results.describe(percentiles=percentiles)
-    .drop(["count", "std"])
-    .transpose()
-    .sort_index()
-)
+stats = results.describe(percentiles=percentiles).drop(["count", "std"]).transpose().sort_index()
 
 # %%
 # And finally produce visual exploration of the durations.

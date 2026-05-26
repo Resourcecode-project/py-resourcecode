@@ -24,7 +24,6 @@ Created on 24/03/2021
 @author: Christophe Maisondieu
 """
 
-
 from resourcecode.weatherwindow.weatherwindow import (
     compute_weather_windows,
     fit_weibull_distribution,

@@ -22,9 +22,7 @@ import numpy as np
 import xarray
 
 
-def raw_convert_spectrum_2Dto1D(
-    spectrum_2D: np.ndarray, vdir: np.ndarray
-) -> np.ndarray:
+def raw_convert_spectrum_2Dto1D(spectrum_2D: np.ndarray, vdir: np.ndarray) -> np.ndarray:
     """
     Converts the 2D spectrum to a 1D spectrum
 
@@ -46,7 +44,7 @@ def raw_convert_spectrum_2Dto1D(
 
     vd = ((vdir + 180) % 360 * np.pi) / 180
     ivd = vd.argsort()
-    return np.trapz(spectrum_2D[ivd, :], x=vd[ivd], axis=0)
+    return np.trapezoid(spectrum_2D[ivd, :], x=vd[ivd], axis=0)
 
 
 def convert_spectrum_2Dto1D(spectrumDataSet: xarray.Dataset) -> xarray.Dataset:

@@ -100,7 +100,7 @@ def plot_2D_spectrum(
                     f"Mean direction at Tp: {params.Thetapm:.2f}°",
                     f"Directionnal spreading: {params.Spr:.2f}°",
                     f"Wind speed: {float(data.wnd[time]):.2f}m/s",
-                    f"\u27F6, wind direction: {float(data.wnddir[time]):.2f}°",
+                    f"\u27f6, wind direction: {float(data.wnddir[time]):.2f}°",
                 ]
             )
 

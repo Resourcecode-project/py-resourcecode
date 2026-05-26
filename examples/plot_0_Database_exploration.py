@@ -3,6 +3,7 @@
 Visualize the database configuration: nodes, bathymetry...
 ==========================================================
 """
+
 import resourcecode
 import numpy as np
 import matplotlib.pyplot as plot
@@ -27,9 +28,7 @@ resourcecode.get_grid_spec()
 # the requested location (in meters).
 
 # We select the closest node from given coordinates
-selected_node = resourcecode.data.get_closest_point(
-    latitude=48.3026514, longitude=-4.6861533
-)
+selected_node = resourcecode.data.get_closest_point(latitude=48.3026514, longitude=-4.6861533)
 selected_node
 
 # %%
@@ -80,9 +79,7 @@ plot.show()
 # of code shows and example of such a map.
 
 # Importing the data for plotting
-tri = (
-    resourcecode.get_triangles().to_numpy() - 1
-)  # The '-1' is due to the Zero-based numbering of python
+tri = resourcecode.get_triangles().to_numpy() - 1  # The '-1' is due to the Zero-based numbering of python
 field_mesh = resourcecode.data.get_grid_field().to_numpy()
 triang = mtri.Triangulation(field_mesh[:, 1], field_mesh[:, 2], tri)
 

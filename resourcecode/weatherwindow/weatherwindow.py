@@ -240,7 +240,7 @@ def fit_weibull_distribution(hs: pd.Series) -> WeibullDistributionResult:
         x0 = x0 + dx
         X = np.log(bins - x0)
 
-        ([p0, p1], [residual], _, _, _) = np.polyfit(X, Y, 1, full=True)
+        [p0, p1], [residual], _, _, _ = np.polyfit(X, Y, 1, full=True)
 
         if residual <= previous_residual:
             # SC: in my opinion, we should update k and b, and then break if the

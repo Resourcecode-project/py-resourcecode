@@ -3,6 +3,7 @@
 Extract some time-series from the database and analysis
 ==========================================================
 """
+
 import resourcecode
 import resourcecode.spectrum
 import matplotlib.pyplot as plot
@@ -15,14 +16,10 @@ plot.rcParams["figure.dpi"] = 400
 # Below, we will look for data next to the location of interest, located in the vicinity of Brest Bay.
 # We will look at the time-series data and also some spectral data
 #
-selected_node = resourcecode.data.get_closest_point(
-    latitude=48.3026514, longitude=-4.6861533
-)
+selected_node = resourcecode.data.get_closest_point(latitude=48.3026514, longitude=-4.6861533)
 selected_node
 # %%
-selected_specPoint = resourcecode.data.get_closest_station(
-    latitude=48.3026514, longitude=-4.6861533
-)
+selected_specPoint = resourcecode.data.get_closest_station(latitude=48.3026514, longitude=-4.6861533)
 selected_specPoint
 
 # %%
@@ -77,9 +74,7 @@ plot.tight_layout()
 # corresponding to the orange dots of the web portal. This is possible thanks to the `get_2D_spectrum` and
 # `get_1D_spectrum` from the *spectrum* module. An example is shown below:
 
-spec = resourcecode.spectrum.get_2D_spectrum(
-    selected_specPoint[0], years=["2010"], months=["01"]
-)
+spec = resourcecode.spectrum.get_2D_spectrum(selected_specPoint[0], years=["2010"], months=["01"])
 
 # %%
 # And we offer function to represent the spectral data, both for 2D and 1D spectrum.
@@ -97,7 +92,5 @@ resourcecode.spectrum.plot_1D_spectrum(spec1D, 1, sea_state=False)
 # Among the functionalities of the toolbox, it is possible to compute the sea-state parameters from spectral data. Small
 # discrepancies can be found between the Hindcast sea-state parameters and the one computed with the toolbox.
 
-parameters_df = resourcecode.spectrum.compute_parameters_from_2D_spectrum(
-    spec, use_depth=True
-)
+parameters_df = resourcecode.spectrum.compute_parameters_from_2D_spectrum(spec, use_depth=True)
 parameters_df.head()
