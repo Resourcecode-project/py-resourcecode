@@ -1,4 +1,4 @@
-name: Publish Resourcecode 📦 to PyPI and TestPypi (for providing test builds to alpha users)
+name: Publish Resourcecode 📦 to PyPI
 
 on:
   pull_request:
