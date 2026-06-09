@@ -4,3 +4,5 @@ uv.lock
 
 # Jupyter checkpoints
 **/.ipynb_checkpoints/
+/resourcecode/__pycache__
+/resourcecode.egg-info
