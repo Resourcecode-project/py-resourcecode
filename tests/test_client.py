@@ -60,7 +60,9 @@ def mock_requests_get_raw_data(query_url, parameters):
         for date, value in data["result"]["data"]:
             # start_date and end_date must be multiplied by 1e3, because
             # cassandra returns milliseconds
-            if date is not None and (start_date is not None and date < start_date * 1e3):
+            if date is not None and (
+                start_date is not None and date < start_date * 1e3
+            ):
                 continue
 
             if date and end_date is not None and date > end_date * 1e3:
@@ -137,7 +139,9 @@ def test_get_raw_data():
     parameter = "fp"
     client = resourcecode.Client()
 
-    with mock.patch("requests.get", side_effect=mock_requests_get_raw_data) as mock_requests_get:
+    with mock.patch(
+        "requests.get", side_effect=mock_requests_get_raw_data
+    ) as mock_requests_get:
         json_data = client._get_rawdata_from_criteria(
             {
                 "parameter": [
@@ -146,7 +150,9 @@ def test_get_raw_data():
             }
         )
 
-    mock_requests_get.assert_called_once_with(client.cassandra_base_url + "api/timeseries", {"parameter": [parameter]})
+    mock_requests_get.assert_called_once_with(
+        client.cassandra_base_url + "api/timeseries", {"parameter": [parameter]}
+    )
     assert json_data["query"]["parameterCode"] == parameter
 
     dataset_size = json_data["result"]["dataSetSize"]
@@ -158,8 +164,8 @@ def test_get_criteria_single_parameter(client):
 
     assert len(data) == 744
     assert (data.columns == ["fp"]).all()
-    assert data.index[0] == pd.to_datetime("2017-01-01 00:00:00")
-    assert data.index[-1] == pd.to_datetime("2017-01-31 23:00:00")
+    assert data.index[0] == pd.to_datetime("2017-01-01 00:00:00", utc=True)
+    assert data.index[-1] == pd.to_datetime("2017-01-31 23:00:00", utc=True)
     assert data.fp[0] == pytest.approx(0.074)
     assert data.fp[-1] == pytest.approx(0.097)
 
@@ -169,8 +175,8 @@ def test_get_criteria_single_tp_parameter(client):
 
     assert len(data) == 744
     assert (data.columns == ["tp"]).all()
-    assert data.index[0] == pd.to_datetime("2017-01-01 00:00:00")
-    assert data.index[-1] == pd.to_datetime("2017-01-31 23:00:00")
+    assert data.index[0] == pd.to_datetime("2017-01-01 00:00:00", utc=True)
+    assert data.index[-1] == pd.to_datetime("2017-01-31 23:00:00", utc=True)
     assert data.tp[0] == pytest.approx(13.51351)
     assert data.tp[-1] == pytest.approx(10.30928)
 
@@ -180,8 +186,8 @@ def test_get_criteria_multiple_parameters(client):
 
     assert len(data) == 744
     assert (data.columns == ["fp", "hs"]).all()
-    assert data.index[0] == pd.to_datetime("2017-01-01 00:00:00")
-    assert data.index[-1] == pd.to_datetime("2017-01-31 23:00:00")
+    assert data.index[0] == pd.to_datetime("2017-01-01 00:00:00", utc=True)
+    assert data.index[-1] == pd.to_datetime("2017-01-31 23:00:00", utc=True)
     assert data.fp[0] == pytest.approx(0.074)
     assert data.fp[-1] == pytest.approx(0.097)
     assert data.hs[0] == pytest.approx(0.296)
@@ -200,7 +206,7 @@ def test_get_criteria_multiple_parameters_and_none_values(client):
     assert pd.isnull(data.uust[0])
 
     # the third value is not null.
-    assert data.index[2] == pd.to_datetime("2017-01-01 02:00:00")
+    assert data.index[2] == pd.to_datetime("2017-01-01 02:00:00", utc=True)
     assert data.uust[2] == pytest.approx(0.1699999962)
 
     data = client.get_dataframe_from_criteria('{"parameter": ["uust", "fp"]}')
@@ -210,8 +216,8 @@ def test_get_criteria_multiple_parameters_and_none_values(client):
 
     # in that case, we have two variables. The second one, fp, is not null,
     # therefore the index can be completed despite that uust is null.
-    assert data.index[0] == pd.to_datetime("2017-01-01 00:00:00")
-    assert data.index[-1] == pd.to_datetime("2017-01-31 23:00:00")
+    assert data.index[0] == pd.to_datetime("2017-01-01 00:00:00", utc=True)
+    assert data.index[-1] == pd.to_datetime("2017-01-31 23:00:00", utc=True)
 
     assert data.fp[0] == pytest.approx(0.074)
     assert data.fp[-1] == pytest.approx(0.097)
