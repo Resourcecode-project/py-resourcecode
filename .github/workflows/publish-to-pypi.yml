@@ -48,7 +48,7 @@ jobs:
     - name: Verify version consistency
       run: |
         # Extraire la version du package installé
-        PACKAGE_VERSION=$(python -c "import resourcecode; print(resourcecode.__version__.__version__)")
+        PACKAGE_VERSION=$(python -c "import resourcecode; print(resourcecode.__version__)")
         TAG_VERSION=${GITHUB_REF#refs/tags/v}
 
         echo "Tag version: $TAG_VERSION"
