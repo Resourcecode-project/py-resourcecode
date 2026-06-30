@@ -8,8 +8,8 @@ type: software
 license: 'GPL-3.0-or-later'
 repository-code: "https://resourcecode-project.github.io/py-resourcecode/"
 url: "https://resourcecode-project.github.io/py-resourcecode/"
-version: 1.3.1
-date-released: '2023-03-18'
+version: 2.1.0
+date-released: '2026-06-30'
 authors:
   - given-names: Nicolas
     family-names: Raillard
@@ -38,4 +38,3 @@ authors:
     family-names: Papillon
     email: louis.papillon@innosea.fr
     affiliation: Innosea
-
