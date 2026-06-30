@@ -40,25 +40,19 @@ class PTO:
         self.times = s.index  # time vector
         self.freqs = s.columns  # frequency vector
         # time domain data
-        self.power = pd.DataFrame(
-            np.zeros(len(self.times)), index=self.times
-        )  # absorbed power (W)
+        self.power = pd.DataFrame(np.zeros(len(self.times)), index=self.times)  # absorbed power (W)
         # absorbed power, no reduction (W)
         self.power_no_red = pd.DataFrame(np.zeros(len(self.times)), index=self.times)
         self.mean_power = None  # mean absorbed power (W)
         self.mean_power_no_red = None  # mean absorbed power, no reduction (W)
         self.median_power = None  # median absorbed power (W)
         self.median_power_no_red = None  # median absorbed power, no reduction (W)
-        self.pto_damp = pd.DataFrame(
-            np.zeros(len(self.times)), index=self.times
-        )  # PTO damping (Ns/m)
+        self.pto_damp = pd.DataFrame(np.zeros(len(self.times)), index=self.times)  # PTO damping (Ns/m)
         # PTO damping, no reduction (Ns/m)
         self.pto_damp_no_red = pd.DataFrame(np.zeros(len(self.times)), index=self.times)
         self.cumulative_power = None  # cumulative power (W)
         # frequency domain data
-        self.freq_data = (
-            None  # contains Hs, Tp, absorbed power and PTO damping in frequency domain
-        )
+        self.freq_data = None  # contains Hs, Tp, absorbed power and PTO damping in frequency domain
         # interpolate frequencies (if needed) to match sea-state and PTO capture width data
         self.interp_freq()
         # power computation
@@ -95,9 +89,7 @@ class PTO:
                     continue
 
                 known_freqs.add(freq)
-                self.capture_width = self.capture_width.append(
-                    pd.Series(name=freq, dtype="float64")
-                )
+                self.capture_width = self.capture_width.append(pd.Series(name=freq, dtype="float64"))
                 self.capture_width.sort_index(inplace=True)
                 self.capture_width = self.capture_width.interpolate()
 
@@ -176,16 +168,12 @@ class PTO:
                 "PTO damping": self.pto_damp.values.flatten(),
             }
         )
-        self.mean_power = pd.DataFrame(
-            data=self.power.mean()[0] * np.ones(len(self.times)), index=self.times
-        )
+        self.mean_power = pd.DataFrame(data=self.power.mean()[0] * np.ones(len(self.times)), index=self.times)
         self.mean_power_no_red = pd.DataFrame(
             data=self.power_no_red.mean()[0] * np.ones(len(self.times)),
             index=self.times,
         )
-        self.median_power = pd.DataFrame(
-            data=self.power.median()[0] * np.ones(len(self.times)), index=self.times
-        )
+        self.median_power = pd.DataFrame(data=self.power.median()[0] * np.ones(len(self.times)), index=self.times)
         self.median_power_no_red = pd.DataFrame(
             data=self.power_no_red.median()[0] * np.ones(len(self.times)),
             index=self.times,
@@ -195,9 +183,7 @@ class PTO:
         """Compute PTO cumulative power"""
 
         power_ordered = self.power.sort_values(by=0)
-        self.cumulative_power = pd.DataFrame(
-            data=100 * power_ordered.cumsum() / power_ordered.sum()
-        )
+        self.cumulative_power = pd.DataFrame(data=100 * power_ordered.cumsum() / power_ordered.sum())
 
     @staticmethod
     def compute_spectrum_moment(f, s, n=0):

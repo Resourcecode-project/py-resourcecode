@@ -50,22 +50,13 @@ def jonswap(hs: float, tp: float, gamma: float, freq: np.ndarray) -> np.ndarray:
         * (hs**2)
         / (tp**4)
         * np.exp(-5.0 / (4 * tp**4) / (freq**4))
-        * gamma
-        ** (
-            np.exp(
-                -((freq - 1 / tp) ** 2)
-                * (tp**2)
-                / (2 * (np.where(freq < (1.0 / tp), 0.07, 0.09) ** 2))
-            )
-        )
+        * gamma ** (np.exp(-((freq - 1 / tp) ** 2) * (tp**2) / (2 * (np.where(freq < (1.0 / tp), 0.07, 0.09) ** 2))))
     )
     alpha = (hs**2) / (16 * np.trapezoid(sf, x=freq))
     return alpha * sf
 
 
-def compute_jonswap_wave_spectrum(
-    seastate_data: pd.DataFrame, freq: np.ndarray, gamma: float = 1
-) -> pd.DataFrame:
+def compute_jonswap_wave_spectrum(seastate_data: pd.DataFrame, freq: np.ndarray, gamma: float = 1) -> pd.DataFrame:
     """Computes JONSWAP wave spectrum time series from Hs and Tp time series
 
     Parameters

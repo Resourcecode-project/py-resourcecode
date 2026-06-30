@@ -79,10 +79,7 @@ def huseby(X: np.ndarray, prob: np.ndarray, ntheta: int):
             Y.sort()
             C[i, :] = (Y[kc] - Y[kf]) * dk + Y[kf]
 
-        ps = (
-            ctheta[:, np.newaxis] @ ctheta[:, np.newaxis].T
-            + stheta[:, np.newaxis] @ stheta[:, np.newaxis].T
-        )
+        ps = ctheta[:, np.newaxis] @ ctheta[:, np.newaxis].T + stheta[:, np.newaxis] @ stheta[:, np.newaxis].T
         ps[ps < 0] = 0
 
         for iprob in range(len(prob)):
@@ -99,9 +96,7 @@ def huseby(X: np.ndarray, prob: np.ndarray, ntheta: int):
 
     if M == 3:
         C = np.ones((ntheta, ntheta, len(prob)), dtype=float)
-        indj = np.hstack(
-            (np.arange(0, ntheta / 4 + 1), ntheta - np.arange(1, ntheta / 4 + 1))
-        ).astype(int)
+        indj = np.hstack((np.arange(0, ntheta / 4 + 1), ntheta - np.arange(1, ntheta / 4 + 1))).astype(int)
         nindj = ntheta / 2 + 1
         ncdir = int(ntheta * nindj)
         cdir = np.zeros((ncdir, M))
@@ -120,12 +115,8 @@ def huseby(X: np.ndarray, prob: np.ndarray, ntheta: int):
         ps[ps < 0] = 0
 
         a = np.arange(ntheta / 4 + 1, ntheta - ntheta / 4).astype(int)
-        b = np.hstack((np.arange(ntheta / 2, ntheta), np.arange(0, ntheta / 2))).astype(
-            int
-        )
-        c = np.hstack(
-            (np.arange(ntheta / 4 - 1, -1, -1), ntheta - np.arange(1, ntheta / 4))
-        ).astype(int)
+        b = np.hstack((np.arange(ntheta / 2, ntheta), np.arange(0, ntheta / 2))).astype(int)
+        c = np.hstack((np.arange(ntheta / 4 - 1, -1, -1), ntheta - np.arange(1, ntheta / 4))).astype(int)
         d = ctheta[:, np.newaxis] @ ctheta[np.newaxis, indj]
         e = np.repeat(stheta[indj], ntheta).reshape((-1, ntheta)).T
         f = stheta[:, np.newaxis] @ ctheta[np.newaxis, indj]
@@ -159,11 +150,7 @@ def huseby(X: np.ndarray, prob: np.ndarray, ntheta: int):
                 + X_mean[2]
             )
 
-            Yres[:, iprob] = (
-                L[0, 1] * X_std[1] * Xres[:, iprob]
-                + L[1, 1] * X_std[1] * Yres[:, iprob]
-                + X_mean[1]
-            )
+            Yres[:, iprob] = L[0, 1] * X_std[1] * Xres[:, iprob] + L[1, 1] * X_std[1] * Yres[:, iprob] + X_mean[1]
 
             Xres[:, iprob] = L[0, 0] * X_std[0] * Xres[:, iprob] + X_mean[0]
 

@@ -54,26 +54,12 @@ def download_single_2D_file(
         A dataset object with the data read from the downloaded netCDF file.
     """
     base = "ftp://ftp.ifremer.fr/ifremer/dataref/ww3/resourcecode/HINDCAST/"
-    url = (
-        base
-        + year
-        + "/"
-        + month
-        + "/SPEC_NC/RSCD_WW3-RSCD-UG-"
-        + point
-        + "_"
-        + year
-        + month
-        + "_spec.nc"
-    )
+    url = base + year + "/" + month + "/SPEC_NC/RSCD_WW3-RSCD-UG-" + point + "_" + year + month + "_spec.nc"
 
     if point not in set(get_grid_spec().name):
         raise ValueError(f"{point} is an unkown location")
 
-    if (
-        int(year) < get_covered_period()["start"].year
-        or int(year) > get_covered_period()["end"].year
-    ):
+    if int(year) < get_covered_period()["start"].year or int(year) > get_covered_period()["end"].year:
         raise ValueError(f"{year} is outsite the covered period")
 
     if int(month) < 1 or int(month) > 12:
@@ -125,32 +111,16 @@ def download_single_1D_file(
         A dataset object with the data read from the downloaded netCDF file.
     """
     base = "ftp://ftp.ifremer.fr/ifremer/dataref/ww3/resourcecode/HINDCAST/"
-    url = (
-        base
-        + year
-        + "/"
-        + month
-        + "/FREQ_NC/RSCD_WW3-RSCD-UG-"
-        + point
-        + "_"
-        + year
-        + month
-        + "_freq.nc"
-    )
+    url = base + year + "/" + month + "/FREQ_NC/RSCD_WW3-RSCD-UG-" + point + "_" + year + month + "_freq.nc"
 
     if point not in set(get_grid_spec().name):
         raise ValueError(f"{point} is an unkown location")
 
-    if (
-        int(year) < get_covered_period()["start"].year
-        or int(year) > get_covered_period()["end"].year
-    ):
+    if int(year) < get_covered_period()["start"].year or int(year) > get_covered_period()["end"].year:
         raise ValueError(f"{year} is outsite the covered period")
 
     if int(month) < 1 or int(month) > 12:
-        raise ValueError(
-            f"{month} must by between 1 and 12 with a leading zero if needed."
-        )
+        raise ValueError(f"{month} must by between 1 and 12 with a leading zero if needed.")
 
     with contextlib.closing(urllib.request.urlopen(url)) as response:
         with tempfile.NamedTemporaryFile(delete=False, suffix=".nc") as tmp_file:
