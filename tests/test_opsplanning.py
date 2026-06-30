@@ -34,6 +34,7 @@ def data():
         parse_dates=True,
         dayfirst=True,
     )
+    df = df.tz_localize("UTC")
     return df
 
 
