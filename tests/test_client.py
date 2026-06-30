@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# Copyright 2020-2022 IFREMER (Brest, FRANCE), all rights reserved.
+# Copyright 2020-2026 IFREMER (Brest, FRANCE), all rights reserved.
 # contact -- mailto:nicolas.raillard@ifremer.fr
 #
 # This file is part of Resourcecode.
@@ -60,7 +60,9 @@ def mock_requests_get_raw_data(query_url, parameters):
         for date, value in data["result"]["data"]:
             # start_date and end_date must be multiplied by 1e3, because
             # cassandra returns milliseconds
-            if date is not None and (start_date is not None and date < start_date * 1e3):
+            if date is not None and (
+                start_date is not None and date < start_date * 1e3
+            ):
                 continue
 
             if date and end_date is not None and date > end_date * 1e3:
@@ -137,7 +139,9 @@ def test_get_raw_data():
     parameter = "fp"
     client = resourcecode.Client()
 
-    with mock.patch("requests.get", side_effect=mock_requests_get_raw_data) as mock_requests_get:
+    with mock.patch(
+        "requests.get", side_effect=mock_requests_get_raw_data
+    ) as mock_requests_get:
         json_data = client._get_rawdata_from_criteria(
             {
                 "parameter": [
@@ -146,7 +150,9 @@ def test_get_raw_data():
             }
         )
 
-    mock_requests_get.assert_called_once_with(client.cassandra_base_url + "api/timeseries", {"parameter": [parameter]})
+    mock_requests_get.assert_called_once_with(
+        client.cassandra_base_url + "api/timeseries", {"parameter": [parameter]}
+    )
     assert json_data["query"]["parameterCode"] == parameter
 
     dataset_size = json_data["result"]["dataSetSize"]

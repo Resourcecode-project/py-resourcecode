@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# Copyright 2020-2022 IFREMER (Brest, FRANCE), all rights reserved.
+# Copyright 2020-2026 IFREMER (Brest, FRANCE), all rights reserved.
 # contact -- mailto:nicolas.raillard@ifremer.fr
 #
 # This file is part of Resourcecode.
@@ -70,7 +70,9 @@ extensions = [
 sphinx_gallery_conf = {
     "examples_dirs": "../examples",  # path to your example scripts
     "gallery_dirs": "auto_examples",  # path to where to save gallery generated output
-    "within_subsection_order": (sphinx_gallery.sorting.FileNameSortKey),  # to sort gallery examples by file name
+    "within_subsection_order": (
+        sphinx_gallery.sorting.FileNameSortKey
+    ),  # to sort gallery examples by file name
 }
 
 # Add any paths that contain templates here, relative to this directory.

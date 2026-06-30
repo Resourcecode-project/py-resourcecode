@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# Copyright 2020-2022 IFREMER (Brest, FRANCE), all rights reserved.
+# Copyright 2020-2026 IFREMER (Brest, FRANCE), all rights reserved.
 # contact -- mailto:nicolas.raillard@ifremer.fr
 #
 # This file is part of Resourcecode.
@@ -82,6 +82,12 @@ def test_weather_windows(hs):
         result = compute_weather_windows(hs, month)
 
         assert result.PT.mean() == pytest.approx(expected_month_stats["PT_mean"])
-        assert result.number_events.mean() == pytest.approx(expected_month_stats["number_events_mean"])
-        assert result.number_access_hours.mean() == pytest.approx(expected_month_stats["number_access_hours_mean"])
-        assert result.number_waiting_hours.mean() == pytest.approx(expected_month_stats["number_waiting_hours_mean"])
+        assert result.number_events.mean() == pytest.approx(
+            expected_month_stats["number_events_mean"]
+        )
+        assert result.number_access_hours.mean() == pytest.approx(
+            expected_month_stats["number_access_hours_mean"]
+        )
+        assert result.number_waiting_hours.mean() == pytest.approx(
+            expected_month_stats["number_waiting_hours_mean"]
+        )

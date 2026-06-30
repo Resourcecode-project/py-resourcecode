@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# Copyright 2020-2022 IFREMER (Brest, FRANCE), all rights reserved.
+# Copyright 2020-2026 IFREMER (Brest, FRANCE), all rights reserved.
 # contact -- mailto:nicolas.raillard@ifremer.fr
 #
 # This file is part of Resourcecode.
@@ -38,7 +38,9 @@ with open(DATA_DIR / "netcdf_description.json") as fobj:
     NETCFD_DESCRIPTION = json.load(fobj)
 
 
-def to_netcdf(dataframe: pd.DataFrame, path: Union[str, Path, None] = None) -> Union[bytes, "Delayed", None]:
+def to_netcdf(
+    dataframe: pd.DataFrame, path: Union[str, Path, None] = None
+) -> Union[bytes, "Delayed", None]:
     """Write dataframe contents to a netCFD file.
 
     Parameters
@@ -82,7 +84,9 @@ def to_mat(
 
     """
 
-    df = dataframe.reset_index(names="time")  # convert the pandas index to a proper variable
+    df = dataframe.reset_index(
+        names="time"
+    )  # convert the pandas index to a proper variable
     df.time = 719529 + pd.to_numeric(df.time) / (
         3600 * 1e9 * 24
     )  # 1970-01-01 + time in fractional days from nanoseconds

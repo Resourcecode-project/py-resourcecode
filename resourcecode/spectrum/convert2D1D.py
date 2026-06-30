@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# Copyright 2020-2022  IFREMER (Brest, FRANCE), all rights reserved.
+# Copyright 2020-2026  IFREMER (Brest, FRANCE), all rights reserved.
 # contact -- mailto:nicolas.raillard@ifremer.fr
 #
 # This file is part of Resourcecode.
@@ -22,7 +22,9 @@ import numpy as np
 import xarray
 
 
-def raw_convert_spectrum_2Dto1D(spectrum_2D: np.ndarray, vdir: np.ndarray) -> np.ndarray:
+def raw_convert_spectrum_2Dto1D(
+    spectrum_2D: np.ndarray, vdir: np.ndarray
+) -> np.ndarray:
     """
     Converts the 2D spectrum to a 1D spectrum
 

@@ -9,6 +9,5 @@ uv.lock
 /resourcecode/*/__pycache__
 */__pycache__
 /build
-/doc
 /.doctrees
 /resourcecode.egg-info
