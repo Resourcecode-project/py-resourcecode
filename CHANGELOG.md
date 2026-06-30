@@ -1,13 +1,13 @@
 ## Version 2.1 (TBD)
 
 ### 👷 Bug Fixes
-  - Add Time Zone information in index from `download_data()`
+  - Add Time Zone information in index from `download_data()` (thanks to @Nouhaylaa1)
   - Updated tests accordingly
 
 ### Packaging & Tooling
   - Fix the CI/CD to check before uploading to pypi and remove TestPyPi (unused)
 
-## Version 2.0 (02/06/2026)
+## Version 2.0 (02/06/2026) (thanks to @chabotsi)
 
 ### Compatibility Updates
   - Removed `numexpr` dependency for full pyiodide compatibility
