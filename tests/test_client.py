@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# Copyright 2020-2022 IFREMER (Brest, FRANCE), all rights reserved.
+# Copyright 2020-2026 IFREMER (Brest, FRANCE), all rights reserved.
 # contact -- mailto:nicolas.raillard@ifremer.fr
 #
 # This file is part of Resourcecode.
@@ -158,8 +158,8 @@ def test_get_criteria_single_parameter(client):
 
     assert len(data) == 744
     assert (data.columns == ["fp"]).all()
-    assert data.index[0] == pd.to_datetime("2017-01-01 00:00:00")
-    assert data.index[-1] == pd.to_datetime("2017-01-31 23:00:00")
+    assert data.index[0] == pd.to_datetime("2017-01-01 00:00:00", utc=True)
+    assert data.index[-1] == pd.to_datetime("2017-01-31 23:00:00", utc=True)
     assert data.fp[0] == pytest.approx(0.074)
     assert data.fp[-1] == pytest.approx(0.097)
 
@@ -169,8 +169,8 @@ def test_get_criteria_single_tp_parameter(client):
 
     assert len(data) == 744
     assert (data.columns == ["tp"]).all()
-    assert data.index[0] == pd.to_datetime("2017-01-01 00:00:00")
-    assert data.index[-1] == pd.to_datetime("2017-01-31 23:00:00")
+    assert data.index[0] == pd.to_datetime("2017-01-01 00:00:00", utc=True)
+    assert data.index[-1] == pd.to_datetime("2017-01-31 23:00:00", utc=True)
     assert data.tp[0] == pytest.approx(13.51351)
     assert data.tp[-1] == pytest.approx(10.30928)
 
@@ -180,8 +180,8 @@ def test_get_criteria_multiple_parameters(client):
 
     assert len(data) == 744
     assert (data.columns == ["fp", "hs"]).all()
-    assert data.index[0] == pd.to_datetime("2017-01-01 00:00:00")
-    assert data.index[-1] == pd.to_datetime("2017-01-31 23:00:00")
+    assert data.index[0] == pd.to_datetime("2017-01-01 00:00:00", utc=True)
+    assert data.index[-1] == pd.to_datetime("2017-01-31 23:00:00", utc=True)
     assert data.fp[0] == pytest.approx(0.074)
     assert data.fp[-1] == pytest.approx(0.097)
     assert data.hs[0] == pytest.approx(0.296)
@@ -200,7 +200,7 @@ def test_get_criteria_multiple_parameters_and_none_values(client):
     assert pd.isnull(data.uust[0])
 
     # the third value is not null.
-    assert data.index[2] == pd.to_datetime("2017-01-01 02:00:00")
+    assert data.index[2] == pd.to_datetime("2017-01-01 02:00:00", utc=True)
     assert data.uust[2] == pytest.approx(0.1699999962)
 
     data = client.get_dataframe_from_criteria('{"parameter": ["uust", "fp"]}')
@@ -210,8 +210,8 @@ def test_get_criteria_multiple_parameters_and_none_values(client):
 
     # in that case, we have two variables. The second one, fp, is not null,
     # therefore the index can be completed despite that uust is null.
-    assert data.index[0] == pd.to_datetime("2017-01-01 00:00:00")
-    assert data.index[-1] == pd.to_datetime("2017-01-31 23:00:00")
+    assert data.index[0] == pd.to_datetime("2017-01-01 00:00:00", utc=True)
+    assert data.index[-1] == pd.to_datetime("2017-01-31 23:00:00", utc=True)
 
     assert data.fp[0] == pytest.approx(0.074)
     assert data.fp[-1] == pytest.approx(0.097)

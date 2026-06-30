@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# Copyright 2020-2022 IFREMER (Brest, FRANCE), all rights reserved.
+# Copyright 2020-2026 IFREMER (Brest, FRANCE), all rights reserved.
 # contact -- mailto:nicolas.raillard@ifremer.fr
 
 # This file is part of Resourcecode.
@@ -17,5 +17,5 @@
 # You should have received a copy of the GNU General Public License along
 # with Resourcecode. If not, see <https://www.gnu.org/licenses/>.
 
-numversion = (2, 0, 0)
+numversion = (2, 1, 0)
 __version__ = ".".join(str(num) for num in numversion)

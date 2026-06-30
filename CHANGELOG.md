@@ -1,3 +1,31 @@
+## Version 2.1 (TBD)
+
+### 👷 Bug Fixes
+  - Add Time Zone information in index from `download_data()` (thanks to @Nouhaylaa1)
+  - Updated tests accordingly
+
+### Packaging & Tooling
+  - Fix the CI/CD to check before uploading to pypi and remove TestPyPi (unused)
+
+## Version 2.0 (02/06/2026) (thanks to @chabotsi)
+
+### Compatibility Updates
+  - Removed `numexpr` dependency for full pyiodide compatibility
+  - Updated `np.trapz()` → `np.trapezoid()` (numpy API change)
+  - Migrated from `scipy.stats.mvn()` to `scipy.stats.multivariate_normal()`
+  - Fixed crash in `download_data()` with Python 3.14 and numpy/xarray when opening files
+  - Updated dependency versions for marimo wasm compatibility
+
+### 👷 Bug Fixes
+  - Fixed `censgaussfit()` to handle positive semi-definite sigma matrices
+  - Updated tests to check values instead of `dtypes`
+  - Set fixed random seed for reproducible tests
+
+### Packaging & Tooling
+  - Moved `config.ini` into the package for distribution
+  - Migrated project to uv package manager
+
+
 ## Version 1.3.1 (TBD)
  ### 👷 Bug fixes
   - Pin version of Numpy to be < 2.0.0 because `trapz` is renamed in higher versions

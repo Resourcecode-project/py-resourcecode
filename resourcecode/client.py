@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# Copyright 2020-2022 IFREMER (Brest, FRANCE), all rights reserved.
+# Copyright 2020-2026 IFREMER (Brest, FRANCE), all rights reserved.
 # contact -- mailto:nicolas.raillard@ifremer.fr
 #
 # This file is part of Resourcecode.
@@ -212,7 +212,7 @@ class Client:
         try:
             node_id = int(parsed_criteria["node"])
         except ValueError:  # failed to convert node to an integer
-            raise BadPointIdError("Point Id must be an integer, can not be " f"{parsed_criteria['node']!r}")
+            raise BadPointIdError(f"Point Id must be an integer, can not be {parsed_criteria['node']!r}")
         else:
             if node_id not in self.possible_points_id:
                 raise BadPointIdError(f"{parsed_criteria['node']} is an unknown pointId.")
@@ -276,7 +276,7 @@ class Client:
         return pd.DataFrame(
             result_array[:, 1:],
             columns=parsed_criteria["parameter"],
-            index=pd.to_datetime(index_array.astype(np.int64), unit="ms"),
+            index=pd.to_datetime(index_array.astype(np.int64), unit="ms", utc=True),
         )
 
     def _get_rawdata_from_criteria(self, single_parameter_criteria):
@@ -298,4 +298,4 @@ class Client:
         if response.ok:
             return response.json()
 
-        raise ValueError("Unable to get a response from the database" "(status code = {})".format(response.status_code))
+        raise ValueError("Unable to get a response from the database(status code = {})".format(response.status_code))

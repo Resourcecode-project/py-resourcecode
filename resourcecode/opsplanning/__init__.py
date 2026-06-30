@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# Copyright 2020-2022 IFREMER (Brest, FRANCE), all rights reserved.
+# Copyright 2020-2026 IFREMER (Brest, FRANCE), all rights reserved.
 # contact -- mailto:nicolas.raillard@ifremer.fr
 #
 # This file is part of Resourcecode.
@@ -44,13 +44,13 @@ conditions meet the criteria
 The module, in order of execution to produce a full result, consists of:
 
 1. Use a pandas query to limit the dataset to the timestamps matching
-   operational criteria (`data.query("hs < 2 and tp < 3")` for instance)
+    operational criteria (`data.query("hs < 2 and tp < 3")` for instance)
 2. ww_calc - method to identify the weather windows
 3. oplen_calc - method to calculate operational length
 4. wwmonstats - method that produces monthly statistics of number of
-   weather windows
+    weather windows
 5. olmonstats - method that produces monthly statistics of operational
-   length values
+    length values
 
 Created on Wed Dec  2 14:14:48 2020
 
@@ -156,12 +156,12 @@ def oplen_calc(critsubs, oplen, critical_operation=False, date=1, monstrt=True):
         Nominal length of the operation (if no downtime), in hours
     critical_operation : BOOLEAN
         - False for non-critical operations:
-          With this flag to False, it is assumed that the operation can be
-          halted for the duration of weather downtime and started again
+            With this flag to False, it is assumed that the operation can be
+            halted for the duration of weather downtime and started again
         - True is for continuous window search:
-          In this case operations can't be halted and if stopped due to
-          weather downtime have to restart from the beginning once the
-          conditions allow
+            In this case operations can't be halted and if stopped due to
+            weather downtime have to restart from the beginning once the
+            conditions allow
 
         The default is non critical operation.
     date : INT,DATETIME optional
@@ -207,6 +207,7 @@ def oplen_calc(critsubs, oplen, critical_operation=False, date=1, monstrt=True):
             start=dt.datetime(yerng[0], morng[0], 1),
             end=dt.datetime(yerng[1], morng[1], 1),
             freq="MS",
+            tz="utc",
         )
         daterng = daterng.shift(dayval - 1, freq="D")
         oplendetect = pd.Series(np.zeros(daterng.shape[0], dtype="timedelta64[s]"), index=daterng)
@@ -215,7 +216,7 @@ def oplen_calc(critsubs, oplen, critical_operation=False, date=1, monstrt=True):
             daterng = pd.date_range(start=date, end=date)
             oplendetect = pd.Series(np.zeros(daterng.shape[0], dtype="timedelta64[s]"), index=daterng)
         else:
-            msg = "Variable date in single result calculation should be" " a datetime object"
+            msg = "Variable date in single result calculation should be a datetime object"
             raise NameError(msg)
     else:
         raise NameError("Input option monstrt should be boolean")
